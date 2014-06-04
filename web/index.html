@@ -1,0 +1,66 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Label Analyzer. VISSOFT Challenge</title>
+    <link rel="stylesheet" href="css/foundation.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/vendor/modernizr.js"></script>
+  </head>
+  <body>
+    
+    <div class="row">
+      <div class="large-12 columns">
+          <h1 class="text-center">Label Analysis</h1>
+          <h2 class="text-center">VISSOFT Challenge 2014</h2>
+          <hr>
+          <h3>The Challenge</h3>
+          <p>
+            The focus of the challenge is GitHub. GitHub is a web-based service providing a collaborative software development environment and a social network for developers. We provide you with the dataset extracted from GHTorrent, a scalable off-line mirror of the data returned by the Github API. The dataset includes all data for a medium sized Java project (Netty -- a library for implementing asynchronous network servers), including commits, pull requests, issues, forks (including their commits, issues etc) and stargazers.
+          </p>
+          <h3>Our proposal</h3>
+          <p>
+            Our tool analyzes the community involved in the issues of the Netty project. Our analysis is based on the labels provided for each issue.
+          </p>
+      </div>
+    </div>
+
+    <div class="row">
+        <div class="large-offset-8 large-4 columns text-right">
+            <a id="layout" class="button small">Start Layout</a>
+            <a id="rescale" class="button small">Rescale Graph</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="small-12 medium-12 large-12 columns">
+            <div id="graphFrame">
+                <div id="graph"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="small-12 medium-12 large-12 columns">
+            <p>
+                <small>
+                This website and its source code is licensed under the <a href="../LICENSE.txt">GPL license</a>.
+                The library <a href="http://sigmajs.org/">Sigma.js</a> is used to draw the graphs.
+                </small>
+            </p>
+        </div>
+    </div>
+
+
+    <script src="js/vendor/jquery.js"></script>
+    <script src="js/foundation/foundation.min.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+    <script src="js/sigma.js/sigma.min.js"></script>
+    <script src="js/sigma.js/sigma.parsers.gexf.min.js"></script>
+    <script src="js/sigma.js/sigma.layout.forceAtlas2.min.js"></script>
+    <script src="js/script.js"></script>
+  </body>
+</html>
