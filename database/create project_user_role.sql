@@ -7,9 +7,10 @@ role varchar(25)
 ) ENGINE=InnoDB CHARACTER SET=utf8
 ;
 
--- selects the collaborators of the project (people with write access to the repository)
+
 insert into project_user_role(project_id, user_id, user_name, location, role)
 
+-- selects the collaborators of the project (people with write access to the repository)
 select c.project_id, c.user_id, c.user_name, 
 	   (select location from users where id = c.user_id), 'collaborator' as role
 from pm_and_contributors_per_project c
