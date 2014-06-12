@@ -1,5 +1,3 @@
--- creates a table that includes for each issue, the date, time since creation and user_id of the first contribution (comment) to the issue
--- and date, elapsed time and collab_id of the first intervention of a project collaborator
 create table _issue_reaction_time(
 issue_id int(11),
 created_at timestamp,
@@ -11,6 +9,9 @@ hs_collab_response float(7,2),
 collab_id int(11)
 ) ENGINE=InnoDB
 ;
+
+-- selects for each issue, the date, time since creation and user_id of the first contribution (comment) to the issue
+-- and date, elapsed time and collab_id of the first intervention of a project collaborator
 
 insert into _issue_reaction_time
 
