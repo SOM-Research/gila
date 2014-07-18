@@ -1,8 +1,9 @@
 function initGraph() {
     var sigmaInstance = null;
 
+    sigma.renderers.def = sigma.renderers.canvas;
     sigma.parsers.gexf(
-        'data.gexf',
+        'data/data.gexf',
         {
             container : 'graph'
         },
@@ -27,7 +28,7 @@ function initGraph() {
     document.getElementById('rescale').addEventListener('click',function(){
         sigmaInstance.position(0,0,1).draw();
     },true);
-
+    sigma.plugins.dragNodes(sigmaInstance, sigmaInstance.renderers[0]);
     //sigmaGraph.draw();
 }
 
