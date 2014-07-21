@@ -14,3 +14,43 @@ h2 {
 h3 {
     color: #1240AB;
 }
+
+.rq2 {
+    width: 1200px;
+    height: 800px; 
+}
+
+.rq2 .nodeText {
+	font: bold 12px Helvetica, Sans-Serif;
+	font-color: DimGray;
+}
+
+/* div.tooltip {    */
+/*   position: absolute;            */
+/*   text-align: center;            */
+/*   width: 60px;                   */
+/*   height: 28px;                  */
+/*   padding: 2px;              */
+/*   font: 12px sans-serif;         */
+/*   background: lightsteelblue;    */
+/*   border: 0px;       */
+/*   border-radius: 8px;            */
+/*   pointer-events: none;          */
+/* } */
+
+.rq2 .labelText {
+	font: bold 14px Helvetica, Sans-Serif;
+	fill: #424242;
+/* 	stroke: white; */
+/* 	stroke-width:0.1px; */
+}
+
+.rq2 .labelnode circle {
+	stroke: #A6A9AD;
+ 	stroke-width:2px; 
+}
+
+.rq1 .labeltext {
+	font: bold 12px Helvetica, Sans-Serif;
+	font-color: DimGray;
+}

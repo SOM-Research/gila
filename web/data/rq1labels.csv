@@ -1,0 +1,15 @@
+id,name,color
+1,feature,#9556A6
+2,improvement,#F36D8E
+3,defect,#F4DA88
+4,cleanup,#22C1BE
+5,"won't fix",#064AA6
+6,security,#CC2814
+7,"needs info",#FA8632
+8,duplicate,#4B91AB 
+9,"not a bug",#B59775
+10,documentation,#A964C7
+11,discussion,#F24957
+12,android,#C3D600
+13,lowhangingfruit,#DBEF91
+20,gsoc,#BD4674
