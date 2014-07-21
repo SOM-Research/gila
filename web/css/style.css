@@ -50,7 +50,7 @@ h3 {
  	stroke-width:2px; 
 }
 
-.rq1 .labeltext {
+.rq1 text.labelText {
 	font: bold 12px Helvetica, Sans-Serif;
-	font-color: DimGray;
+	fill: DimGray;
 }

@@ -80,7 +80,7 @@ function drawrq2(innodes, links, maxwidth, maxheight, maxthickness) {
 	.nodes(nodes)
 	.links(links)
 	.charge(-1000)	
-	.size([width-50, height-50])
+	.size([width-100, height-100])
 	.linkDistance(100);
 	
 	force.start();
