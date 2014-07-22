@@ -2,12 +2,12 @@
  * 
  */
 
-var w = 800;
-var h = 600;
+var w1 = 800;
+var h1 = 600;
 
 var rq1 = d3.select(".rq1")
-.attr("width", w)
-.attr("height", h)
+.attr("width", w1)
+.attr("height", h1)
 .append("svg:g");
 
 d3.csv("data/rq1labels.csv", typeConversor, function(error, labels) {
@@ -47,20 +47,24 @@ function typeConversor(d) {
 
 function drawrq1(nodes, links, maxthickness) {
 	
-	alert(nodes[8].color);
-	
 	//define a scale for line thickness 
 	var linethickness = d3.scale.linear()
 	.domain([0, maxthickness])
 	.range([1, 10]);
+	
+	//define a scale for color mapping
+	var colormapping = d3.scale.ordinal()
+	.domain([0,nodes.length])
+	.range(['#A700E6','#D95B96','#F4DA88','#22C1BE','#F24957','#DBEF91','#CF8EE8','#FF9B58','#B8FFC4','#91AEFF','#E873D3','#CCB298']);
 
 	//graph force directed layout algorithm
 	var force = d3.layout.force()
 	.nodes(nodes)
 	.links(links)
-	.gravity(0.3)
-	.charge(-1500)	
-	.size([w-50, h-50])
+	.gravity(0.2)
+	.charge(-1500)
+	.friction(0.8)
+	.size([w1, h1])
 	.linkDistance(200);
 	
 	force.start();
@@ -83,13 +87,14 @@ function drawrq1(nodes, links, maxthickness) {
 	
 	var circle = labelnode.append("svg:circle")
 	.attr("r", 20)
-	.attr("fill", function (d) { return d3.rgb(d.color); })
+	.attr("fill", function (d,i) {return d3.rgb(colormapping(i)); })
+//	.attr("fill", function (d) {return d3.rgb(d.color); })
 	;
 	
 	var circletext = labelnode.append("svg:text")
 	.text(function(d) {return d.name;})
 	.attr("class","labelText");
-
+	
 	force.on("tick", function() {
 		
 		link.attr("x1", function(d) { return d.source.x; })
@@ -98,15 +103,10 @@ function drawrq1(nodes, links, maxthickness) {
 		.attr("y2", function(d) { return d.target.y; });
 		
 		var r = circle.attr("r");
-		//alert("max: "+ w - 60 - r +" width: "+ Math.min(w - 60 - r, d.x));
-		//alert("max: "+ h - 60 - r +" height: "+ Math.min(h - 60 - r, d.y));
-		circle.attr("cx", function(d) { return d.x = Math.min(w - 60 - r, d.x); })
-        .attr("cy", function(d) { return d.y = Math.min(h - 60 - r, d.y); });
 		
-//		circle.attr("cx", function(d) { return d.x; })
-//	    .attr("cy", function(d) { return d.y; });
-//		
-		 circletext.attr("x", function(d) { return d.x-25; });
-		 circletext.attr("y", function(d) { return d.y-25;});
+		circle.attr("cx", function(d) { return d.x = Math.min(w1 - 200 - r, d.x); })
+        .attr("cy", function(d) { return d.y = Math.min(h1 - r, d.y); });
+		circletext.attr("x", function(d) { return d.x-25; });
+		circletext.attr("y", function(d) { return d.y-25;});
 	});
 }

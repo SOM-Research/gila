@@ -2,12 +2,12 @@
  * 
  */
 
-var width = 1200;
-var height = 900;
+var w2 = 1200;
+var h2 = 900;
 
 var rq2 = d3.select(".rq2")
-.attr("width", width)
-.attr("height", height)
+.attr("width", w2)
+.attr("height", h2)
 .append("svg:g");
 
 d3.csv("data/rq2feature_label.csv", typeConversor, function(error, labeldata) {
@@ -80,7 +80,7 @@ function drawrq2(innodes, links, maxwidth, maxheight, maxthickness) {
 	.nodes(nodes)
 	.links(links)
 	.charge(-1000)	
-	.size([width-100, height-100])
+	.size([w2-100, h2-100])
 	.linkDistance(100);
 	
 	force.start();
