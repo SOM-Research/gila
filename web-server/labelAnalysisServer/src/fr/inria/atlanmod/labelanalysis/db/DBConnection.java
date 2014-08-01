@@ -101,29 +101,29 @@ public class DBConnection {
 //			return con;
 //	}
 	
-//	public static Connection getConnection()
-//	{
-//		if (!connected)
-//			connect();
-//		return dbcon;
-//
-//	}
-	
-	public static Connection getConnection() {
-		
-		try {
-			InitialContext cxt = new InitialContext();
-			BasicDataSource ds = (BasicDataSource) cxt.lookup( "java:/comp/env/jdbc/mySqlConnectionPool" );
-			return ds.getConnection();
-			
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return null;
+	public static Connection getConnection()
+	{
+		if (!connected)
+			connect();
+		return dbcon;
+
 	}
+	
+//	public static Connection getConnection() {
+//		
+//		try {
+//			InitialContext cxt = new InitialContext();
+//			BasicDataSource ds = (BasicDataSource) cxt.lookup( "java:/comp/env/jdbc/mySqlConnectionPool" );
+//			return ds.getConnection();
+//			
+//		} catch (NamingException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		return null;
+//	}
 }
