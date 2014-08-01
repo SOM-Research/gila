@@ -2,34 +2,56 @@
  * 
  */
 
+//RQ1 Label Graph
+
 var w1 = 800;
 var h1 = 600;
 
 var rq1 = d3.select(".rq1")
+.append("svg")
 .attr("width", w1)
 .attr("height", h1)
-.append("svg:g");
+.append("svg:g")
+.attr("id", "labelgraph");
 
-d3.csv("data/rq1labels.csv", typeConversor, function(error, labels) {
+
+function getrq1() {
 	
-	d3.csv("data/rq1label_relation.csv", typeConversor, function(error, labelrelation) {
-			var maxthickness = 37;
-			var nodes = mapId2node(labels);
-			labelrelation.forEach(function(link) {
-				link.source = nodes[link.label1];
-				link.target = nodes[link.label2];
-			  });
-			var filterednodes = nodes.filter(function(d) {return !(typeof d == "undefined");})
-			drawrq1(filterednodes, labelrelation, maxthickness);
-	});
-});
+var projectid = $("#pcombobox").children('input')[0].value;
 
-//function maplinks(data) {
-//	data.forEach(function(link) {
-//	link.source = nodes[link.label1];
-//	link.target = nodes[link.label2];
-//  });
-//}
+$("#nolabels").css('display','none');
+
+//remove previous graph if exists
+if ($("#labelgraph").children().size() > 0) {
+	$("#labelgraph").empty();
+
+}
+
+	d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq1nodes&projectId="+projectid, function(errornodes,jsonnodes) {
+		if (jsonnodes.length > 0) {
+			d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq1links&projectId="+projectid, function(errorlinks,jsonlinks) {
+				d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq1maxvalues&projectId="+projectid, function(error,jsonmax) {
+		
+					if (error) alert("error: "+error);
+					var maxthickness = jsonmax[0].maxlinkvalue;
+					var maxwidth = jsonmax[1].maxnodevalue;
+					var nodes = mapId2node(jsonnodes);
+					jsonlinks.forEach(function(link) {
+						link.source = nodes[link.label1_id];
+						link.target = nodes[link.label2_id];
+					  });
+					
+					var filterednodes = nodes.filter(function(d) {return !(typeof d == "undefined");});
+					drawrq1(filterednodes, jsonlinks, maxwidth, maxthickness);
+				});
+			});
+			
+		} else {
+			$("#nolabels").css('display','block');
+		}
+	});
+
+}
 
 function mapId2node(data) {
 	var mappingarray = new Array();
@@ -45,12 +67,17 @@ function typeConversor(d) {
 	  return d;
 	};
 
-function drawrq1(nodes, links, maxthickness) {
+function drawrq1(nodes, links, maxwidth, maxthickness) {
 	
 	//define a scale for line thickness 
 	var linethickness = d3.scale.linear()
 	.domain([0, maxthickness])
 	.range([1, 10]);
+	
+	//define a scale for node width
+	var nodewidth = d3.scale.linear()
+	.domain([0, maxwidth])
+	.range([10, 25]);
 	
 	//define a scale for color mapping
 	var colormapping = d3.scale.ordinal()
@@ -86,9 +113,8 @@ function drawrq1(nodes, links, maxthickness) {
 	.call(force.drag);
 	
 	var circle = labelnode.append("svg:circle")
-	.attr("r", 20)
+	.attr("r", function(d) {return nodewidth(d.num_issues);})
 	.attr("fill", function (d,i) {return d3.rgb(colormapping(i)); })
-//	.attr("fill", function (d) {return d3.rgb(d.color); })
 	;
 	
 	var circletext = labelnode.append("svg:text")

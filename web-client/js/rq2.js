@@ -6,34 +6,58 @@ var w2 = 1200;
 var h2 = 900;
 
 var rq2 = d3.select(".rq2")
+.append("svg")
 .attr("width", w2)
 .attr("height", h2)
-.append("svg:g");
+.append("svg:g")
+.attr("id", "contribgraph");
 
-d3.csv("data/rq2feature_label.csv", typeConversor, function(error, labeldata) {
-		
-	d3.csv("data/rq2feature_users.csv", typeConversor, function(error, userdata) {
-		
-		d3.csv("data/rq2feature_links.csv", typeConversor, function(error, linkdata) {
+function getrq2() {
+
+	var labelid = $("#lcombobox").children('input')[0].value;
+	clearContainer($("#contribgraph"));
 			
-			d3.csv("data/rq2feature_max_values.csv", typeConversor, function(error, scalevalues) {
-		
-				var nodes = mapId2node(userdata);
-				nodes[0] = labeldata[0];
+	d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq2label&labelId="+labelid, function (errorlabel, jsonlabel) {
+			
+		d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq2contributors&labelId="+labelid, function (errorcont, jsoncont) {
+			
+			d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq2links&labelId="+labelid, function (errorlinks, jsonlinks) {
 				
-				var maxcreated = scalevalues[0].max_created;
-				var maxsolved = scalevalues[0].max_solved;
-				var maxcomments = scalevalues[0].max_comments;
-				 linkdata.forEach(function(link) {
-					    link.source = nodes[0];
-					    link.target = nodes[link.user_id];
-					  });
-				
-				drawrq2(nodes, linkdata, maxcreated, maxsolved, maxcomments);
+				d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq2maxvalues&labelId="+labelid, function (errormax, jsonmax) {
+			
+					var nodes = mapId2node(jsoncont);
+					nodes[0] = jsonlabel[0];
+					
+					var maxcreated = jsonmax[0].max_created;
+					var maxsolved = jsonmax[1].max_solved;
+					var maxcomments = jsonmax[2].max_comments;
+					
+					//choose the maximum between maxcreated and maxsolved
+					//to use it as max value for rect scale
+					var maxnode = Math.max(maxcreated, maxsolved);
+					
+					//create link array
+					jsonlinks.forEach(function(link) {
+						    link.source = nodes[0];
+						    link.target = nodes[link.userid];
+					});
+					
+					drawrq2(nodes, jsonlinks, maxnode, maxcomments);
+				});
 			});
 		});
 	});
-});
+
+}
+
+function clearContainer(container) {
+	
+	//remove previous graph if exists
+	if (container.children().size() > 0) {
+		container.empty();
+	}
+
+}
 
 function mapId2node(data) {
 	var mappingarray = new Array();
@@ -50,7 +74,7 @@ function typeConversor(d) {
 	};
 
 
-function drawrq2(innodes, links, maxwidth, maxheight, maxthickness) {
+function drawrq2(innodes, links, maxrectsize, maxthickness) {
 
 	var users = innodes.filter(function(d) {return !(typeof d == "undefined") && (d.type == 'user'); });
 	var labels = innodes.filter(function(d) {return !(typeof d == "undefined") && (d.type == 'label'); });
@@ -63,13 +87,13 @@ function drawrq2(innodes, links, maxwidth, maxheight, maxthickness) {
 	
 	//define a scale for rectangle width 
 	var rectwidth = d3.scale.linear()
-	.domain([0, maxwidth])
-	.range([20, 50]);
+	.domain([0, maxrectsize])
+	.range([20, 60]);
 	
 	//define a scale for rectangle height 
 	var rectheight = d3.scale.linear()
-	.domain([0, maxheight])
-	.range([20, 50]);
+	.domain([0, maxrectsize])
+	.range([20, 60]);
 	
 	//define a scale for line thickness 
 	var linethickness = d3.scale.linear()
@@ -102,6 +126,7 @@ function drawrq2(innodes, links, maxwidth, maxheight, maxthickness) {
 	.call(force.drag);
 	
 	var rect = usernode.append("svg:rect")
+
 	.attr("width", function(d) { return rectwidth(d.num_created_issues); })
 	.attr("height", function(d) { return rectheight(d.num_solved_issues); })
 	.attr("fill", function(d) { return role2color(d.role); 
