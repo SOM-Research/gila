@@ -11,10 +11,62 @@ h2 {
     color: #6C8CD5;
 }
 
+/* Landing page */
+
+.container .jumbotron {
+	
+	background-color: #F0ECDD;
+}
+
+.jumbotron h1 {
+	color: #9C4590;
+/* 	color: #798DA6; */
+/* 	color: #B53F86; */
+}
+
+.jumbotron h2 {
+	color: #F26666
+/* 	color:#E06F62;  */
+/*  color: #139694; */
+}
+
+.row {
+	margin: 10px 0px;
+}
+
+.row.middle {
+	padding: 10px 5px;
+}
+
+.container .abstract {
+	padding: 10px;	
+	border: 1px solid #9C4590;
+	border-radius: 30px;
+}
+
+.container .selector {
+	padding: 10px;
+}
+
+.container .rqbox {
+	background-color: #EDDDC7;
+/* 	background-color: #D9D2C5; */
+/* 	margin-top: 30px; */
+	border-radius: 5px;
+	padding: 20px;
+}
+
+.container .rqbox h3 {
+	color: #9C4590;
+}
+
+.selector h2, .abstract h3 {
+	color: #F26666;
+}
+
 h3 {
     color: #1240AB;
 }
-
 
 .rq1 {
 	width: 800px;
