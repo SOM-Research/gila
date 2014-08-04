@@ -17,13 +17,13 @@ function getrq2() {
 	var labelid = $("#lcombobox").children('input')[0].value;
 	clearContainer($("#contribgraph"));
 			
-	d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq2label&labelId="+labelid, function (errorlabel, jsonlabel) {
+	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2label&labelId="+labelid, function (errorlabel, jsonlabel) {
 			
-		d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq2contributors&labelId="+labelid, function (errorcont, jsoncont) {
+		d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2contributors&labelId="+labelid, function (errorcont, jsoncont) {
 			
-			d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq2links&labelId="+labelid, function (errorlinks, jsonlinks) {
+			d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2links&labelId="+labelid, function (errorlinks, jsonlinks) {
 				
-				d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq2maxvalues&labelId="+labelid, function (errormax, jsonmax) {
+				d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2maxvalues&labelId="+labelid, function (errormax, jsonmax) {
 			
 					var nodes = mapId2node(jsoncont);
 					nodes[0] = jsonlabel[0];

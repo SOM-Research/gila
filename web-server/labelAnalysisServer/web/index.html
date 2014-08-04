@@ -17,60 +17,38 @@
   	<script src="js/jQWidgets/jqxscrollbar.js"></script>
   	<script src="js/jQWidgets/jqxlistbox.js"></script>
   	<script src="js/jQWidgets/jqxcombobox.js"></script>
-  	<script src="js/combobox.js"></script>
+  	<script src="js/initIndex.js"></script>
   </head>
   <body>
     <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <h1 class="text-center">Label Analysis</h1>
-          <hr>
-          <h3>Our proposal</h3>
-          <p>
-            Our tool analyzes the community involved in the issues of the Netty project. Our analysis is based on the labels provided for each issue.
-          </p>
-
-          <h2>Tag assessment</h2>
-          <p>Having an overview of the most relevant tags defined in the project and their distribution among issues is important for different reasons. First, it provides some insights about the relevance of specific topics in the project community. Second, since an issue in GitHub can be marked with one or more tags, it allows identifying relations between topics.</p>
-          <p class="text-center"></p>
-          <div id ="projectselection"> 
-          	<div id='pcombobox'>
-		  	</div>
-		  	<input class="button" type="button" value="RQ1" onclick="getrq1();">
-		  </div>
-		  <div id="nolabels" class="msj" style="display:none">The selected project has no labels</div>
-          <div class="rq1"></div>
-          <hr>
-
-          <h2>User assessment</h2>
-          <p>Visualizing the people involved in the issues marked with a given tag can quickly unveil active administrators and users for each topic. In particular, it can help identifying the administrators that most frequently take decisions (e.g., accepting or rejecting issues, etc.) with regards to a given topic. Furthermore, it allows discovering those users collaborating actively on a specific tag, thus pointing out possible knowledgeable developers on a given topic.</p>
-          <p class="text-center">
-           <div id ="labelselection"> 
-          	<div id='lcombobox'>
-		   </div>
-		  	<input class="button" type="button" value="RQ2" onclick="getrq2();">
-		  </div>
-            <div class="rq2"></div>
-          </p>
-          <hr>
-
-          <h2>Tag evolution</h2>
-          <p>Analyzing how issues in each tag evolve over time allows assessing the main priorities and interests in a project (e.g., studying which tags are usually solved quickly).</p>
-          <p class="text-center">
-	         <div id ="rq3labelselection"> 
-	           <div id='rq3lcombobox'>
-			   </div>
-			   <input class="button" type="button" value="RQ3" onclick="getrq3();">
-			 </div>
-          	 <div id="resolutiontl" class="rq3"></div>
-          </p>
-          <hr>
+      <div style="margin-top: 25px;" class="jumbotron">
+        <div class="row">
+          <div class="col-md-6">
+            <h1>Label analyzer</h1> 
+            <h2>Motto here</h2>
+          </div>
+          <div class="col-md-6">
+            <h1>Label analyzer</h1> 
+            <h2>Motto here</h2>
+          </div>
         </div>
       </div>
-    </div>
 
-  <script src="js/rq1.js"></script>
-  <script src="js/rq2.js"></script>
-  <script src="js/rq3.js"></script>
+
+      <div class="row">
+        <div class="col-md-8">
+          <h1>What the fuck is this?</h1> 
+          <p>Here we introduce the tool</p>
+        </div>
+        <div class="col-md-4">
+          <h1>Select your project</h1> 
+          <div id ="projectselection"> 
+            <div id='pcombobox'></div>
+            <button type="button" onclick="location.href='project.html?projectId=' + $('#pcombobox').children('input')[0].value">Show me!</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
   </body>
 </html>

@@ -2,6 +2,7 @@
  * 
  */
 
+
 function createProjectCombobox() {
 	// prepare the data
     var source =
@@ -11,7 +12,7 @@ function createProjectCombobox() {
             { name: 'projectId' },
             { name: 'projectName' }
         ],
-        url: "http://localhost:8080/labelAnalysisServer/LabelAnalysisServlet?event=getprojects",
+        url: "http://atlanmodexp.info.emn.fr:8800/labelAnalysis/LabelAnalysisServlet?event=getprojects",
         data: {
             featureClass: "P",
             style: "full",
@@ -42,7 +43,7 @@ function createProjectCombobox() {
     	            { name: 'labelId' },
     	            { name: 'labelName' }
     	        ],
-    	        url: "http://localhost:8080/labelAnalysisServer/LabelAnalysisServlet?event=getlabels&projectid="+projectId,
+    	        url: "http://atlanmodexp.info.emn.fr:8800/labelAnalysis/LabelAnalysisServlet?event=getlabels&projectid="+projectId,
     	        data: {
     	            featureClass: "P",
     	            style: "full",

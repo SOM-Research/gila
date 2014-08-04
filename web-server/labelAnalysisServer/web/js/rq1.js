@@ -15,22 +15,19 @@ var rq1 = d3.select(".rq1")
 .attr("id", "labelgraph");
 
 
-function getrq1() {
+function getrq1(projectid) {
+	//var projectid = $("#pcombobox").children('input')[0].value;
+	$("#nolabels").css('display','none');
 	
-var projectid = $("#pcombobox").children('input')[0].value;
+	//remove previous graph if exists
+	if ($("#labelgraph").children().size() > 0) {
+		$("#labelgraph").empty();
+	}
 
-$("#nolabels").css('display','none');
-
-//remove previous graph if exists
-if ($("#labelgraph").children().size() > 0) {
-	$("#labelgraph").empty();
-
-}
-
-	d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq1nodes&projectId="+projectid, function(errornodes,jsonnodes) {
+	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1nodes&projectId="+projectid, function(errornodes,jsonnodes) {
 		if (jsonnodes.length > 0) {
-			d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq1links&projectId="+projectid, function(errorlinks,jsonlinks) {
-				d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq1maxvalues&projectId="+projectid, function(error,jsonmax) {
+			d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1links&projectId="+projectid, function(errorlinks,jsonlinks) {
+				d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1maxvalues&projectId="+projectid, function(error,jsonmax) {
 		
 					if (error) alert("error: "+error);
 					var maxthickness = jsonmax[0].maxlinkvalue;
@@ -50,7 +47,6 @@ if ($("#labelgraph").children().size() > 0) {
 			$("#nolabels").css('display','block');
 		}
 	});
-
 }
 
 function mapId2node(data) {

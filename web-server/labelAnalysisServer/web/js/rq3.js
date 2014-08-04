@@ -10,7 +10,7 @@ function getrq3() {
 	clearContainer($("#resolutiontl"));
 
 	//d3.csv("data/rq3.csv", typeConversor, function(error, data) {
-	d3.json("/labelAnalysisServer/LabelAnalysisServlet?event=rq3data&labelId="+labelid, function (error, json) {
+	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq3data&labelId="+labelid, function (error, json) {
 
     // Main variables to draw the lines
 	    var firstComment = +json[0].avg_hs_first_comment;
