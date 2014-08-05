@@ -3,8 +3,8 @@ body {
     color: black;
 }
 
-
 /* Landing page */
+
 .container .jumbotron {
 	margin-top: 25px;
 	margin-bottom: 40px;
@@ -107,16 +107,35 @@ body {
 	font-style: italic;
 }
 
+/* project page */
+
+.pcontainer .row {}
+
+.pcontainer .row h2 {
+	text-align: center;
+}
+
+.pcontainer .leftcol {
+	margin: 30px 0px;
+}
+
+.leftcol .textdiv {
+	width: 60%;
+	margin: 0px auto;
+}
+
+.pcontainer .rightcol {}
+
 .rq1 {
 	width: 800px;
 	height: 600px;
-	margin: 30px auto;
+	margin: 30px 0px;
 	border: 2px solid gray;
 	border-radius: 5px;
 }
 
 .rq2 {
-    width: 1200px;
+    width: 1000px;
     height: 800px;
     margin: 30px auto;
 	border: 2px solid gray;
@@ -129,7 +148,7 @@ body {
 }
 
 .rq3 {
-	width: 1100px;
+	width: 800px;
     height: 400px;
     margin: 30px auto;
 }
@@ -140,8 +159,8 @@ body {
 
 
 #labelselection {
-	width:1200px;
-	margin: 30px auto 0px;
+	width:1000px;
+	margin: 30px auto;
 }
 
 #rq3labelselection {

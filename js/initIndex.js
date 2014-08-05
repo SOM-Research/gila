@@ -5,7 +5,7 @@ window.onload = function() {
         {
             datatype: "json",
             datafields: [
-                { name: 'projectId' },
+                { name: 'projectId' },	
                 { name: 'projectName' }
             ],
             url: labelAnalyzerServlet + "/LabelAnalysisServlet?event=getprojects",

@@ -19,43 +19,58 @@
   	<script src="js/jQWidgets/jqxcombobox.js"></script>
   </head>
   <body>
-    <div class="container">
+    <div class="pcontainer">
     <div class="row">
-      <div class="col-md-2">
-        <h2>Tag assessment</h2>
-        <p>Having an overview of the most relevant tags defined in the project and their distribution among issues is important for different reasons. First, it provides some insights about the relevance of specific topics in the project community. Second, since an issue in GitHub can be marked with one or more tags, it allows identifying relations between topics.</p>
+      <h2>Tag assessment</h2>
+      <div class="col-md-4 leftcol">
+        <div class="textdiv">
+        	<p>Having an overview of the most relevant tags defined in the project and their distribution among issues is important for different reasons. First, it provides some insights about the relevance of specific topics in the project community. Second, since an issue in GitHub can be marked with one or more tags, it allows identifying relations between topics.</p>
+        </div>
       </div>
-      <div class="col-md-10">
-		    <div id="nolabels" class="msj" style="display:none">The selected project has no labels</div>
+      <div class="col-md-8 rightcol">
+		<div id="nolabels" class="msj" style="display:none">The selected project has no labels</div>
         <div class="rq1"></div>
         <hr>
       </div>
     </div>
+    
     <div class="row">
-          <h2>User assessment</h2>
-          <p>Visualizing the people involved in the issues marked with a given tag can quickly unveil active administrators and users for each topic. In particular, it can help identifying the administrators that most frequently take decisions (e.g., accepting or rejecting issues, etc.) with regards to a given topic. Furthermore, it allows discovering those users collaborating actively on a specific tag, thus pointing out possible knowledgeable developers on a given topic.</p>
-          <p class="text-center">
-            <div id ="labelselection"> 
-            	<div id='lcombobox'></div>
-              <input class="button" type="button" value="RQ2" onclick="getrq2();">
-		        </div>
-            <div class="rq2"></div>
-          </p>
-          <hr>
-
-          <h2>Tag evolution</h2>
-          <p>Analyzing how issues in each tag evolve over time allows assessing the main priorities and interests in a project (e.g., studying which tags are usually solved quickly).</p>
-          <p class="text-center">
-            <div id ="rq3labelselection"> 
-              <div id='rq3lcombobox'></div>
-              <input class="button" type="button" value="RQ3" onclick="getrq3();">
-            </div>
-            <div id="resolutiontl" class="rq3"></div>
-          </p>
-          <hr>
+       <h2>User assessment</h2>
+       <div class="col-md-4 leftcol">
+       	 <div class="textdiv">
+       		<p>Visualizing the people involved in the issues marked with a given tag can quickly unveil active administrators and users for each topic. In particular, it can help identifying the administrators that most frequently take decisions (e.g., accepting or rejecting issues, etc.) with regards to a given topic. Furthermore, it allows discovering those users collaborating actively on a specific tag, thus pointing out possible knowledgeable developers on a given topic.</p>
+       	 </div>
+       </div>
+       
+       <div class="col-md-8 rightcol">
+       	 <p class="text-center"></p>
+         <div id ="labelselection"> 
+          <div id='lcombobox'></div>
+          <input class="button" type="button" value="RQ2" onclick="getrq2();">
+		 </div>
+         <div class="rq2"></div>
         </div>
-      </div>
-    </div>
+	</div>
+	
+	<div class="row">
+       <h2>Tag evolution</h2>
+       <div class="col-md-4 leftcol">
+       	 <div class="textdiv">
+         	<p>Analyzing how issues in each tag evolve over time allows assessing the main priorities and interests in a project (e.g., studying which tags are usually solved quickly).</p>
+         </div>
+       </div>
+       
+       <div class="col-md-8 rightcol">
+         <p class="text-center"></p>
+         <div id ="rq3labelselection"> 
+           <div id='rq3lcombobox'></div>
+           <input class="button" type="button" value="RQ3" onclick="getrq3();">
+         </div>
+         <div id="resolutiontl" class="rq3"></div>
+		</div>
+         <hr>
+     </div>
+  </div>
 
 
   <script src="js/initProject.js"></script>
