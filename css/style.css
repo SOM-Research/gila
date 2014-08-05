@@ -1,0 +1,191 @@
+body {
+    background-color: #ffffff;
+    color: black;
+}
+
+
+/* Landing page */
+.container .jumbotron {
+	margin-top: 25px;
+	margin-bottom: 40px;
+	padding-top: 60px;
+	background-color: #F0ECDD;
+}
+
+.jumbotron h1 {
+	font-family: 'Exo', sans-serif;
+	color: #9C4590;
+/* 	color: #798DA6; */
+/* 	color: #B53F86; */
+}
+
+.jumbotron h2 {
+	color: #F26666
+/* 	color:#E06F62;  */
+/*  color: #139694; */
+}
+
+.row {
+	margin: 10px 0px;
+}
+
+.row.middle {
+	padding: 10px 5px;
+}
+
+.row.bottom {
+	margin-top: 25px;
+	padding: 10px 5px;
+}
+
+.container .abstract {
+	margin-top: 20px;
+	padding: 10px;	
+	/*border: 1px solid #9C4590;
+	border-radius: 10px;*/
+}
+
+.container .selector {
+	padding: 10px;
+	border: 1px solid #9C4590;
+	background-color: #9C4590;
+	border-radius: 10px;
+}
+
+.container .rqbox {
+	background-color: #EDDDC7;
+/* 	background-color: #D9D2C5; */
+/* 	margin-top: 30px; */
+	border-radius: 5px;
+	padding: 20px;
+}
+
+.container .rqbox h3 {
+	color: #9C4590;
+	font-size: 2.0em;
+}
+
+.container .rqbox  p {
+	font-size: 1.1em;
+}
+
+.container .rqbox  img {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	width: 75%;
+}
+
+.selector h2 {
+	color: #FFFFFF;
+	margin-left: 15px;
+	margin-bottom: 20px;
+	font-size: 1.7em;
+}
+
+.selector button {
+	margin-top: 10px;
+	background-color: #FFFFFF; 
+	color: #9C4590;
+	font-size: 1.2em;
+}
+
+.projectselection {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
+
+.abstract h2 {
+	color: #F26666;
+	font-size: 2.7em;
+}
+
+.abstract h3 {
+	color: #9C4590;
+	margin-top: 0px;
+	font-size: 1.5em;
+	font-style: italic;
+}
+
+.rq1 {
+	width: 800px;
+	height: 600px;
+	margin: 30px auto;
+	border: 2px solid gray;
+	border-radius: 5px;
+}
+
+.rq2 {
+    width: 1200px;
+    height: 800px;
+    margin: 30px auto;
+	border: 2px solid gray;
+	border-radius: 5px; 
+}
+
+.rq2 .nodeText {
+	font: bold 12px Helvetica, Sans-Serif;
+	font-color: DimGray;
+}
+
+.rq3 {
+	width: 1100px;
+    height: 400px;
+    margin: 30px auto;
+}
+
+#pcombobox, #lcombobox, #rq3lcombobox {
+	float: left;	
+}
+
+
+#labelselection {
+	width:1200px;
+	margin: 30px auto 0px;
+}
+
+#rq3labelselection {
+	width:1200px;
+	margin: 30px auto 0px;
+}
+
+#projectselection .button, #labelselection .button, #rq3labelselection .button {
+	margin-left: 15px;
+}
+
+.msj {
+	font: bold 14px Helvetica, Sans-Serif;
+	width:800px;
+	margin: 30px auto 0px;
+    color: gray;
+}
+
+/* div.tooltip {    */
+/*   position: absolute;            */
+/*   text-align: center;            */
+/*   width: 60px;                   */
+/*   height: 28px;                  */
+/*   padding: 2px;              */
+/*   font: 12px sans-serif;         */
+/*   background: lightsteelblue;    */
+/*   border: 0px;       */
+/*   border-radius: 8px;            */
+/*   pointer-events: none;          */
+/* } */
+
+.rq2 .labelText {
+	font: bold 14px Helvetica, Sans-Serif;
+	fill: #424242;
+/* 	stroke: white; */
+/* 	stroke-width:0.1px; */
+}
+
+.rq2 .labelnode circle {
+	stroke: #A6A9AD;
+ 	stroke-width:2px; 
+}
+
+.rq1 text.labelText {
+	font: bold 12px Helvetica, Sans-Serif;
+	fill: DimGray;
+}

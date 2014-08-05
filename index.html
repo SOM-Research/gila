@@ -1,0 +1,89 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Label Analyzer.</title>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/jQWidgets/jqx.base.css" />
+
+    <link href='http://fonts.googleapis.com/css?family=Exo:600,900' rel='stylesheet' type='text/css'>
+    
+  	<script src="js/vendor/jquery.js"></script>
+  	<script src="js/bootstrap/bootstrap.min.js"></script>
+  	<script src="js/d3.v3.min.js" charset="utf-8"></script>
+  	<script src="js/jQWidgets/jqxcore.js"></script>
+  	<script src="js/jQWidgets/jqxdata.js"></script>
+  	<script src="js/jQWidgets/jqxbuttons.js"></script>
+  	<script src="js/jQWidgets/jqxscrollbar.js"></script>
+  	<script src="js/jQWidgets/jqxlistbox.js"></script>
+  	<script src="js/jQWidgets/jqxcombobox.js"></script>
+  	<script src="js/initIndex.js"></script>
+  </head>
+  <body>
+    <div class="container">
+    
+      <div class="jumbotron">
+        <div class="row top">
+          <div class="col-md-12">
+            <img style="float:right; width:200px; padding-top:30px; margin-right:30px;" src="imgs/icon.png"/>
+            <h1>Tag Git!</h1> 
+            <h2>What issue tags can tell you about your project?</h2>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row middle">
+        <div class="col-md-8">
+        	<div class="abstract">
+          		<h2 class="text-center">Discover what is behind your tags</h2>
+          		<h3 class="text-center">Three simple visualizations will allow you to better organize your project</h3>
+          </div>
+        </div>
+        
+        <div class="col-md-4">
+          <div class="selector">
+          	<h2>Select your project</h2> 
+          	<div class="projectselection"> 
+              <p class="text-center"><div id='pcombobox'></div></p><br><br>
+              <p class="text-center">
+            	   <button type="button"  class="btn btn-block" onclick="location.href='project.html?projectId=' + $('#pcombobox').children('input')[0].value">Show me!</button>
+              </p>
+          	</div>
+          </div>
+       	</div>
+      </div>
+
+      <div class="row bottom">
+        <div class="col-md-4">
+        	<div class= "rqbox">
+          		<h3 class="text-center">Tag cloud</h3>
+              <p class="text-center"><img src="imgs/rq1.png"/></p>
+          		<p  class="text-center">Visualize the main tag used in your projects and how they are related each other</p>
+          	</div>
+        </div>
+        <div class="col-md-4">
+        	<div class= "rqbox">
+          		<h3 class="text-center">User involvement</h3>
+              <p class="text-center"><img src="imgs/rq2.png"/></p>
+          		<p  class="text-center">Discover who is more involved in each tag, who creates more, who closes, etc.</p>
+          	</div>
+        </div>
+        <div class="col-md-4">
+        	<div class="rqbox">
+          		<h3 class="text-center">Tag timeline</h3>
+              <p class="text-center"><img src="imgs/rq3.png"/></p>
+          		<p  class="text-center">Understand how the issues evolve for each tag, when they are answered, merged, etc.</p>
+          	</div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+    <hr>
+    <p class="text-center">AtlanMod</p>
+    </footer>
+  </body>
+</html>
