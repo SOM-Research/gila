@@ -38,17 +38,17 @@
       <div class="row middle">
         <div class="col-md-8">
         	<div class=" abstract">
-          		<h3 class="text-center">Catchy sentece here</h3>
+          		<h3 class="text-center">Discover the information hidden behind tags in GitHub projects</h3>
           		<p  class="text-center">Another one</p>
           </div>
         </div>
         
         <div class="col-md-4 col-md-offset-0">
           <div class="selector">
-          	<h2>Select your project</h2> 
-          	<div id ="projectselection"> 
+          	<div id ="projectselection">
+          		<h2>Select your project</h2> 
             	<div id='pcombobox'></div>
-            		<button type="button" onclick="location.href='project.html?projectId=' + $('#pcombobox').children('input')[0].value">Show me!</button>
+            	<button type="button" class="button" onclick="location.href='project.html?projectId=' + $('#pcombobox').children('input')[0].value">Show me!</button>
           	</div>
          </div>
        	</div>
@@ -57,20 +57,25 @@
       <div class="row bottom">
         <div class="col-md-4">
         	<div class= "rqbox">
-          		<h3 class="text-center">RQ1</h3>
-          		<p  class="text-center">This is a description of the first visualization</p>
+          		<h3 class="text-center">Tag Assessment</h3>
+          		<p  class="text-center">Which are the most important tags
+										according to the number of issues? How tags are
+										related each other?</p>
           	</div>
         </div>
         <div class="col-md-4">
         	<div class= "rqbox">
-          		<h3 class="text-center">RQ2</h3>
-          		<p  class="text-ce	nter">This is a description of the second visualization</p>
+          		<h3 class="text-center">User Assessment</h3>
+          		<p  class="text-ce	nter">How users collaborate on tagged
+										  issues? Which are the most active users per tag?</p>
           	</div>
         </div>
         <div class="col-md-4">
         	<div class="rqbox">
-          		<h3 class="text-center">R3</h3>
-          		<p  class="text-center">This is a description of the third visualization</p>
+          		<h3 class="text-center">Project Assessment</h3>
+          		<p  class="text-center">For each tag, how do issues
+										evolve over time? Which tagged issues are solved
+										quickly?</p>
           	</div>
         </div>
       </div>
