@@ -27,9 +27,6 @@ window.onload = function() {
 		}
 	}
 
-	//var projectId = location.search.split('projectId=')[1];
-
-
 	getrq1(projectId);
 
 	var source =
