@@ -5,6 +5,7 @@
         type="javax.sql.DataSource" 
         driverClassName="com.mysql.jdbc.Driver"
         url="jdbc:mysql://atlanmodexp.info.emn.fr:13506/vissoft14"
+		factory="org.apache.tomcat.jdbc.pool.DataSourceFactory"
         username="root" password="coitointerrotto"
         maxActive="10" maxIdle="4" />
 </Context>
