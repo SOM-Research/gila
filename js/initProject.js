@@ -12,7 +12,7 @@ window.onload = function() {
 	        params[nv[0]] = nv[1] || true;
 	    }
 	}
-
+	
 	var projectId;
 	if(params.projectId) {
 		projectId = params.projectId;
@@ -21,17 +21,31 @@ window.onload = function() {
 		} else {
 			$("#projectName").text('The results for your project');
 		}
+		
+		loadPage(projectId);
+
 	} else {
 		if(params.projectName) {
+			$("#projectName").text(params.projectName + " results");
+			$.ajax({
+				  url: labelAnalyzerServlet + "/LabelAnalysisServlet?event=getprojectid&project=" + params.projectName,
+				  success:function(data) {
+					projectId = data[0].projectId;
+				    loadPage(projectId);
+				}
+			});
+			
+	} else {
 			$("#projectName").text('No project found');
 		}
 	}
-
+}
 	//var projectId = location.search.split('projectId=')[1];
 
+function loadPage(projectId) {
 
 	getrq1(projectId);
-
+	
 	var source =
 	    {
 	        datatype: "json",
@@ -51,8 +65,8 @@ window.onload = function() {
 	var dataAdapter = new $.jqx.dataAdapter(source);
 	createRQ2LabelCombobox(dataAdapter);
 	createRQ3LabelCombobox(dataAdapter);
-};
-    	
+}
+
 
 function createRQ2LabelCombobox(datasource) {
 

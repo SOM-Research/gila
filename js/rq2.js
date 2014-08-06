@@ -83,8 +83,8 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	//define a scale for mapping roles to colors
 	var role2color = d3.scale.ordinal()
 	.domain(['user', 'administrator'])
-	.range(['DarkOrchid', 'DarkOrange']);
-	
+	.range(['#A26CCC', '#F5925D']);
+	//9C4590
 	//define a scale for rectangle width 
 	var rectwidth = d3.scale.linear()
 	.domain([0, maxrectsize])
@@ -105,7 +105,8 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	.links(links)
 	.charge(-1000)	
 	.size([w2-100, h2-100])
-	.linkDistance(100);
+	.linkDistance(100)
+	.friction(0.7);
 	
 	force.start();
 		
@@ -129,8 +130,7 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 
 	.attr("width", function(d) { return rectwidth(d.num_created_issues); })
 	.attr("height", function(d) { return rectheight(d.num_solved_issues); })
-	.attr("fill", function(d) { return role2color(d.role); 
-	})
+	.attr("fill", function(d) { return d3.rgb(role2color(d.role)); })
 	;
 	
 	var recttext = usernode.append("svg:text")
