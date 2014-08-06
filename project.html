@@ -19,59 +19,62 @@
   	<script src="js/jQWidgets/jqxcombobox.js"></script>
   </head>
   <body>
-    <div class="pcontainer">
-    <div class="row">
-      <h2>Tag assessment</h2>
-      <div class="col-md-4 leftcol">
-        <div class="textdiv">
-        	<p>Having an overview of the most relevant tags defined in the project and their distribution among issues is important for different reasons. First, it provides some insights about the relevance of specific topics in the project community. Second, since an issue in GitHub can be marked with one or more tags, it allows identifying relations between topics.</p>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 project">
+          <div class="text-center" id="projectName"></div>
+        </div>
+      <div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div style="margin-top: 0px;" id="nolabels" class="msj" style="display:none">
+            <div class="alert alert-danger">The selected project has no labels</div>
+          </div>
+        </div>
+      <div>
+
+
+      <div class="row">
+        <div class="col-md-4 leftcol">
+          <h2>Label Usage</h2>
+          <p>Your labels are represented in a graph where each node corresponds to a label. The bigger the node is the more issues using such label there are. Edges connects labels when there are issues with both labels. The thicker an edge the more issues using both labels there are.</p>
+        </div>
+        <div class="col-md-8 rightcol">
+          <div class="rq1"></div>
         </div>
       </div>
-      <div class="col-md-8 rightcol">
-		<div id="nolabels" class="msj" style="display:none">The selected project has no labels</div>
-        <div class="rq1"></div>
-        <hr>
+    
+      <div class="row">
+        <div class="col-md-4 leftcol">
+          <h2>User Involvement</h2>
+          <p>This graph represents your selected label in the center as a circle node and then the group of people involved as boxes. Orange boxes represent GitHub collaborators while the rest are normal users. Users are connected to the label by means of and edge, the thicker it is the more number of issues the users has contributed.</p>
+          <div id ="labelselection"> 
+            <div id='lcombobox'></div>
+            <button class="btn btn-xs" value="RQ2" onclick="getrq2();">OK</button>
+          </div>
+        </div>
+        <div class="col-md-8 rightcol">
+          <div class="rq2"></div>
+		    </div>
+      </div>
+	
+      <div class="row">
+        <div class="col-md-4 leftcol">
+          <h2>Label timeline</h2>
+          <div class="textdiv">
+            <p>Analyzing how issues in each tag evolve over time allows assessing the main priorities and interests in a project (e.g., studying which tags are usually solved quickly).</p>
+            <div id ="rq3labelselection"> 
+              <div id='rq3lcombobox'></div>
+              <button class="btn btn-xs" value="RQ3" onclick="getrq3();">OK</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8 rightcol">
+          <div id="resolutiontl" class="rq3"></div>
+        </div>
       </div>
     </div>
-    
-    <div class="row">
-       <h2>User assessment</h2>
-       <div class="col-md-4 leftcol">
-       	 <div class="textdiv">
-       		<p>Visualizing the people involved in the issues marked with a given tag can quickly unveil active administrators and users for each topic. In particular, it can help identifying the administrators that most frequently take decisions (e.g., accepting or rejecting issues, etc.) with regards to a given topic. Furthermore, it allows discovering those users collaborating actively on a specific tag, thus pointing out possible knowledgeable developers on a given topic.</p>
-       	 </div>
-       </div>
-       
-       <div class="col-md-8 rightcol">
-       	 <p class="text-center"></p>
-         <div id ="labelselection"> 
-          <div id='lcombobox'></div>
-          <input class="button" type="button" value="RQ2" onclick="getrq2();">
-		 </div>
-         <div class="rq2"></div>
-        </div>
-	</div>
-	
-	<div class="row">
-       <h2>Tag evolution</h2>
-       <div class="col-md-4 leftcol">
-       	 <div class="textdiv">
-         	<p>Analyzing how issues in each tag evolve over time allows assessing the main priorities and interests in a project (e.g., studying which tags are usually solved quickly).</p>
-         </div>
-       </div>
-       
-       <div class="col-md-8 rightcol">
-         <p class="text-center"></p>
-         <div id ="rq3labelselection"> 
-           <div id='rq3lcombobox'></div>
-           <input class="button" type="button" value="RQ3" onclick="getrq3();">
-         </div>
-         <div id="resolutiontl" class="rq3"></div>
-		</div>
-         <hr>
-     </div>
-  </div>
-
 
   <script src="js/initProject.js"></script>
   <script src="js/rq1.js"></script>

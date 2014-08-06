@@ -4,7 +4,7 @@
 
 //RQ1 Label Graph
 
-var w1 = 800;
+var w1 = 718;
 var h1 = 600;
 
 var rq1 = d3.select(".rq1")

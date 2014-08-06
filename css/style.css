@@ -7,12 +7,14 @@ body {
 
 .container .jumbotron {
 	margin-top: 25px;
-	margin-bottom: 40px;
-	padding-top: 60px;
+	margin-bottom: 25px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 	background-color: #F0ECDD;
 }
 
 .jumbotron h1 {
+	padding-top: 15px;
 	font-family: 'Exo', sans-serif;
 	color: #9C4590;
 /* 	color: #798DA6; */
@@ -23,6 +25,13 @@ body {
 	color: #F26666
 /* 	color:#E06F62;  */
 /*  color: #139694; */
+}
+
+.jumbotron img {
+	float:right; 
+	width:200px; 
+	padding-top:20px; 
+	margin-right:30px;
 }
 
 .row {
@@ -39,8 +48,7 @@ body {
 }
 
 .container .abstract {
-	margin-top: 20px;
-	padding: 10px;	
+	margin-top: 60px;
 	/*border: 1px solid #9C4590;
 	border-radius: 10px;*/
 }
@@ -97,7 +105,7 @@ body {
 
 .abstract h2 {
 	color: #F26666;
-	font-size: 2.7em;
+	font-size: 2.6em;
 }
 
 .abstract h3 {
@@ -107,39 +115,86 @@ body {
 	font-style: italic;
 }
 
+/* footer */
+footer {
+	background-color: #F0ECDD;
+  	margin-top: 25px;
+  	margin-bottom: 25px;
+  	padding-top: 10px;
+  	padding-bottom: 10px;
+  	border-radius: 5px;
+	color: #9C4590;
+}
+
+footer a:link, footer a:visited, footer a:hover, footer a:active {
+  color: #F26666;
+  text-decoration: underline;
+}
+
+footer p {
+  margin-bottom: 0px;
+}
+
 /* project page */
 
-.pcontainer .row {}
-
-.pcontainer .row h2 {
-	text-align: center;
+.project {
+	font-size: 2.6em;
+	color: #9C4590;
+	padding: 20px;
+	border: 1px solid #EDDDC7;
+	background-color: #EDDDC7;
+	border-radius: 10px;
+	margin-top: 25px;
+	margin-bottom: 25px;
 }
 
-.pcontainer .leftcol {
-	margin: 30px 0px;
+.leftcol {
+	color: black;
+	padding: 20px;
+	border: 1px solid #F0ECDD;
+	background-color: #F0ECDD;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
 }
 
-.leftcol .textdiv {
-	width: 60%;
-	margin: 0px auto;
+.leftcol h2 {
+	color: #9C4590;
+	margin-top : 0px;
+	font-size: 2em;
 }
 
-.pcontainer .rightcol {}
+.leftcol button {
+	margin-left: 10px;
+	background-color: #9C4590; 
+	color: #FFFFFF;
+	font-size: 1.2em;
+}
+
+.rightcol {
+	padding: 20px;
+	border: 1px solid #F0ECDD;
+	background-color: #F0ECDD;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+	border-bottom-left-radius: 10px;
+	margin-bottom: 20px;
+}
+
 
 .rq1 {
-	width: 800px;
-	height: 600px;
-	margin: 30px 0px;
+	width: 718px;
+	height: 600;
 	border: 2px solid gray;
 	border-radius: 5px;
+	background-color: #FFFFFF;
 }
 
 .rq2 {
-    width: 1000px;
-    height: 800px;
-    margin: 30px auto;
+    width: 718px;
+	height: 600;
 	border: 2px solid gray;
 	border-radius: 5px; 
+	background-color: #FFFFFF;
 }
 
 .rq2 .nodeText {
@@ -148,9 +203,11 @@ body {
 }
 
 .rq3 {
-	width: 800px;
-    height: 400px;
-    margin: 30px auto;
+	width: 718px;
+	height: 400px;
+	border: 2px solid gray;
+	border-radius: 5px; 
+	background-color: #FFFFFF;
 }
 
 #pcombobox, #lcombobox, #rq3lcombobox {

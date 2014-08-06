@@ -1,4 +1,5 @@
 var labelAnalyzerServlet = 'http://localhost:8080/labelAnalysisServer';
+var selectedProjectName = "";
 
 window.onload = function() {
     var source =
@@ -26,5 +27,12 @@ window.onload = function() {
         selectedIndex: 0,
         displayMember: "projectName",
         valueMember: "projectId"
+    });
+
+    $("#pcombobox").on('select', function (event) {
+        var selecteditem = event.args.item;
+        if (selecteditem) {
+            selectedProjectName = selecteditem.label;
+        }
     });
 };

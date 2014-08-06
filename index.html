@@ -27,29 +27,29 @@
       <div class="jumbotron">
         <div class="row top">
           <div class="col-md-12">
-            <img style="float:right; width:200px; padding-top:30px; margin-right:30px;" src="imgs/icon.png"/>
-            <h1>Tag Git!</h1> 
-            <h2>What issue tags can tell you about your project?</h2>
+            <img src="imgs/icon.png"/>
+            <h1>Ladrian</h1> 
+            <h2>Label-Driven Analyzer</h2>
           </div>
         </div>
       </div>
 
 
       <div class="row middle">
-        <div class="col-md-8">
+        <div class="col-md-9">
         	<div class="abstract">
-          		<h2 class="text-center">Discover what is behind your tags</h2>
-          		<h3 class="text-center">Three simple visualizations will allow you to better organize your project</h3>
+          		<h2 class="text-center">What issue labels can tell you about your project?</h2>
+          		<h3 class="text-center">Three easy-to-read visualizations will allow you to better organize your project</h3>
           </div>
         </div>
         
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="selector">
           	<h2>Select your project</h2> 
           	<div class="projectselection"> 
               <p class="text-center"><div id='pcombobox'></div></p><br><br>
               <p class="text-center">
-            	   <button type="button"  class="btn btn-block" onclick="location.href='project.html?projectId=' + $('#pcombobox').children('input')[0].value">Show me!</button>
+            	   <button class="btn btn-block" onclick="location.href='project.html?projectId=' + $('#pcombobox').children('input')[0].value + '&projectName=' + selectedProjectName">Show me!</button>
               </p>
           	</div>
           </div>
@@ -59,31 +59,36 @@
       <div class="row bottom">
         <div class="col-md-4">
         	<div class= "rqbox">
-          		<h3 class="text-center">Tag cloud</h3>
+          		<h3 class="text-center">Label usage</h3>
               <p class="text-center"><img src="imgs/rq1.png"/></p>
-          		<p  class="text-center">Visualize the main tag used in your projects and how they are related each other</p>
+          		<p  class="text-center">Visualize the main labels used in your projects and how they are related each other</p>
           	</div>
         </div>
         <div class="col-md-4">
         	<div class= "rqbox">
           		<h3 class="text-center">User involvement</h3>
               <p class="text-center"><img src="imgs/rq2.png"/></p>
-          		<p  class="text-center">Discover who is more involved in each tag, who creates more, who closes, etc.</p>
+          		<p  class="text-center">Discover who is more involved in each label, who creates more, who closes, etc.</p>
           	</div>
         </div>
         <div class="col-md-4">
         	<div class="rqbox">
-          		<h3 class="text-center">Tag timeline</h3>
+          		<h3 class="text-center">Label timeline</h3>
               <p class="text-center"><img src="imgs/rq3.png"/></p>
-          		<p  class="text-center">Understand how the issues evolve for each tag, when they are answered, merged, etc.</p>
+          		<p  class="text-center">Understand how the issues evolve for each label, when they are answered, merged, etc.</p>
           	</div>
         </div>
       </div>
-    </div>
 
-    <footer>
-    <hr>
-    <p class="text-center">AtlanMod</p>
-    </footer>
+      <footer>
+        <div class="row">
+          <div class="col-md-12">  
+            <p class="text-center"><small>Ladrian is a visualization tool that allows you to analyze the labels in your GitHub project.</small> </p>
+            <p class="text-center"><small>Code and Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</small></p>
+            <p class="text-center"><small><a href="http://www.emn.fr/z-info/atlanmod/index.php/Main_Page">AtlanMod</a></small></p>
+          </div>
+        </div>
+      </footer>
+    </div>
   </body>
 </html>

@@ -1,7 +1,8 @@
 
-var w3 = 1100;
+var w3 = 718;
 var h3 = 400;
-var heightExtension = 10;
+var heightPadding = 20;
+var widthPadding = 20;
 var verticalTick = 10;
 
 function getrq3() {
@@ -30,11 +31,11 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 
 	var maxTime = d3.max([timeToClose, timeToMerge]);
     var scalex = d3.scale.linear() 
-        .range([0, w3])
-        .domain([0, maxTime+heightExtension]);
+        .range([0+widthPadding+20, w3-widthPadding-20])
+        .domain([0, maxTime+heightPadding]);
 
     var scaley = d3.scale.ordinal()
-        .domain([1, 2, 3]).rangePoints([0+2*heightExtension, h3-2*heightExtension], 0).range();
+        .domain([1, 2, 3]).rangePoints([0+2*heightPadding+30, h3-2*heightPadding-30], 0).range();
 
     // Main line coordinates
     var upperLine = scaley[0];
@@ -45,8 +46,10 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
     	.append("svg")
         .attr("width", w3)
         .attr("height", h3);
-     
-     var defs = test.append("svg:defs");
+    
+
+    // Creating the gradients 
+    var defs = test.append("svg:defs");
 
     var mainGradient = defs.append("svg:linearGradient")
         .attr("id", "mainGradient")
@@ -93,6 +96,13 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
         .attr("stop-color", "#FC821A")
         .attr("stop-opacity", 1);
 
+    // Creating the tooltip
+    var tooptip = test.append("g")
+        .attr("id", "tooltip")
+        .style("z-index", "10")
+        .style("visibility", "hidden")
+        .text("tooltip");
+
     //
     // Drawing upper path (time to merge)
     //
@@ -120,8 +130,8 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 	
 	    // The rotated text
 	    upperGroup.append("text")
-	        .attr("dy", "-0.6em")
-	        .attr("dx", "6em")
+            .attr("dy", "-0.3em")
+            .attr("dx", "5em")
 	      .append("textPath")
 	        .attr("xlink:href","#upperText")
 	        .text("merged (" + percMerged + "%)");
@@ -140,22 +150,29 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 	        .attr("x1", scalex(timeToMerge))
 	        .attr("y1", upperLine + verticalTick)
 	        .attr("x2", scalex(timeToMerge))
-	        .attr("y2", upperLine - verticalTick);
+	        .attr("y2", upperLine - verticalTick)
+            .on("mouseover", function(d) {      
+                tooltip.attr("x1", scalex(timeToMerge)) 
+                    .attr("y1", upperLine + verticalTick)
+                    .attr("x2", scalex(timeToMerge))
+                    .attr("y2", upperLine - verticalTick)
+                    .style("visibility", "visible");
+            });    
 	
 	    // The text with the time
-	    upperGroup.append("text")
+	    /*upperGroup.append("text")
 	        .attr("x", scalex(timeToMerge))
 	        .attr("y", upperLine)
-	        .attr("dy", "1.75em")
-	        .attr("dx", "-.7em")
+	        .attr("dy", "-1em")
+	        .attr("dx", "-1.5em")
 	        .text(timeToMerge + " hrs");
 	
 	    upperGroup.append("text")
 	        .attr("x", scalex(timeToMerge))
 	        .attr("y", upperLine)
-	        .attr("dy", "2.75em")
+	        .attr("dy", "-2.25em")
 	        .attr("dx", "-2em")
-	        .text("Merge event");
+	        .text("Merge event");*/
     }
     //
     // Drawing lower path (time to close)
@@ -210,14 +227,14 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 	    lowerGroup.append("text")
 	        .attr("x", scalex(timeToClose))
 	        .attr("y", lowerLine)
-	        .attr("dy", "-1em")
-	        .attr("dx", "-.6em")
+	        .attr("dy", "1.5em")
+	        .attr("dx", "-.7em")
 	        .text(timeToClose + " hrs");
 	
 	    lowerGroup.append("text")
 	        .attr("x", scalex(timeToClose))
 	        .attr("y", lowerLine)
-	        .attr("dy", "-2.15em")
+	        .attr("dy", "2.15em")
 	        .attr("dx", "-2.25em")
 	        .text("Closing event");
     }
@@ -228,12 +245,12 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
         .attr("id", "mainGroup");
 
     mainGroup.append("path")
-        .attr("d", "M " + "0" + "," + middleLine + " "+ scalex(maxTime+heightExtension) + "," + middleLine)
+        .attr("d", "M " + scalex(0) + "," + middleLine + " "+ scalex(maxTime+heightPadding) + "," + middleLine)
         .attr("style", "fill:none;stroke:url(#mainGradient);stroke-width:7")
         .attr("stroke-linecap", "round");
 
     mainGroup.append("text")
-        .attr("x", scalex(maxTime+heightExtension))
+        .attr("x", scalex(maxTime+heightPadding))
         .attr("y", middleLine)
         .attr("dy", "-0.75em")
         .attr("dx", "-9em")

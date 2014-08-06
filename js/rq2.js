@@ -2,8 +2,8 @@
  * 
  */
 
-var w2 = 1200;
-var h2 = 900;
+var w2 = 718;
+var h2 = 600;
 
 var rq2 = d3.select(".rq2")
 .append("svg")

@@ -1,7 +1,35 @@
 var labelAnalyzerServlet = 'http://localhost:8080/labelAnalysisServer';
 
 window.onload = function() {
-	var projectId = location.search.split('projectId=')[1];
+	var params = {};
+
+	if (location.search) {
+	    var parts = location.search.substring(1).split('&');
+
+	    for (var i = 0; i < parts.length; i++) {
+	        var nv = parts[i].split('=');
+	        if (!nv[0]) continue;
+	        params[nv[0]] = nv[1] || true;
+	    }
+	}
+
+	var projectId;
+	if(params.projectId) {
+		projectId = params.projectId;
+		if(params.projectName) {
+			$("#projectName").text(params.projectName + " results");
+		} else {
+			$("#projectName").text('The results for your project');
+		}
+	} else {
+		if(params.projectName) {
+			$("#projectName").text('No project found');
+		}
+	}
+
+	//var projectId = location.search.split('projectId=')[1];
+
+
 	getrq1(projectId);
 
 	var source =
