@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Context>
     <!-- Specify a JDBC datasource -->
-    <Resource name="jdbc/vissoft14" auth="Container"
-        type="javax.sql.DataSource" username="root" password="coitointerrotto"
+    <Resource name="jdbc/dbCon" auth="Container"
+        type="javax.sql.DataSource" 
         driverClassName="com.mysql.jdbc.Driver"
-        url="jdbc:mysql://atlanmodexp.info.emn.fr:13506/labelAnalysis"
+        url="jdbc:mysql://atlanmodexp.info.emn.fr:13506/vissoft14"
+        username="root" password="coitointerrotto"
         maxActive="10" maxIdle="4" />
- 
 </Context>

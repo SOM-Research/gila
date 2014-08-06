@@ -39,7 +39,7 @@ public class LabelAnalysisServlet extends HttpServlet {
 		response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
 		response.setHeader("Access-Control-Allow-Headers", "Origin,	X-Requested-With, Content-Type, Accept");
 		response.addHeader("Access-Control-Allow-Credentials", "true");
-		
+				
 		handler.handleRequest(request, response);
 	}
 
@@ -47,6 +47,7 @@ public class LabelAnalysisServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
 		// TODO Auto-generated method stub
 		System.out.println("post");
 	}

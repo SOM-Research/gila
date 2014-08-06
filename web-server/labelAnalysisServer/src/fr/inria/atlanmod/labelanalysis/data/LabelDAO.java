@@ -32,7 +32,7 @@ public class LabelDAO {
 		
 		Statement stmt = null;
 		String query = "select id, name, num_issues"
-						+ " from " + DBConnection.database + ".repo_label_num_issues "
+						+ " from repo_label_num_issues "
 						+ " where repo_id = " + projectid;
 
         stmt = con.createStatement();
@@ -44,7 +44,7 @@ public class LabelDAO {
 
 		Statement stmt = null;
 		String query = "select label1_id, label2_id, count(issue_id) as value"
-						+ " from " + DBConnection.database + ".label_relation"
+						+ " from label_relation"
 						+ " where repo_id = " + projectid
 						+ " group by label1_id, label2_id";
 
@@ -227,7 +227,10 @@ public class LabelDAO {
 	public ResultSet getLabelResolutionData(String labelId) throws SQLException {
 		
 		Statement stmt = null;
-		String query = "select * "
+		String query = "select label_id, label_name, "
+							+ "avg_hs_first_comment, avg_hs_first_collab_response,"
+							+ " avg_hs_to_merge, avg_hs_to_close, avg_pending_issue_age,"
+							+ " prctg_merged, prctg_closed, prctg_pending"
 					+  " from label_resolution_stats"
 					+  " where label_id = " + labelId;
 		

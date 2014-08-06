@@ -16,10 +16,11 @@ import fr.inria.atlanmod.labelanalysis.db.DBConnection;
 
 public class LabelAnalyzer {
 	
+	private DBConnection dbConnection = new DBConnection();
 	
 	public StringWriter getProjectLabels(String projectid) {
 		
-		Connection con = DBConnection.getConnection();
+		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
         StringWriter writer = new StringWriter();
 		
@@ -46,7 +47,7 @@ public class LabelAnalyzer {
 		
 		} finally {
                 
-			DBConnection.disconnect();
+			dbConnection.disconnect();
 		}
       
 		return writer;
@@ -54,7 +55,7 @@ public class LabelAnalyzer {
 	
 	public StringWriter getLabelRelations(String projectid) {
 		
-		Connection con = DBConnection.getConnection();
+		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
         StringWriter writer = new StringWriter();
 		
@@ -81,7 +82,7 @@ public class LabelAnalyzer {
 		
 		} finally {
                 
-			DBConnection.disconnect();
+			dbConnection.disconnect();
 		}
         
         return writer;
@@ -89,7 +90,7 @@ public class LabelAnalyzer {
 	
 	public StringWriter getMaxLabelRelationCount(String projectid) {
 
-		Connection con = DBConnection.getConnection();
+		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 		
@@ -111,7 +112,7 @@ public class LabelAnalyzer {
 		
 		} finally {
 	            
-			DBConnection.disconnect();
+			dbConnection.disconnect();
 		}
 	    
 	    return writer;
@@ -119,7 +120,7 @@ public class LabelAnalyzer {
 	
 	public StringWriter getMaxLabelIssueCount(String projectid) {
 	
-		Connection con = DBConnection.getConnection();
+		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 		
@@ -140,7 +141,7 @@ public class LabelAnalyzer {
 		
 		} finally {
 	            
-			DBConnection.disconnect();
+			dbConnection.disconnect();
 		}
 		
 		return writer;
@@ -148,7 +149,7 @@ public class LabelAnalyzer {
 	
 	public String getAllProjects() {
 		
-		Connection con = DBConnection.getConnection();
+		Connection con = dbConnection.getConnection();
 		ProjectDAO projectDAO = new ProjectDAO(con);
 		StringWriter writer = new StringWriter();
 
@@ -175,7 +176,7 @@ public class LabelAnalyzer {
 		
 		} finally {
 	            
-			DBConnection.disconnect();
+			dbConnection.disconnect();
 		}
 		//remove last , from json object stream, 
 		//less costly than invoking isLast() in resultSet object
@@ -189,7 +190,7 @@ public class LabelAnalyzer {
 	
 	public String getAllLabels(String projectId) {
 	
-		Connection con = DBConnection.getConnection();
+		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 		
@@ -216,7 +217,7 @@ public class LabelAnalyzer {
 	
 	} finally {
             
-		DBConnection.disconnect();
+		dbConnection.disconnect();
 	}
 		
 	return writer.toString();
@@ -224,7 +225,7 @@ public class LabelAnalyzer {
 	
 	public String getLabelContributors(String labelId) {
 		
-		Connection con = DBConnection.getConnection();
+		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 		
@@ -256,7 +257,7 @@ public class LabelAnalyzer {
 			
 		} finally {
             
-			DBConnection.disconnect();
+			dbConnection.disconnect();
 		}
 		
 		return writer.toString();
@@ -264,7 +265,7 @@ public class LabelAnalyzer {
 	
 	public String getLabelComments(String labelId) {
 		
-		Connection con = DBConnection.getConnection();
+		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 		
@@ -292,7 +293,7 @@ public class LabelAnalyzer {
 			
 		} finally {
             
-			DBConnection.disconnect();
+			dbConnection.disconnect();
 		}
 		
 		return writer.toString();
@@ -300,7 +301,7 @@ public class LabelAnalyzer {
 	
 	public String getLabelById(String labelId) {
 		
-		Connection con = DBConnection.getConnection();
+		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 		
@@ -329,7 +330,7 @@ public class LabelAnalyzer {
 		
 		} finally {
             
-			DBConnection.disconnect();
+			dbConnection.disconnect();
 		}
 				
 		return writer.toString();
@@ -337,7 +338,7 @@ public class LabelAnalyzer {
 	
 	public String getRQ2MaxValues(String labelId) {
 		
-		Connection con = DBConnection.getConnection();
+		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 				
@@ -392,7 +393,7 @@ public class LabelAnalyzer {
 		
 		} finally {
             
-			DBConnection.disconnect();
+			dbConnection.disconnect();
 		}
 		
 		return writer.toString();
@@ -400,7 +401,7 @@ public class LabelAnalyzer {
 	
 	public String getLabelResolutionInfo(String labelId) {
 		
-		Connection con = DBConnection.getConnection();
+		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 		
@@ -416,6 +417,7 @@ public class LabelAnalyzer {
 				 jsonBuilder.add("avg_hs_first_collab_response", result.getString("avg_hs_first_collab_response"));
 				 jsonBuilder.add("avg_hs_to_merge", result.getString("avg_hs_to_merge"));
 				 jsonBuilder.add("avg_hs_to_close", result.getString("avg_hs_to_close"));
+				 jsonBuilder.add("avg_pending_issue_age", result.getString("avg_pending_issue_age"));
 				 jsonBuilder.add("prctg_merged", result.getString("prctg_merged"));
 				 jsonBuilder.add("prctg_closed", result.getString("prctg_closed"));
 				 jsonBuilder.add("prctg_pending", result.getString("prctg_pending"));
@@ -437,7 +439,7 @@ public class LabelAnalyzer {
 			
 		} finally {
             
-			DBConnection.disconnect();
+			dbConnection.disconnect();
 		}
 		
 	return writer.toString();
