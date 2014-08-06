@@ -1,4 +1,4 @@
-var labelAnalyzerServlet = 'http://localhost:8080/labelAnalysisServer';
+var labelAnalyzerServlet = 'http://atlanmodexp.info.emn.fr:8800/ladrian';
 
 window.onload = function() {
 	var params = {};
