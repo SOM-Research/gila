@@ -117,6 +117,30 @@ public class LabelAnalysisRequestHandler {
 				e.printStackTrace();
 			}
 		
+		} else if (event.equals("getprojectid")) {
+
+			//the received param has the form projectOwner/projectname
+			String param = req.getParameter("project");
+			
+			//parse project information
+			String[] project = param.split("/");
+			String projectOwner = project[0];
+			String projectName = project[1];
+			
+			LabelAnalyzer analyzer = new LabelAnalyzer();
+			String jsonStream = analyzer.getProjectId(projectName, projectOwner);
+			res.setContentType("text/x-json;charset=UTF-8");           
+			res.setHeader("Cache-Control", "no-cache");
+	      
+			try {
+		        String jsonarray = "[" + jsonStream + "]";
+		        System.out.println(jsonarray);
+				res.getWriter().write(jsonarray);
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			} 
+		
 		} else if (event.equals("rq2label")) {
 			
 			LabelAnalyzer analyzer = new LabelAnalyzer();

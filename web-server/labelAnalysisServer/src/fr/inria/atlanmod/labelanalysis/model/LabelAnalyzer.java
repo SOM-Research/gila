@@ -223,45 +223,77 @@ public class LabelAnalyzer {
 	return writer.toString();
 }
 	
-	public String getLabelContributors(String labelId) {
-		
-		Connection con = dbConnection.getConnection();
-		LabelDAO labelDAO = new LabelDAO(con);
-		StringWriter writer = new StringWriter();
-		
-		try {
+public String getProjectId(String projectName, String ownerLogin) {
+	
+	Connection con = dbConnection.getConnection();
+	ProjectDAO projectDAO = new ProjectDAO(con);
+	StringWriter writer = new StringWriter();
+	
+	try {
+        
+        ResultSet result = projectDAO.getProjectIdByNameandOwner(projectName, ownerLogin);
+        while(result.next()) {
+        	JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+		    jsonBuilder.add("projectId", result.getString("id"));
+		    
+		    JsonObject jsonProject = jsonBuilder.build();
+			System.out.println(jsonProject.toString());
 			
-			ResultSet result = labelDAO.getLabelContributors(labelId);
-			 while(result.next()) {
-				 JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
-				 jsonBuilder.add("id", result.getString("id"));
-				 jsonBuilder.add("name", result.getString("name"));
-				 jsonBuilder.add("role", result.getString("role"));
-				 jsonBuilder.add("num_created_issues", result.getString("num_created_issues"));
-				 jsonBuilder.add("num_solved_issues", result.getString("num_solved_issues"));
-				 jsonBuilder.add("type", result.getString("type"));
-				 
-				 JsonObject jsonContributor = jsonBuilder.build();
-				 System.out.println(jsonContributor.toString());
-				 
-				 JsonWriter jw = Json.createWriter(writer);
-			     jw.writeObject(jsonContributor);
-		         if(!result.isLast())
-		        	writer.write(",");
-		         jw.close();
-			 }
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			
-		} finally {
-            
-			dbConnection.disconnect();
-		}
+	        JsonWriter jw = Json.createWriter(writer);
+	        jw.writeObject(jsonProject);
+	        jw.close();
+	    }
+
+} catch (SQLException sqle) {
+	sqle.printStackTrace();
+
+} finally {
+        
+	dbConnection.disconnect();
+}
+	
+return writer.toString();
+}
+	
+public String getLabelContributors(String labelId) {
+	
+	Connection con = dbConnection.getConnection();
+	LabelDAO labelDAO = new LabelDAO(con);
+	StringWriter writer = new StringWriter();
+	
+	try {
 		
-		return writer.toString();
+		ResultSet result = labelDAO.getLabelContributors(labelId);
+		 while(result.next()) {
+			 JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+			 jsonBuilder.add("id", result.getString("id"));
+			 jsonBuilder.add("name", result.getString("name"));
+			 jsonBuilder.add("role", result.getString("role"));
+			 jsonBuilder.add("num_created_issues", result.getString("num_created_issues"));
+			 jsonBuilder.add("num_solved_issues", result.getString("num_solved_issues"));
+			 jsonBuilder.add("type", result.getString("type"));
+			 
+			 JsonObject jsonContributor = jsonBuilder.build();
+			 System.out.println(jsonContributor.toString());
+			 
+			 JsonWriter jw = Json.createWriter(writer);
+		     jw.writeObject(jsonContributor);
+	         if(!result.isLast())
+	        	writer.write(",");
+	         jw.close();
+		 }
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		
+	} finally {
+        
+		dbConnection.disconnect();
 	}
+	
+	return writer.toString();
+}
 	
 	public String getLabelComments(String labelId) {
 		

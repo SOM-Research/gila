@@ -27,4 +27,16 @@ private Connection con;
 	     ResultSet rs = stmt.executeQuery(query);
 	     return rs;
 	}
+	
+	public ResultSet getProjectIdByNameandOwner(String name, String owner) throws SQLException {
+		
+		Statement stmt = null;
+		String query = "select p.id from"
+					+ " projects p inner join users u on p.owner_id = u.id"
+					+ " where u.login = '" + owner + "' and p.name = '" + name + "'";
+		
+		stmt = con.createStatement();
+	    ResultSet rs = stmt.executeQuery(query);
+	    return rs;		
+	}
 }
