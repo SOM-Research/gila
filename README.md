@@ -1,7 +1,7 @@
 GiLA
 ====
 
-GiLA is a visualization rool with analyzes the labels used in GitHub projects. 
+GiLA is a visualization tool which analyzes the labels used in GitHub projects. 
 
 
 
