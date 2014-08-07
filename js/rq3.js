@@ -30,10 +30,16 @@ function getrq3() {
 
 function draw(container, firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen) {
 
-	var maxTime = d3.max([timeToClose, timeToMerge]);
+	var maxTime = d3.max([timeToClose, timeToMerge, firstComment, firstCommentCollaborator]);
+
+    var auxScalex = d3.scale.linear() 
+        .range([0+widthPadding, w3-widthPadding])
+        .domain([0, maxTime]);
+    var avgAgePosition = auxScalex.invert(0+widthPadding+100);
+
     var scalex = d3.scale.linear() 
         .range([0+widthPadding, w3-widthPadding])
-        .domain([0, maxTime+5]);
+        .domain([0, maxTime+avgAgePosition]);
 
     var scaley = d3.scale.ordinal()
         .domain([1, 2, 3]).rangePoints([0+2*heightPadding, h3-2*heightPadding], 0).range();
@@ -252,17 +258,17 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
         .attr("id", "mainGroup");
 
     mainGroup.append("path")
-        .attr("d", "M " + scalex(0) + "," + middleLine + " "+ scalex(maxTime-1) + "," + middleLine)
+        .attr("d", "M " + scalex(0) + "," + middleLine + " "+ scalex(maxTime) + "," + middleLine)
         .attr("style", "fill:none;stroke:#000000;stroke-width:7")
         .attr("stroke-linecap", "round");
 
     mainGroup.append("path")
-        .attr("d", "M " + scalex(maxTime) + "," + middleLine + " "+ scalex(maxTime+5) + "," + middleLine)
-        .attr("style", "fill:none;stroke:url(#mainGradient);stroke-dasharray:7,15;stroke-width:7")
+        .attr("d", "M " + scalex(maxTime) + "," + middleLine + " "+ scalex(maxTime+avgAgePosition) + "," + middleLine)
+        .attr("style", "fill:none;stroke:url(#mainGradient);stroke-dasharray:7,15;stroke-dashoffset:10;stroke-width:7")
         .attr("stroke-linecap", "round");
 
     mainGroup.append("text")
-        .attr("x", scalex(maxTime+5))
+        .attr("x", scalex(maxTime+avgAgePosition))
         .attr("y", middleLine)
         .attr("dy", "-0.8em")
         .attr("dx", "-7.7em")
@@ -334,9 +340,9 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
     // The tick indicator
     var ageTick = mainGroup.append("line")
         .attr("style", "stroke:#F62626;stroke-width:10")
-        .attr("x1", scalex(maxTime+5))
+        .attr("x1", scalex(maxTime+avgAgePosition))
         .attr("y1", middleLine + verticalTick)
-        .attr("x2", scalex(maxTime+5))
+        .attr("x2", scalex(maxTime+avgAgePosition))
         .attr("y2", middleLine - verticalTick);
 
     ageTick.on("mousemove", function(d, index, element) {    
