@@ -55,6 +55,11 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
         .attr("height", h3);
     
 
+    // The tick indicator
+    var tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 1e-6);
+
     // Creating the gradients 
     var defs = test.append("svg:defs");
 
@@ -143,12 +148,6 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 	        .attr("y1", upperLine)
 	        .attr("x2", scalex(timeToMerge))
 	        .attr("y2", upperLine);
-
-
-        // The tick indicator
-        var tooltip = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 1e-6);
 	
 	    var upperTick = upperGroup.append("line")
 	        .attr("style", "stroke:#457313;stroke-width:10")
