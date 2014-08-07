@@ -18,24 +18,25 @@ function getrq3() {
 	    var firstCommentCollaborator = +json[0].avg_hs_first_collab_response;
 	    var timeToMerge = +json[0].avg_hs_to_merge;
 	    var timeToClose = +json[0].avg_hs_to_close;
+        var avgAge = +json[0].avg_pending_issue_age;
 	    var percClosed = +json[0].prctg_closed;
 	    var percMerged = +json[0].prctg_merged;
 	    var percOpen = +json[0].prctg_pending;
 	    
-	    draw(".rq3", firstComment, firstCommentCollaborator, timeToMerge, timeToClose, percClosed, percMerged, percOpen);
+	    draw(".rq3", firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen);
 
 	});
 }
 
-function draw(container, firstComment, firstCommentCollaborator, timeToMerge, timeToClose, percClosed, percMerged, percOpen) {
+function draw(container, firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen) {
 
-	var maxTime = d3.max([timeToClose, timeToMerge]);
+	var maxTime = d3.max([timeToClose, timeToMerge, avgAge]);
     var scalex = d3.scale.linear() 
-        .range([0+widthPadding+20, w3-widthPadding-20])
-        .domain([0, maxTime+heightPadding]);
+        .range([0+widthPadding, w3-widthPadding])
+        .domain([0, maxTime]);
 
     var scaley = d3.scale.ordinal()
-        .domain([1, 2, 3]).rangePoints([0+2*heightPadding+30, h3-2*heightPadding-30], 0).range();
+        .domain([1, 2, 3]).rangePoints([0+2*heightPadding, h3-2*heightPadding], 0).range();
 
     // Main line coordinates
     var upperLine = scaley[0];
@@ -96,13 +97,6 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
         .attr("stop-color", "#FC821A")
         .attr("stop-opacity", 1);
 
-    // Creating the tooltip
-    var tooptip = test.append("g")
-        .attr("id", "tooltip")
-        .style("z-index", "10")
-        .style("visibility", "hidden")
-        .text("tooltip");
-
     //
     // Drawing upper path (time to merge)
     //
@@ -130,8 +124,8 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 	
 	    // The rotated text
 	    upperGroup.append("text")
-            .attr("dy", "-0.3em")
-            .attr("dx", "5em")
+            .attr("dy", "-0.7em")
+            .attr("dx", "2em")
 	      .append("textPath")
 	        .attr("xlink:href","#upperText")
 	        .text("merged (" + percMerged + "%)");
@@ -143,36 +137,41 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 	        .attr("y1", upperLine)
 	        .attr("x2", scalex(timeToMerge))
 	        .attr("y2", upperLine);
+
+
+        // The tick indicator
+        var tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("opacity", 1e-6);
 	
-	    // The tick indicator
-	    upperGroup.append("line")
-	        .attr("style", "stroke:#457313;stroke-width:3")
+	    var upperTick = upperGroup.append("line")
+	        .attr("style", "stroke:#457313;stroke-width:10")
 	        .attr("x1", scalex(timeToMerge))
 	        .attr("y1", upperLine + verticalTick)
 	        .attr("x2", scalex(timeToMerge))
-	        .attr("y2", upperLine - verticalTick)
-            .on("mouseover", function(d) {      
-                tooltip.attr("x1", scalex(timeToMerge)) 
-                    .attr("y1", upperLine + verticalTick)
-                    .attr("x2", scalex(timeToMerge))
-                    .attr("y2", upperLine - verticalTick)
-                    .style("visibility", "visible");
-            });    
-	
-	    // The text with the time
-	    /*upperGroup.append("text")
-	        .attr("x", scalex(timeToMerge))
-	        .attr("y", upperLine)
-	        .attr("dy", "-1em")
-	        .attr("dx", "-1.5em")
-	        .text(timeToMerge + " hrs");
-	
-	    upperGroup.append("text")
-	        .attr("x", scalex(timeToMerge))
-	        .attr("y", upperLine)
-	        .attr("dy", "-2.25em")
-	        .attr("dx", "-2em")
-	        .text("Merge event");*/
+	        .attr("y2", upperLine - verticalTick);
+        
+        upperTick.on("mousemove", function(d, index, element) {    
+            tooltip.selectAll("p").remove();
+            tooltip
+                .style("left", (d3.event.pageX+15) + "px")
+                .style("top", (d3.event.pageY-10) + "px");
+
+            tooltip.append("p").text(timeToMerge + " hrs")
+            tooltip.append("p").text("Merge event");
+        });    
+
+        upperTick.on("mouseover", function(d, index, element) {     
+            tooltip.transition()
+              .duration(500)
+              .style("opacity", 1);
+        });    
+
+        upperTick.on("mouseout", function(d, index, element) {
+            tooltip.transition()
+              .duration(500)
+              .style("opacity", 1e-6);
+        });
     }
     //
     // Drawing lower path (time to close)
@@ -202,7 +201,7 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 	    // The rotated text
 	    lowerGroup.append("text")
 	        .attr("dy", "-0.6em")
-	        .attr("dx", "6em")
+	        .attr("dx", "3em")
 	      .append("textPath")
 	        .attr("xlink:href","#lowerText")
 	        .text("closing (" + percClosed + "%)");
@@ -216,27 +215,35 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 	        .attr("y2", lowerLine);
 	
 	    // The tick indicator
-	    lowerGroup.append("line")
-	        .attr("style", "stroke:#FC821A;stroke-width:3")
+	    var lowerTick = lowerGroup.append("line")
+	        .attr("style", "stroke:#FC821A;stroke-width:10")
 	        .attr("x1", scalex(timeToClose))
 	        .attr("y1", lowerLine + verticalTick)
 	        .attr("x2", scalex(timeToClose))
 	        .attr("y2", lowerLine - verticalTick);
-	
-	    // The text with the time
-	    lowerGroup.append("text")
-	        .attr("x", scalex(timeToClose))
-	        .attr("y", lowerLine)
-	        .attr("dy", "1.5em")
-	        .attr("dx", "-.7em")
-	        .text(timeToClose + " hrs");
-	
-	    lowerGroup.append("text")
-	        .attr("x", scalex(timeToClose))
-	        .attr("y", lowerLine)
-	        .attr("dy", "2.15em")
-	        .attr("dx", "-2.25em")
-	        .text("Closing event");
+
+        lowerTick.on("mousemove", function(d, index, element) {    
+            tooltip.selectAll("p").remove();
+            tooltip
+                .style("left", (d3.event.pageX+15) + "px")
+                .style("top", (d3.event.pageY-10) + "px");
+
+            tooltip.append("p").text(timeToClose + " hrs")
+            tooltip.append("p").text("Close event");
+        });    
+
+        lowerTick.on("mouseover", function(d, index, element) {     
+            tooltip.transition()
+              .duration(500)
+              .style("opacity", 1);
+        });    
+
+        lowerTick.on("mouseout", function(d, index, element) {
+            tooltip.transition()
+              .duration(500)
+              .style("opacity", 1e-6);
+        });
+
     }
     //
     // Main center line, from 0 to max time value (+ heightExtension)
@@ -245,63 +252,110 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
         .attr("id", "mainGroup");
 
     mainGroup.append("path")
-        .attr("d", "M " + scalex(0) + "," + middleLine + " "+ scalex(maxTime+heightPadding) + "," + middleLine)
+        .attr("d", "M " + scalex(0) + "," + middleLine + " "+ scalex(maxTime) + "," + middleLine)
         .attr("style", "fill:none;stroke:url(#mainGradient);stroke-width:7")
         .attr("stroke-linecap", "round");
 
     mainGroup.append("text")
-        .attr("x", scalex(maxTime+heightPadding))
+        .attr("x", scalex(maxTime))
         .attr("y", middleLine)
-        .attr("dy", "-0.75em")
-        .attr("dx", "-9em")
+        .attr("dy", "-0.8em")
+        .attr("dx", "-8em")
         .text("Still open (" + percOpen + "%)");
 
     // Indicators for the first time values
     // The tick indicator
-    mainGroup.append("line")
-        .attr("style", "stroke:rgb(0,0,0);stroke-width:3")
+    var firstCommentTick = mainGroup.append("line")
+        .attr("style", "stroke:rgb(0,0,0);stroke-width:10")
         .attr("x1", scalex(firstComment))
         .attr("y1", middleLine + verticalTick)
         .attr("x2", scalex(firstComment))
         .attr("y2", middleLine - verticalTick);
 
-    // The text with the time
-    mainGroup.append("text")
-        .attr("x", scalex(firstComment))
-        .attr("y", middleLine)
-        .attr("dy", "-1.25em")
-        .attr("dx", "-.6em")
-        .text(firstComment + " hrs");
+    firstCommentTick.on("mousemove", function(d, index, element) {    
+        tooltip.selectAll("p").remove();
+        tooltip
+            .style("left", (d3.event.pageX+15) + "px")
+            .style("top", (d3.event.pageY-10) + "px");
 
-    mainGroup.append("text")
-        .attr("x", scalex(firstComment))
-        .attr("y", middleLine)
-        .attr("dy", "-2.35em")
-        .attr("dx", "-2.55em")
-        .text("First comment");
+        tooltip.append("p").text(firstComment + " hrs")
+        tooltip.append("p").text("First comment");
+    });    
 
+    firstCommentTick.on("mouseover", function(d, index, element) {     
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 1);
+    });    
+
+    firstCommentTick.on("mouseout", function(d, index, element) {
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 1e-6);
+    });
+
+    // Indicators for the first time a collaboration comments
     // The tick indicator
-    mainGroup.append("line")
-        .attr("style", "stroke:rgb(0,0,0);stroke-width:3")
+    firstCommentCollaboratorTick = mainGroup.append("line")
+        .attr("style", "stroke:rgb(0,0,0);stroke-width:10")
         .attr("x1", scalex(firstCommentCollaborator))
         .attr("y1", middleLine + verticalTick)
         .attr("x2", scalex(firstCommentCollaborator))
         .attr("y2", middleLine - verticalTick);
 
-    // The text with the time
-    mainGroup.append("text")
-        .attr("x", scalex(firstCommentCollaborator))
-        .attr("y", middleLine)
-        .attr("dy", "1.75em")
-        .attr("dx", "-.6em")
-        .text(firstCommentCollaborator + " hrs");
+    firstCommentCollaboratorTick.on("mousemove", function(d, index, element) {    
+        tooltip.selectAll("p").remove();
+        tooltip
+            .style("left", (d3.event.pageX+15) + "px")
+            .style("top", (d3.event.pageY-10) + "px");
 
-    mainGroup.append("text")
-        .attr("x", scalex(firstCommentCollaborator))
-        .attr("y", middleLine)
-        .attr("dy", "2.75em")
-        .attr("dx", "-4em")
-        .text("A collaborator answers");
+        tooltip.append("p").text(firstCommentCollaborator + " hrs")
+        tooltip.append("p").text("A collaborator answers");
+    });    
+
+    firstCommentCollaboratorTick.on("mouseover", function(d, index, element) {     
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 1);
+    });    
+
+    firstCommentCollaboratorTick.on("mouseout", function(d, index, element) {
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 1e-6);
+    });
+
+    // Indicators for the age
+    // The tick indicator
+    var ageTick = mainGroup.append("line")
+        .attr("style", "stroke:rgb(0,0,0);stroke-width:10")
+        .attr("x1", scalex(avgAge))
+        .attr("y1", middleLine + verticalTick)
+        .attr("x2", scalex(avgAge))
+        .attr("y2", middleLine - verticalTick);
+
+    ageTick.on("mousemove", function(d, index, element) {    
+        tooltip.selectAll("p").remove();
+        tooltip
+            .style("left", (d3.event.pageX+15) + "px")
+            .style("top", (d3.event.pageY-10) + "px");
+
+        tooltip.append("p").text(avgAge + " hrs")
+        tooltip.append("p").text("Average age");
+    });    
+
+    ageTick.on("mouseover", function(d, index, element) {     
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 1);
+    });    
+
+    ageTick.on("mouseout", function(d, index, element) {
+        tooltip.transition()
+          .duration(500)
+          .style("opacity", 1e-6);
+    });
+
 };
 
 function typeConversor(d) {

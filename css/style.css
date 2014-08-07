@@ -265,3 +265,20 @@ footer p {
 	font: bold 12px Helvetica, Sans-Serif;
 	fill: DimGray;
 }
+
+.tooltip {
+  position: absolute;
+  text-align: center;
+  width: 175px;
+  height: 50px;
+  font-size: 1em;
+  background-color: #F0ECDD;
+  border: solid 2px #9C4590;
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.tooltip p {
+	margin-top: 3px;
+	margin-bottom: 0px;
+}
