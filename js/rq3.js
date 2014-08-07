@@ -14,21 +14,21 @@ function getrq3() {
 	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq3data&labelId="+labelid, function (error, json) {
 
     // Main variables to draw the lines
-	    var firstComment = +json[0].avg_hs_first_comment;
-	    var firstCommentCollaborator = +json[0].avg_hs_first_collab_response;
-	    var timeToMerge = +json[0].avg_hs_to_merge;
-	    var timeToClose = +json[0].avg_hs_to_close;
-        var avgAge = +json[0].avg_pending_issue_age;
-	    var percClosed = +json[0].prctg_closed;
-	    var percMerged = +json[0].prctg_merged;
-	    var percOpen = +json[0].prctg_pending;
-	    
-	    draw(".rq3", firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen);
+    var firstComment = +json[0].avg_hs_first_comment;
+    var firstCommentCollaborator = +json[0].avg_hs_first_collab_response;
+    var timeToMerge = +json[0].avg_hs_to_merge;
+    var timeToClose = +json[0].avg_hs_to_close;
+    var avgAge = +json[0].avg_pending_issue_age;
+    var percClosed = +json[0].prctg_closed;
+    var percMerged = +json[0].prctg_merged;
+    var percOpen = +json[0].prctg_pending;
 
+    draw(".rq3", firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen);
 	});
 }
 
 function draw(container, firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen) {
+    $(".tooltip").remove();
 
 	var maxTime = d3.max([timeToClose, timeToMerge, firstComment, firstCommentCollaborator]);
 
@@ -379,17 +379,3 @@ function typeConversor(d) {
   d.perc_open = +d.perc_open;
   return d;
 };
-
-/*test.append("line")
-    .attr("x1", 0)
-    .attr("y1", 55)
-    .attr("x2", d3.max(times) + 10)
-    .attr("y2", 55)
-
-test.selectAll("line")
-    .data(times)
-  .enter().append("line")
-    .attr("x1", function(d) { return d; })
-    .attr("y1", 50)
-    .attr("x2", function(d) { return d; })
-    .attr("y2", 60)*/

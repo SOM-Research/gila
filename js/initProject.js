@@ -102,3 +102,13 @@ function createRQ3LabelCombobox(datasource) {
 
 };
 
+
+function clearContainer(container) {
+	//remove previous graph if exists
+	if (container.children().size() > 0) {
+		console.log(container);
+		container.empty();
+	}
+
+}
+

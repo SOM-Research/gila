@@ -50,14 +50,6 @@ function getrq2() {
 
 }
 
-function clearContainer(container) {
-	
-	//remove previous graph if exists
-	if (container.children().size() > 0) {
-		container.empty();
-	}
-
-}
 
 function mapId2node(data) {
 	var mappingarray = new Array();
