@@ -14,26 +14,37 @@ function getrq3() {
 	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq3data&labelId="+labelid, function (error, json) {
 
     // Main variables to draw the lines
-	    var firstComment = +json[0].avg_hs_first_comment;
-	    var firstCommentCollaborator = +json[0].avg_hs_first_collab_response;
-	    var timeToMerge = +json[0].avg_hs_to_merge;
-	    var timeToClose = +json[0].avg_hs_to_close;
-        var avgAge = +json[0].avg_pending_issue_age;
-	    var percClosed = +json[0].prctg_closed;
-	    var percMerged = +json[0].prctg_merged;
-	    var percOpen = +json[0].prctg_pending;
-	    
-	    draw(".rq3", firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen);
+    var firstComment = +json[0].avg_hs_first_comment;
+    var firstCommentCollaborator = +json[0].avg_hs_first_collab_response;
+    var timeToMerge = +json[0].avg_hs_to_merge;
+    var timeToClose = +json[0].avg_hs_to_close;
+    var avgAge = +json[0].avg_pending_issue_age;
+    var percClosed = +json[0].prctg_closed;
+    var percMerged = +json[0].prctg_merged;
+    var percOpen = +json[0].prctg_pending;
 
+    draw(".rq3", firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen);
 	});
 }
 
 function draw(container, firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen) {
+    $(".tooltip").remove();
 
-	var maxTime = d3.max([timeToClose, timeToMerge]);
+	var maxTime = d3.max([timeToClose, timeToMerge, firstComment, firstCommentCollaborator]);
+
+    // The scale for the x axis
+    // We first create an auxiliar axis from 0 to maxTime and then calculate
+    // how much it takes "100" pixels in this scale. This distance will be used
+    // to separate maxTime from the avgAge time by a dotted line
+    var auxScalex = d3.scale.linear() 
+        .range([0+widthPadding, w3-widthPadding])
+        .domain([0, maxTime]);
+    var avgAgePosition = auxScalex.invert(0+widthPadding+100);
+
+    // We now calculate the real x scale 
     var scalex = d3.scale.linear() 
         .range([0+widthPadding, w3-widthPadding])
-        .domain([0, maxTime+5]);
+        .domain([0, maxTime+avgAgePosition]);
 
     var scaley = d3.scale.ordinal()
         .domain([1, 2, 3]).rangePoints([0+2*heightPadding, h3-2*heightPadding], 0).range();
@@ -48,6 +59,11 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
         .attr("width", w3)
         .attr("height", h3);
     
+
+    // The tick indicator
+    var tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 1e-6);
 
     // Creating the gradients 
     var defs = test.append("svg:defs");
@@ -103,8 +119,8 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
     var upperGroup = test.append("g")
         .attr("id", "upperGroup");
 
-    var upperMaxRange = d3.max([d3.max([firstComment, firstCommentCollaborator]), timeToMerge]);
-    var upperMinRange = d3.min([d3.min([firstComment, firstCommentCollaborator]), timeToMerge]);
+    var upperMaxRange = d3.max([firstComment, firstCommentCollaborator, timeToMerge]);
+    var upperMinRange = d3.min([firstComment, firstCommentCollaborator, timeToMerge]);
     // We have to control whether timeToMerge is sooner that the first comment variables
     if(d3.min([firstComment, firstCommentCollaborator]) > timeToMerge) {
     	upperMinRange = 0;
@@ -137,12 +153,6 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 	        .attr("y1", upperLine)
 	        .attr("x2", scalex(timeToMerge))
 	        .attr("y2", upperLine);
-
-
-        // The tick indicator
-        var tooltip = d3.select("body").append("div")
-            .attr("class", "tooltip")
-            .style("opacity", 1e-6);
 	
 	    var upperTick = upperGroup.append("line")
 	        .attr("style", "stroke:#457313;stroke-width:10")
@@ -173,6 +183,7 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
               .style("opacity", 1e-6);
         });
     }
+
     //
     // Drawing lower path (time to close)
     //
@@ -245,24 +256,25 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
         });
 
     }
+    
     //
-    // Main center line, from 0 to max time value (+ heightExtension)
+    // Main center line, from 0 to max time value (+ avgAgePosition)
     //
     var mainGroup = test.append("g")
         .attr("id", "mainGroup");
 
     mainGroup.append("path")
-        .attr("d", "M " + scalex(0) + "," + middleLine + " "+ scalex(maxTime-1) + "," + middleLine)
+        .attr("d", "M " + scalex(0) + "," + middleLine + " "+ scalex(maxTime) + "," + middleLine)
         .attr("style", "fill:none;stroke:#000000;stroke-width:7")
         .attr("stroke-linecap", "round");
 
     mainGroup.append("path")
-        .attr("d", "M " + scalex(maxTime) + "," + middleLine + " "+ scalex(maxTime+5) + "," + middleLine)
-        .attr("style", "fill:none;stroke:url(#mainGradient);stroke-dasharray:7,15;stroke-width:7")
+        .attr("d", "M " + scalex(maxTime) + "," + middleLine + " "+ scalex(maxTime+avgAgePosition) + "," + middleLine)
+        .attr("style", "fill:none;stroke:url(#mainGradient);stroke-dasharray:7,15;stroke-dashoffset:10;stroke-width:7")
         .attr("stroke-linecap", "round");
 
     mainGroup.append("text")
-        .attr("x", scalex(maxTime+5))
+        .attr("x", scalex(maxTime+avgAgePosition))
         .attr("y", middleLine)
         .attr("dy", "-0.8em")
         .attr("dx", "-7.7em")
@@ -334,9 +346,9 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
     // The tick indicator
     var ageTick = mainGroup.append("line")
         .attr("style", "stroke:#F62626;stroke-width:10")
-        .attr("x1", scalex(maxTime+5))
+        .attr("x1", scalex(maxTime+avgAgePosition))
         .attr("y1", middleLine + verticalTick)
-        .attr("x2", scalex(maxTime+5))
+        .attr("x2", scalex(maxTime+avgAgePosition))
         .attr("y2", middleLine - verticalTick);
 
     ageTick.on("mousemove", function(d, index, element) {    
@@ -373,17 +385,3 @@ function typeConversor(d) {
   d.perc_open = +d.perc_open;
   return d;
 };
-
-/*test.append("line")
-    .attr("x1", 0)
-    .attr("y1", 55)
-    .attr("x2", d3.max(times) + 10)
-    .attr("y2", 55)
-
-test.selectAll("line")
-    .data(times)
-  .enter().append("line")
-    .attr("x1", function(d) { return d; })
-    .attr("y1", 50)
-    .attr("x2", function(d) { return d; })
-    .attr("y2", 60)*/

@@ -47,6 +47,12 @@ body {
 	color: #FFFFFF;
 }
 
+
+.jumbotron button:hover, button:active  {
+	color: #FFFFFF;
+	background-color : #B76DAE;
+}
+
 .row {
 	margin: 10px 0px;
 }
@@ -181,6 +187,13 @@ footer p {
 	background-color: #9C4590; 
 	color: #FFFFFF;
 	font-size: 1.2em;
+}
+
+
+.leftcol button:hover, button:active, {
+	color: #FFFFFF;
+	background-color : #B76DAE;
+	border-color: #B76DAE;
 }
 
 .rightcol {
