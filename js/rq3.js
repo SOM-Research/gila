@@ -32,11 +32,16 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 
 	var maxTime = d3.max([timeToClose, timeToMerge, firstComment, firstCommentCollaborator]);
 
+    // The scale for the x axis
+    // We first create an auxiliar axis from 0 to maxTime and then calculate
+    // how much it takes "100" pixels in this scale. This distance will be used
+    // to separate maxTime from the avgAge time by a dotted line
     var auxScalex = d3.scale.linear() 
         .range([0+widthPadding, w3-widthPadding])
         .domain([0, maxTime]);
     var avgAgePosition = auxScalex.invert(0+widthPadding+100);
 
+    // We now calculate the real x scale 
     var scalex = d3.scale.linear() 
         .range([0+widthPadding, w3-widthPadding])
         .domain([0, maxTime+avgAgePosition]);
@@ -114,8 +119,8 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
     var upperGroup = test.append("g")
         .attr("id", "upperGroup");
 
-    var upperMaxRange = d3.max([d3.max([firstComment, firstCommentCollaborator]), timeToMerge]);
-    var upperMinRange = d3.min([d3.min([firstComment, firstCommentCollaborator]), timeToMerge]);
+    var upperMaxRange = d3.max([firstComment, firstCommentCollaborator, timeToMerge]);
+    var upperMinRange = d3.min([firstComment, firstCommentCollaborator, timeToMerge]);
     // We have to control whether timeToMerge is sooner that the first comment variables
     if(d3.min([firstComment, firstCommentCollaborator]) > timeToMerge) {
     	upperMinRange = 0;
@@ -178,6 +183,7 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
               .style("opacity", 1e-6);
         });
     }
+
     //
     // Drawing lower path (time to close)
     //
@@ -250,8 +256,9 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
         });
 
     }
+    
     //
-    // Main center line, from 0 to max time value (+ heightExtension)
+    // Main center line, from 0 to max time value (+ avgAgePosition)
     //
     var mainGroup = test.append("g")
         .attr("id", "mainGroup");
