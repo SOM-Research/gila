@@ -15,14 +15,22 @@ body {
 
 .jumbotron h1 {
 	padding-top: 15px;
+	margin-bottom: 0px;
 	font-family: 'Exo', sans-serif;
 	color: #9C4590;
-/* 	color: #798DA6; */
-/* 	color: #B53F86; */
+}
+
+.jumbotron h1 a:link, a:visited, a:hover, a:active {
+	color: #9C4590;
+	text-decoration: none;
 }
 
 .jumbotron h2 {
-	color: #F26666
+	color: #F26666;
+	margin-top: 0px;
+	margin-bottom: 10px;
+	padding-top: 0px;
+	padding-bottom: 10px;
 /* 	color:#E06F62;  */
 /*  color: #139694; */
 }
@@ -32,6 +40,11 @@ body {
 	width:200px; 
 	padding-top:20px; 
 	margin-right:30px;
+}
+
+.jumbotron button {
+	background-color : #9C4590;
+	color: #FFFFFF;
 }
 
 .row {
@@ -105,7 +118,7 @@ body {
 
 .abstract h2 {
 	color: #F26666;
-	font-size: 2.6em;
+	font-size: 2.5em;
 }
 
 .abstract h3 {

@@ -28,7 +28,11 @@
         <div class="row top">
           <div class="col-md-12">
             <img src="imgs/icon.png"/>
-            <h1><a href="/index.html">GiLA</a></h1> 
+<<<<<<< HEAD
+            <h1>GiLA</h1> 
+            <h2>GitHub Label Analyzer</h2>
+=======
+            <h1><a href="/index.html">Gila</a></h1> 
             <h2>Label-Driven Analyzer</h2>
             <p>
               <button class="btn" onclick="location.href='http://github.com/atlanmod/gila'">
@@ -37,6 +41,7 @@
               </button>
               <button class="btn" onclick="location.href='contact.html'">Who we are</button>
             </p>
+>>>>>>> 70edc536d95d748c7e449c32b50dbd29ab93d455
           </div>
         </div>
       </div>
