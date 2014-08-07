@@ -1,8 +1,7 @@
-labelAnalysis
-=============
+GiLA
+====
 
-Work around the label analysis for OSS projects.
+GiLA is a visualization rool with analyzes the labels used in GitHub projects. 
 
-Target: [VISSOFT conference](http://vissoft.iro.umontreal.ca/challenge.html)
 
 
