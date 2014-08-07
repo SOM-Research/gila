@@ -16,7 +16,7 @@ function getrq2() {
 
 	var labelid = $("#lcombobox").children('input')[0].value;
 	clearContainer($("#contribgraph"));
-			
+
 	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2label&labelId="+labelid, function (errorlabel, jsonlabel) {
 			
 		d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2contributors&labelId="+labelid, function (errorcont, jsoncont) {
@@ -106,7 +106,7 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	.charge(-1000)	
 	.size([w2-100, h2-100])
 	.linkDistance(100)
-	.friction(0.7);
+	.friction(0.8);
 	
 	force.start();
 		

@@ -1,4 +1,5 @@
 
+
 var labelAnalyzerServlet = 'http://atlanmodexp.info.emn.fr:8800/gila';
 var selectedProjectName = "";
 

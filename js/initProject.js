@@ -76,9 +76,8 @@ function createRQ2LabelCombobox(datasource) {
         width: 200,
         height: 25,
         source: datasource,
-        selectedIndex: 0,
         displayMember: "labelName",
-        valueMember: "labelId"
+        valueMember: "labelId",
     });
     $("#lcombobox").on('select', function (event) {
     	
@@ -92,7 +91,6 @@ function createRQ3LabelCombobox(datasource) {
 	        width: 200,
 	        height: 25,
 	        source: datasource,
-	        selectedIndex: 0,
 	        displayMember: "labelName",
 	        valueMember: "labelId"
 	    });
