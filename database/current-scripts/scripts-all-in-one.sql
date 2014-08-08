@@ -2,9 +2,9 @@
 create table _orginal_projects_using_labels as
 select p.*
 FROM projects p left join repo_labels rl on p.id = rl.repo_id
-where p.forked_from is null and rl.repo_id is null;
+where p.forked_from is null and rl.repo_id is not null;
 
-alter table _orginal_projects_using_labels add index (repo_id);
+alter table _orginal_projects_using_labels add index (id);
 
 -- IMPORTANT
 -- note that the previous implementation of the _issue_resolution table is commented below
