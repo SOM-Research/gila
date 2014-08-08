@@ -18,40 +18,54 @@ public class LabelDAO {
 	public ResultSet getAllProjectLabels(String projectid) throws SQLException {
 
 		Statement stmt = null;
-		String query = "select id, name"
-						+ " from repo_labels"
-						+ " where repo_id = " + projectid;
-
-        stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        return rs;
-
+		try {
+			String query = "select id, name"
+							+ " from repo_labels"
+							+ " where repo_id = " + projectid;
+	
+	        stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+	        
+		} catch (SQLException e) {
+			throw e;			
+		} 
 	}
 	
 	public ResultSet getLabels(String projectid) throws SQLException {
 		
 		Statement stmt = null;
-		String query = "select id, name, num_issues"
-						+ " from repo_label_num_issues "
-						+ " where repo_id = " + projectid;
-
-        stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        return rs;
+		try {
+			String query = "select id, name, num_issues"
+							+ " from _repo_label_num_issues "
+							+ " where repo_id = " + projectid;
+	
+	        stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+	        
+		} catch (SQLException e) {
+			throw e;
+		} 
 	}
 	
 	public ResultSet getLabelRelation(String projectid) throws SQLException {
 
 		Statement stmt = null;
-		String query = "select label1_id, label2_id, count(issue_id) as value"
-						+ " from label_relation"
-						+ " where repo_id = " + projectid
-						+ " group by label1_id, label2_id";
-
-
-        stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        return rs;
+		try {
+			String query = "select label1_id, label2_id, count(issue_id) as value"
+							+ " from _label_relation"
+							+ " where repo_id = " + projectid
+							+ " group by label1_id, label2_id";
+	
+	
+	        stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+	      
+		} catch (SQLException e) {
+			throw e;			
+		} 
 	}
 	
 	/**
@@ -64,39 +78,54 @@ public class LabelDAO {
 	public ResultSet getMaxLabelRelationCount(String projectid) throws SQLException {
 		
 		Statement stmt = null;
-		String query = "select max(value) as max_relation_count"
-					+ " from "
-					+ "(select label1_id, label2_id, count(issue_id) as value"
-						+ " from label_relation"
-						+ " where repo_id = " + projectid
-						+ " group by label1_id , label2_id) as count_labels_together";
+		try {
+			String query = "select max(value) as max_relation_count"
+						+ " from "
+						+ "(select label1_id, label2_id, count(issue_id) as value"
+							+ " from _label_relation"
+							+ " where repo_id = " + projectid
+							+ " group by label1_id , label2_id) as count_labels_together";
+			
+	        stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
 		
-        stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        return rs;
+		} catch (SQLException e) {
+			throw e;			
+		} 
 	}
 	
 	public ResultSet getMaxLabelIssueCount(String projectid) throws SQLException {
 		
 		Statement stmt = null;
-		String query = "select max(num_issues) as max_issue_count"
-					 + " from repo_label_num_issues"
-					 + " where repo_id = " + projectid;
-		
-        stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        return rs;
+		try {
+			String query = "select max(num_issues) as max_issue_count"
+						 + " from _repo_label_num_issues"
+						 + " where repo_id = " + projectid;
+			
+	        stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+        
+		} catch (SQLException e) {
+			throw e;
+		} 
 	}
 	
 	public ResultSet getLabelById(String labelId) throws SQLException {
 		
 		Statement stmt = null;
-		String query = "select id, name, 'label' as type"
-					+ " from repo_labels where id = " + labelId;
-		
-		stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        return rs;
+		try {
+			String query = "select id, name, 'label' as type"
+						+ " from repo_labels where id = " + labelId;
+			
+			stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+        
+		} catch (SQLException e) {
+			throw e;			
+		} 
 	}
 	
 	/**
@@ -106,35 +135,61 @@ public class LabelDAO {
 	 * Each item has the structure (id, name, role, num_created_issues, num_solved_issues, type)
 	 * @throws SQLException
 	 */
-	public ResultSet getLabelContributors(String labelId) throws SQLException {
+	public ResultSet getLabelContributors(String projectId, String labelId) throws SQLException {
 		
 		Statement stmt = null;
-		String query = "select user_id as id,"
-						+ " user_login as name,"
-						+ " case role"
-							+ " when 'collaborator' then 'administrator'"
-							+ " else 'user'"
-							+ " end as role,"
-							+ " ifnull(ci.num_issues,0)  as num_created_issues,"
-							+ " ifnull(si.num_solved,0)  as num_solved_issues,"
-							+ " 'user' as type"
-						+ " from project_user_role pr"
-						+ " left outer join"
-							+ " (select * from num_created_label_issues_user"
-							+ " where label_id = "+ labelId +") ci"
-						+ " ON pr.user_id = ci.created_by"
-						+ " left outer join"
-							+ " (select * from label_num_issues_solved"
-							+ " where label_id = "+ labelId +") si"
-						+ " ON pr.user_id = si.solved_by"
-					+ " where user_id in "
-						+ "(select distinct(user_id)"
-						+ " from label_issue_comments"
-						+ " where label_id = "+ labelId +")";
-		
-		stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        return rs;
+		try {
+//			String query = "select user_id as id,"
+//							+ " user_login as name,"
+//							+ " case role"
+//								+ " when 'collaborator' then 'administrator'"
+//								+ " else 'user'"
+//								+ " end as role,"
+//								+ " ifnull(ci.num_issues,0)  as num_created_issues,"
+//								+ " ifnull(si.num_solved,0)  as num_solved_issues,"
+//								+ " 'user' as type"
+//							+ " from _collaborators_per_project pr"
+//							+ " left outer join"
+//								+ " (select * from _num_created_label_issues_user"
+//								+ " where label_id = "+ labelId +") ci"
+//							+ " ON pr.user_id = ci.created_by"
+//							+ " left outer join"
+//								+ " (select * from _label_num_issues_solved"
+//								+ " where label_id = "+ labelId +") si"
+//							+ " ON pr.user_id = si.solved_by"
+//						+ " where user_id in "
+//							+ "(select distinct(user_id)"
+//							+ " from _label_issue_comments"
+//							+ " where label_id = "+ labelId +")";
+			String query = "select label_users.user_id,"
+						  + "label_users.login,"
+						  + "if(cpp.user_id is null, 'user', 'administrator') as role,"
+						  + "ifnull(ncli.num_issues, 0) as num_created_issues,"
+						  + "ifnull(lnis.num_solved, 0) as num_solved_issues,"
+						  + "'user' as type"
+						  + " from"
+						  + " (select user_id, login, repo_id, label_id"
+							  + " from"
+							  + " ((select user_id, repo_id, label_id"
+							  	+ " from _label_issue_comments"
+							  	+ " where repo_id = " + projectId + " and label_id = " + labelId + " and user_id is not null"
+							  	+ " group by user_id) as label_user_ids"
+							  	+ " inner join users u"
+							  	+ " on label_user_ids.user_id = u.id"
+							  	+ ")) as label_users"
+						  + " left join _collaborators_per_project cpp on cpp.user_id = label_users.user_id and cpp.project_id = label_users.repo_id"
+						  + " left join _label_num_issues_solved lnis on lnis.solved_by = label_users.user_id and lnis.repo_id = label_users.repo_id and lnis.label_id = label_users.label_id"
+						  + " left join _num_created_label_issues_user ncli on ncli.created_by = label_users.user_id and ncli.repo_id = label_users.repo_id and ncli.label_id = label_users.label_id"
+					;
+
+			
+			stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+        
+		} catch (SQLException e) {
+			throw e;			
+		} 
 	}
 	
 	
@@ -148,14 +203,19 @@ public class LabelDAO {
 	public ResultSet getLabelUserComments(String labelId) throws SQLException {
 		
 		Statement stmt = null;
-		String query = "select 	user_id, count(distinct issue_id) as value"
-					+ " from label_issue_comments"
-					+ " where label_id = " + labelId + " and user_id is not null"
-					+ " group by label_id, label_name, user_id";
-		
-		stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        return rs;
+		try {
+			String query = "select 	user_id, count(distinct issue_id) as value"
+						+ " from _label_issue_comments"
+						+ " where label_id = " + labelId + " and user_id is not null"
+						+ " group by label_id, label_name, user_id";
+			
+			stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+	        
+		} catch (SQLException e) {
+			throw e;
+		} 
 	}
 	
 	/**
@@ -167,13 +227,18 @@ public class LabelDAO {
 	public ResultSet getMaxCreatedIssues(String labelId) throws SQLException {
 		
 		Statement stmt = null;
-		String query = "select max(num_issues) as max_created"
-					+ " from num_created_label_issues_user"
-					+ " where label_id = " + labelId;
-		
-		stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        return rs;
+		try {
+			String query = "select max(num_issues) as max_created"
+						+ " from _num_created_label_issues_user"
+						+ " where label_id = " + labelId;
+			
+			stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+        
+		} catch (SQLException e) {
+			throw e;			
+		} 
 	}
 	
 	/**
@@ -185,13 +250,18 @@ public class LabelDAO {
 	public ResultSet getMaxSolvedIssues(String labelId) throws SQLException {
 		
 		Statement stmt = null;
-		String query = "select max(num_solved) as max_solved"
-					+ " from label_num_issues_solved"
-					+ " where label_id = " + labelId;
-		
-		stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        return rs;
+		try {
+			String query = "select max(num_solved) as max_solved"
+						+ " from _label_num_issues_solved"
+						+ " where label_id = " + labelId;
+			
+			stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+        
+		} catch (SQLException e) {
+			throw e;
+		} 
 	}
 	
 	/**
@@ -203,16 +273,21 @@ public class LabelDAO {
 	public ResultSet getMaxComments(String labelId) throws SQLException {
 		
 		Statement stmt = null;
-		String query = "select max(num_comments) as max_comments"
-					+ " from ("
-						+ " select user_id, count(distinct issue_id) as num_comments"
-						+ " from label_issue_comments"
-						+ " where label_id = " + labelId
-						+ " group by user_id) as count_label_comments";
-		
-		stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        return rs;
+		try {
+			String query = "select max(num_comments) as max_comments"
+						+ " from ("
+							+ " select user_id, count(distinct issue_id) as num_comments"
+							+ " from _label_issue_comments"
+							+ " where label_id = " + labelId
+							+ " group by user_id) as count_label_comments";
+			
+			stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+        
+		} catch (SQLException e) {
+			throw e;
+		} 
 	}
 	
 	/**
@@ -227,16 +302,21 @@ public class LabelDAO {
 	public ResultSet getLabelResolutionData(String labelId) throws SQLException {
 		
 		Statement stmt = null;
-		String query = "select label_id, label_name, "
-							+ "avg_hs_first_comment, avg_hs_first_collab_response,"
-							+ " avg_hs_to_merge, avg_hs_to_close, avg_pending_issue_age,"
-							+ " prctg_merged, prctg_closed, prctg_pending"
-					+  " from label_resolution_stats"
-					+  " where label_id = " + labelId;
-		
-		stmt = con.createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        return rs;
+		try {
+			String query = "select label_id, label_name, "
+								+ "avg_hs_first_comment, avg_hs_first_collab_response,"
+								+ " avg_hs_to_merge, avg_hs_to_close, avg_pending_issue_age,"
+								+ " prctg_merged, prctg_closed, prctg_pending"
+						+  " from _label_resolution_stats"
+						+  " where label_id = " + labelId;
+			
+			stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+	        
+		} catch (SQLException e) {
+			throw e;
+		} 
 	}
 
 }

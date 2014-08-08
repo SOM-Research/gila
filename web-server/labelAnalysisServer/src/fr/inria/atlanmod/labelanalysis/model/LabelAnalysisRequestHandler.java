@@ -5,6 +5,7 @@ package fr.inria.atlanmod.labelanalysis.model;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,100 +23,97 @@ public class LabelAnalysisRequestHandler {
 	public void handleRequest(HttpServletRequest req, HttpServletResponse res) {
 		
 		String event = req.getParameter("event");
+		res.setContentType("text/x-json;charset=UTF-8");           
+		res.setHeader("Cache-Control", "no-cache");
 		
 		if (event.equals("rq1nodes")) {
 			
 			String projectid = req.getParameter("projectId");
 			LabelAnalyzer analyzer = new LabelAnalyzer();
-			StringWriter resWriter = analyzer.getProjectLabels(projectid);
-			
-			res.setContentType("text/x-json;charset=UTF-8");           
-			res.setHeader("Cache-Control", "no-cache");
-	      
 			try {
+				
+				String resWriter = analyzer.getProjectLabels(projectid);
 		        String jsonarray = "[" + resWriter.toString() + "]";
 		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
 			}
 	    	  
-		} if (event.equals("rq1links")) {
+		} else if (event.equals("rq1links")) {
 			String projectid = req.getParameter("projectId");
 			LabelAnalyzer analyzer = new LabelAnalyzer();
-			StringWriter resWriter = analyzer.getLabelRelations(projectid);
-			
-			res.setContentType("text/x-json;charset=UTF-8");           
-			res.setHeader("Cache-Control", "no-cache");
-	      
 			try {
-		        String jsonarray = "[" + resWriter.toString() + "]";
+				
+				String resWriter = analyzer.getLabelRelations(projectid);
+		        String jsonarray = "[" + resWriter + "]";
 		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
-			} catch (IOException e) {
-	    	  e.printStackTrace();
-	      
-			  } 
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			} 
 				
-			} else if (event.equals("rq1maxvalues")) {
+		} else if (event.equals("rq1maxvalues")) {
 				
 				String projectid = req.getParameter("projectId");
 				LabelAnalyzer analyzer = new LabelAnalyzer();
-				StringWriter maxRelationNumWriter = analyzer.getMaxLabelRelationCount(projectid);
-				StringWriter maxIssueNumWriter = analyzer.getMaxLabelIssueCount(projectid);
-				
-				res.setContentType("text/x-json;charset=UTF-8");           
-				res.setHeader("Cache-Control", "no-cache");
-		      
 				try {
-			        StringBuilder jsonarray = new StringBuilder("[");
-			        jsonarray.append(maxRelationNumWriter.toString());
+					
+					String maxRelationNum = analyzer.getMaxLabelRelationCount(projectid);
+					String maxIssueNum = analyzer.getMaxLabelIssueCount(projectid);
+				    StringBuilder jsonarray = new StringBuilder("[");
+			        jsonarray.append(maxRelationNum);
 			        jsonarray.append(",");
-			        jsonarray.append(maxIssueNumWriter.toString());
+			        jsonarray.append(maxIssueNum);
 			        jsonarray.append("]");
 			        System.out.println(jsonarray);
 					res.getWriter().write(jsonarray.toString());
 					
-				} catch (IOException e) {
-		    	  e.printStackTrace();
-				
-				}
+				} catch (SQLException sqle) {
+					sqle.printStackTrace();
+				} catch (IOException ioe) {
+					ioe.printStackTrace();
+				} 
 			
 		} else if (event.equals("getprojects")) {
 			
 			LabelAnalyzer analyzer = new LabelAnalyzer();
-			String jsonStream = analyzer.getAllProjects();
-			res.setContentType("text/x-json;charset=UTF-8");           
-			res.setHeader("Cache-Control", "no-cache");
-	      
+			
 			try {
+				String jsonStream = analyzer.getAllProjects();
 		        String jsonarray = "[" + jsonStream + "]";
 		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			} 
 			
 		} else if (event.equals("getlabels")) {
 			
 			String projectid = req.getParameter("projectid"); 
 			
-			LabelAnalyzer analyzer = new LabelAnalyzer();
-			String jsonStream = analyzer.getAllLabels(projectid);
-			res.setContentType("text/x-json;charset=UTF-8");           
-			res.setHeader("Cache-Control", "no-cache");
-	      
 			try {
-		        String jsonarray = "[" + jsonStream + "]";
+				
+				LabelAnalyzer analyzer = new LabelAnalyzer();
+				String jsonStream = analyzer.getAllLabels(projectid);
+	      		String jsonarray = "[" + jsonStream + "]";
 		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			} 
 		
 		} else if (event.equals("getprojectid")) {
 
@@ -126,111 +124,106 @@ public class LabelAnalysisRequestHandler {
 			String[] project = param.split("/");
 			String projectOwner = project[0];
 			String projectName = project[1];
-			
-			LabelAnalyzer analyzer = new LabelAnalyzer();
-			String jsonStream = analyzer.getProjectId(projectName, projectOwner);
-			res.setContentType("text/x-json;charset=UTF-8");           
-			res.setHeader("Cache-Control", "no-cache");
-	      
 			try {
+				
+				LabelAnalyzer analyzer = new LabelAnalyzer();
+				String jsonStream = analyzer.getProjectId(projectName, projectOwner);
 		        String jsonarray = "[" + jsonStream + "]";
 		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
-			} catch (IOException e) {
-				e.printStackTrace();
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
 			} 
 		
 		} else if (event.equals("rq2label")) {
 			
 			LabelAnalyzer analyzer = new LabelAnalyzer();
 			String labelId = req.getParameter("labelId");
-			String jsonStream = analyzer.getLabelById(labelId);
-			
-			res.setContentType("text/x-json;charset=UTF-8");           
-			res.setHeader("Cache-Control", "no-cache");
-			
 			try {
+				
+				String jsonStream = analyzer.getLabelById(labelId);
 		        String jsonarray = "[" + jsonStream + "]";
 		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			} 
 			
 		} else if  (event.equals("rq2contributors")) {
 			
 			LabelAnalyzer analyzer = new LabelAnalyzer();
 			String labelId = req.getParameter("labelId");
-			String jsonStream = analyzer.getLabelContributors(labelId);
-			
-			res.setContentType("text/x-json;charset=UTF-8");           
-			res.setHeader("Cache-Control", "no-cache");
-			
+			String projectId = req.getParameter("projectId");
 			try {
+				
+				String jsonStream = analyzer.getLabelContributors(projectId, labelId);
 		        String jsonarray = "[" + jsonStream + "]";
 		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			} 
 		
 		} else if  (event.equals("rq2links")) {
 			
 			LabelAnalyzer analyzer = new LabelAnalyzer();
 			String labelId = req.getParameter("labelId");
-			String jsonStream = analyzer.getLabelComments(labelId)
-					;
-			
-			res.setContentType("text/x-json;charset=UTF-8");           
-			res.setHeader("Cache-Control", "no-cache");
-			
 			try {
-		        String jsonarray = "[" + jsonStream + "]";
+				
+				String jsonStream = analyzer.getLabelComments(labelId);
+			    String jsonarray = "[" + jsonStream + "]";
 		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			} 
 			
 		} else if  (event.equals("rq2maxvalues")) {
 			
 			LabelAnalyzer analyzer = new LabelAnalyzer();
 			String labelId = req.getParameter("labelId");
-			String jsonStream = analyzer.getRQ2MaxValues(labelId);
-			
-			res.setContentType("text/x-json;charset=UTF-8");           
-			res.setHeader("Cache-Control", "no-cache");
-			
 			try {
+				
+				String jsonStream = analyzer.getRQ2MaxValues(labelId);
 		        String jsonarray = "[" + jsonStream + "]";
 		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			} 
 		
 		} else if (event.equals("rq3data")) {
 			
 			LabelAnalyzer analyzer = new LabelAnalyzer();
 			String labelId = req.getParameter("labelId");
-			String jsonStream = analyzer.getLabelResolutionInfo(labelId);
-			
-			res.setContentType("text/x-json;charset=UTF-8");           
-			res.setHeader("Cache-Control", "no-cache");
 			
 			try {
+				
+				String jsonStream = analyzer.getLabelResolutionInfo(labelId);
 		        String jsonarray = "[" + jsonStream + "]";
 		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			} 
 		}
 	}
 	

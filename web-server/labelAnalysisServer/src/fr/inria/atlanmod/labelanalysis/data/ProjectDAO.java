@@ -18,25 +18,35 @@ private Connection con;
 	public ResultSet getAllProjects() throws SQLException {
 		
 		Statement stmt = null;
-		String query = "select p.id, p.name, u.login"
-					+ " from projects p inner join users u on p.owner_id = u.id"
-					+ " where p.forked_from is null"
-					+ " order by p.name";
-		
-		 stmt = con.createStatement();
-	     ResultSet rs = stmt.executeQuery(query);
-	     return rs;
+		try {
+			stmt = con.createStatement();
+			String query = "select p.id, p.name, u.login"
+						+ " from projects p inner join users u on p.owner_id = u.id"
+						+ " where p.forked_from is null"
+						+ " order by p.name";
+			
+		     ResultSet rs = stmt.executeQuery(query);
+		     return rs;
+	     
+		} catch (SQLException e) {
+			throw e;			
+		} 	
 	}
 	
 	public ResultSet getProjectIdByNameandOwner(String name, String owner) throws SQLException {
 		
 		Statement stmt = null;
-		String query = "select p.id from"
-					+ " projects p inner join users u on p.owner_id = u.id"
-					+ " where u.login = '" + owner + "' and p.name = '" + name + "'";
-		
-		stmt = con.createStatement();
-	    ResultSet rs = stmt.executeQuery(query);
-	    return rs;		
+		try {
+			String query = "select p.id from"
+						+ " projects p inner join users u on p.owner_id = u.id"
+						+ " where u.login = '" + owner + "' and p.name = '" + name + "'";
+			
+			stmt = con.createStatement();
+		    ResultSet rs = stmt.executeQuery(query);
+		    return rs;		
+		    
+		} catch (SQLException e) {
+			throw e;
+		} 
 	}
 }
