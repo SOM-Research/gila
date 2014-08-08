@@ -1,4 +1,4 @@
-
+var projectId;
 var labelAnalyzerServlet = 'http://atlanmodexp.info.emn.fr:8800/gila';
 
 window.onload = function() {
@@ -14,7 +14,6 @@ window.onload = function() {
 	    }
 	}
 	
-	var projectId;
 	if(params.projectId) {
 		projectId = params.projectId;
 		if(params.projectName) {

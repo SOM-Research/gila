@@ -22,7 +22,7 @@ function getrq2() {
 
 	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2label&labelId="+labelid, function (errorlabel, jsonlabel) {
 			
-		d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2contributors&labelId="+labelid, function (errorcont, jsoncont) {
+		d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2contributors&projectId="+projectId+"&labelId="+labelid, function (errorcont, jsoncont) {
 			
 			d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2links&labelId="+labelid, function (errorlinks, jsonlinks) {
 				
