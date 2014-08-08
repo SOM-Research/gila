@@ -4,10 +4,14 @@ select x.*
 from
 (select p.*
 FROM projects p left join repo_labels rl on p.id = rl.repo_id
+<<<<<<< HEAD
+where p.forked_from is null and rl.repo_id is not null;
+=======
 where p.forked_from is null and rl.repo_id is not null) as x
 group by x.id;
 
 alter table _orginal_projects_using_labels add index (id);
+>>>>>>> 2cc137bb4e56d3a5aa62d763c7b28f367bffb38e
 
 -- IMPORTANT
 -- note that the previous implementation of the _issue_resolution table is commented below
