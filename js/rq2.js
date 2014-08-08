@@ -17,6 +17,9 @@ function getrq2() {
 	var labelid = $("#lcombobox").children('input')[0].value;
 	clearContainer($("#contribgraph"));
 
+
+	$("#loadingRQ2").css('display','inline');
+
 	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2label&labelId="+labelid, function (errorlabel, jsonlabel) {
 			
 		d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2contributors&labelId="+labelid, function (errorcont, jsoncont) {
@@ -43,6 +46,7 @@ function getrq2() {
 					});
 					
 					drawrq2(nodes, jsonlinks, maxnode, maxcomments);
+					$("#loadingRQ2").css('display','none');
 				});
 			});
 		});

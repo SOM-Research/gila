@@ -10,20 +10,23 @@ function getrq3() {
 	var labelid = $("#rq3lcombobox").children('input')[0].value;
 	clearContainer($("#resolutiontl"));
 
+    $("#loadingRQ3").css('display','inline');
 	//d3.csv("data/rq3.csv", typeConversor, function(error, data) {
 	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq3data&labelId="+labelid, function (error, json) {
 
-    // Main variables to draw the lines
-    var firstComment = +json[0].avg_hs_first_comment;
-    var firstCommentCollaborator = +json[0].avg_hs_first_collab_response;
-    var timeToMerge = +json[0].avg_hs_to_merge;
-    var timeToClose = +json[0].avg_hs_to_close;
-    var avgAge = +json[0].avg_pending_issue_age;
-    var percClosed = +json[0].prctg_closed;
-    var percMerged = +json[0].prctg_merged;
-    var percOpen = +json[0].prctg_pending;
+        // Main variables to draw the lines
+        var firstComment = +json[0].avg_hs_first_comment;
+        var firstCommentCollaborator = +json[0].avg_hs_first_collab_response;
+        var timeToMerge = +json[0].avg_hs_to_merge;
+        var timeToClose = +json[0].avg_hs_to_close;
+        var avgAge = +json[0].avg_pending_issue_age;
+        var percClosed = +json[0].prctg_closed;
+        var percMerged = +json[0].prctg_merged;
+        var percOpen = +json[0].prctg_pending;
 
-    draw(".rq3", firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen);
+        draw(".rq3", firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen);
+
+        $("#loadingRQ3").css('display','none');
 	});
 }
 
