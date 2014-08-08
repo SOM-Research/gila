@@ -4,6 +4,8 @@ select p.*
 FROM projects p left join repo_labels rl on p.id = rl.repo_id
 where p.forked_from is null and rl.repo_id is null;
 
+alter table _orginal_projects_using_labels add index (repo_id);
+
 -- IMPORTANT
 -- note that the previous implementation of the _issue_resolution table is commented below
 -- it has been replaced with a new version that is more efficient
