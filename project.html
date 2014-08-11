@@ -38,7 +38,7 @@
       <div class="row">
         <div class="col-md-4 leftcol">
           <h2>Label Usage</h2>
-          <p>Your labels are represented in a graph where each node corresponds to a label. The bigger the node is the more issues using such label there are. Edges connects labels when there are issues with both labels. The thicker an edge the more issues using both labels there are.</p>
+          <p>Each label is represented as a node in the graph. The bigger the node is the more frequent is the label (i.e. the more issues with that label in the project). Edges connect labels that share issues. The thicker the edge the more issues tagged with both labels there are.</p>
         </div>
         <div class="col-md-8 rightcol">
           <div class="rq1"></div>
@@ -48,7 +48,7 @@
       <div class="row">
         <div class="col-md-4 leftcol">
           <h2>User Involvement</h2>
-          <p>This graph represents your selected label in the center as a circle node and then the group of people involved as boxes. Orange boxes represent GitHub collaborators while the rest are normal users. Users are connected to the label by means of and edge, the thicker it is the more number of issues the users has contributed.</p>
+          <p>Select a label to see which users participate (open/close) in issues tagged with that label. The label is represented as a circled node in the center of the graph. The users appear as rectangle nodes (orange for GitHub collaborators). The thicker the edge between a user node and the central node, the more the number of issues the user has participated in.</p>
           <div id ="labelselection"> 
             <div id='lcombobox'></div>
             <button class="btn btn-xs" value="RQ2" onclick="getrq2();">OK</button><img id="loadingRQ2" style="display:none; margin-left: 10px" src="imgs/ajax-loader.gif"/>
@@ -63,7 +63,7 @@
         <div class="col-md-4 leftcol">
           <h2>Label timeline</h2>
           <div class="textdiv">
-            <p>Analyzing how issues in each tag evolve over time allows assessing the main priorities and interests in a project (e.g., studying which tags are usually solved quickly).</p>
+            <p>It displays how issues in each tag evolve over time on average. This can help, for instance, to assess the priority given to issues based on how they are tagged (e.g. because more people are interested in issues with that tag or because some other tag is considered too difficult and thus it's avoided).</p>
             <div id ="rq3labelselection"> 
               <div id='rq3lcombobox'></div>
               <button class="btn btn-xs" value="RQ3" onclick="getrq3();">OK</button><img id="loadingRQ3" style="display:none; margin-left: 10px" src="imgs/ajax-loader.gif"/>
