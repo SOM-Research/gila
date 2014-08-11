@@ -24,40 +24,58 @@ index (issue_id),
 index (repo_id)
 );
 
+-- initialize all issues as pending issues
 insert into _issue_resolution
-select x.*
-from (select i.repo_id, ie.issue_id, 0 as merged, 0 as closed, 
-ie.actor_id as solved_by, i.created_at, ie.created_at as solved_at
-from issues i left join issue_events ie on ie.issue_id = i.issue_id inner join _orginal_projects_using_labels p on p.id = i.repo_id) as x
--- note that group by is more efficient than distinct
-group by x.repo_id, x.issue_id;
+select 
+    x . *
+from
+    (select 
+        i.repo_id,
+		i.id as issue_id,
+		0 as merged,
+		0 as closed,
+		null as solved_by,
+		i.created_at,
+		null as solved_at
+    from
+        issues i
+    inner join _orginal_projects_using_labels p ON p.id = i.repo_id) as x
+group by x.repo_id , x.issue_id;
 
+-- set merged issues
 update _issue_resolution 
 inner join
 	(
 	select x.*
 	from (
 		select i.repo_id, ie.issue_id, ie.actor_id as solved_by,  ie.created_at as closed_at
-		from issue_events ie join issues i on ie.issue_id = i.issue_id join _orginal_projects_using_labels p ON p.id = i.repo_id
-		where ie.issue_id = i.issue_id and p.id = i.repo_id and ie.action = 'merged'
+		from issue_events ie join issues i on ie.issue_id = i.id join _orginal_projects_using_labels p ON p.id = i.repo_id
+		where ie.issue_id = i.id and p.id = i.repo_id and ie.action = 'merged'
 		) as x
 	group by x.repo_id, x.issue_id) as t
 ON _issue_resolution.repo_id = t.repo_id and _issue_resolution.issue_id = t.issue_id
 SET _issue_resolution.merged = 1, _issue_resolution.solved_by = t.solved_by, _issue_resolution.solved_at = t.closed_at;
 
+-- set closed issues
 update _issue_resolution 
 inner join
-	(
-	select x.*
+( 
+  select x.*
 	from (
 		select i.repo_id, ie.issue_id, ie.actor_id as solved_by,  ie.created_at as closed_at
-		from issue_events ie join issues i on ie.issue_id = i.issue_id join _orginal_projects_using_labels p ON p.id = i.repo_id
+		from issue_events ie join issues i on ie.issue_id = i.id join _orginal_projects_using_labels p ON p.id = i.repo_id
 		where ie.created_at > ifnull((select max(ie1.created_at) from issue_events ie1 where ie1.issue_id = ie.issue_id and ie1.action = 'reopened'),'0000-00-00 00:00:00') 
 			  and ie.action = 'closed'
 		) as x
-	group by x.repo_id, x.issue_id) as t
+	) as t
 ON _issue_resolution.repo_id = t.repo_id and _issue_resolution.issue_id = t.issue_id
-SET _issue_resolution.closed = 1, _issue_resolution.solved_by = t.solved_by, _issue_resolution.solved_at = t.closed_at;
+SET _issue_resolution.closed = 1, _issue_resolution.solved_by = t.solved_by, _issue_resolution.solved_at = t.closed_at
+WHERE _issue_resolution.merged = 0;
+
+-- filter invalid rows (dataset inconsistence)
+DELETE FROM _issue_resolution
+WHERE solved_at < created_at;
+
 /*
 create table _merged_issues_per_project as
 -- selects as merged all those issues that have associated a merged event
@@ -458,6 +476,7 @@ create table _pending_issue_age as
 select ir.repo_id, ir.issue_id, ir.created_at, round((timestampdiff(minute,ir.created_at, STR_TO_DATE('2013-10-07 00:37:05', '%Y-%m-%d %H:%i:%s')))/60,2) as issue_age
 from _issue_resolution ir
 where ir.closed = 0 and ir.merged = 0;
+
 -- past implementation of _issue_resolution
 /* where ir.resolution = 'pending';*/
 ALTER TABLE _pending_issue_age ADD INDEX (repo_id);
@@ -560,21 +579,21 @@ left outer join
 
 --
 create table _label_merge_close_time as
-select 
-	li.repo_id,
-    li.label_id,
-	ifnull(round(avg(imt.hs_to_solve),2),0) as avg_hs_to_merge,
-	ifnull(round(avg(ict.hs_to_solve),2),0) as avg_hs_to_close,
-	ifnull(round(avg(pia.issue_age),2),0) as pending_issue_age
-from
-    _label_issues li
-        left outer join
-		_issue_merge_time imt on imt.issue_id = li.issue_id
-		left outer join
-		_issue_close_time ict on ict.issue_id = li.issue_id
-		left outer join
-		_pending_issue_age pia on pia.issue_id = li.issue_id
-group by li.label_id
+	select 
+		li.repo_id,
+		li.label_id,
+		ifnull(round(avg(imt.hs_to_solve),2),0) as avg_hs_to_merge,
+		ifnull(round(avg(ict.hs_to_solve),2),0) as avg_hs_to_close,
+		ifnull(round(avg(pia.issue_age),2),0) as pending_issue_age
+	from
+		_label_issues li
+			left outer join
+			_issue_merge_time imt on imt.issue_id = li.issue_id
+			left outer join
+			_issue_close_time ict on ict.issue_id = li.issue_id
+			left outer join
+			_pending_issue_age pia on pia.issue_id = li.issue_id
+	group by li.label_id
 ;
 ALTER TABLE _label_merge_close_time ADD INDEX (repo_id);
 ALTER TABLE _label_merge_close_time ADD INDEX (label_id);
