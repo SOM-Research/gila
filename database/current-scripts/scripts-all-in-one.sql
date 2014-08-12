@@ -351,6 +351,9 @@ where ic.created_at = (select min(created_at) from issue_comments ic1 where ic.i
 ALTER TABLE _first_reaction_issue_per_project ADD INDEX (issue_id);
 ALTER TABLE _first_reaction_issue_per_project ADD INDEX (repo_id);
 
+-- delete invalid rows to solve database incosnsistencies (having comment dates that are previous to the creation of the issue)
+DELETE FROM _first_reaction_issue_per_project WHERE hs_first_comment < 0;
+
 CREATE TABLE _first_collaboration_reaction_issue_per_project AS
 select i.repo_id as repo_id, i.id as issue_id, ic.created_at as first_collab_comment_date, round((timestampdiff(minute,i.created_at,ic.created_at))/60,2) as hs_collab_response,
  ic.user_id as collab_id
@@ -366,6 +369,9 @@ where ic.created_at =
 
 ALTER TABLE _first_collaboration_reaction_issue_per_project ADD INDEX (issue_id);
 ALTER TABLE _first_collaboration_reaction_issue_per_project ADD INDEX (repo_id);
+
+-- remove invalid rows (where hs_collab_response < 0) to solve dataset inconsistencies
+DELETE from _first_collaboration_reaction_issue_per_project WHERE hs_collab_response < 0; 
 
 -- selects for each issue, the date, time since creation and user_id of the first contribution (comment) to the issue
 -- and date, elapsed time and collab_id of the first intervention of a project collaborator
