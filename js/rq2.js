@@ -84,12 +84,12 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	//define a scale for rectangle width 
 	var rectwidth = d3.scale.linear()
 	.domain([0, maxrectsize])
-	.range([20, 60]);
+	.range([10, 100]);
 	
 	//define a scale for rectangle height 
 	var rectheight = d3.scale.linear()
 	.domain([0, maxrectsize])
-	.range([20, 60]);
+	.range([10, 100]);
 	
 	//define a scale for line thickness 
 	var linethickness = d3.scale.linear()
