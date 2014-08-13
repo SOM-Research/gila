@@ -34,7 +34,6 @@ public class LabelAnalysisRequestHandler {
 				
 				String resWriter = analyzer.getProjectLabels(projectid);
 		        String jsonarray = "[" + resWriter.toString() + "]";
-		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
 			} catch (SQLException sqle) {
@@ -50,7 +49,6 @@ public class LabelAnalysisRequestHandler {
 				
 				String resWriter = analyzer.getLabelRelations(projectid);
 		        String jsonarray = "[" + resWriter + "]";
-		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
 			} catch (SQLException sqle) {
@@ -72,7 +70,6 @@ public class LabelAnalysisRequestHandler {
 			        jsonarray.append(",");
 			        jsonarray.append(maxIssueNum);
 			        jsonarray.append("]");
-			        System.out.println(jsonarray);
 					res.getWriter().write(jsonarray.toString());
 					
 				} catch (SQLException sqle) {
@@ -88,7 +85,6 @@ public class LabelAnalysisRequestHandler {
 			try {
 				String jsonStream = analyzer.getAllProjects();
 		        String jsonarray = "[" + jsonStream + "]";
-		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
 			} catch (SQLException sqle) {
@@ -106,7 +102,6 @@ public class LabelAnalysisRequestHandler {
 				LabelAnalyzer analyzer = new LabelAnalyzer();
 				String jsonStream = analyzer.getAllLabels(projectid);
 	      		String jsonarray = "[" + jsonStream + "]";
-		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
 			} catch (SQLException sqle) {
@@ -129,7 +124,6 @@ public class LabelAnalysisRequestHandler {
 				LabelAnalyzer analyzer = new LabelAnalyzer();
 				String jsonStream = analyzer.getProjectId(projectName, projectOwner);
 		        String jsonarray = "[" + jsonStream + "]";
-		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
 			} catch (SQLException sqle) {
@@ -146,7 +140,6 @@ public class LabelAnalysisRequestHandler {
 				
 				String jsonStream = analyzer.getLabelById(labelId);
 		        String jsonarray = "[" + jsonStream + "]";
-		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
 			} catch (SQLException sqle) {
@@ -164,7 +157,6 @@ public class LabelAnalysisRequestHandler {
 				
 				String jsonStream = analyzer.getLabelContributors(projectId, labelId);
 		        String jsonarray = "[" + jsonStream + "]";
-		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
 			} catch (SQLException sqle) {
@@ -181,7 +173,6 @@ public class LabelAnalysisRequestHandler {
 				
 				String jsonStream = analyzer.getLabelComments(labelId);
 			    String jsonarray = "[" + jsonStream + "]";
-		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
 			} catch (SQLException sqle) {
@@ -198,7 +189,6 @@ public class LabelAnalysisRequestHandler {
 				
 				String jsonStream = analyzer.getRQ2MaxValues(labelId);
 		        String jsonarray = "[" + jsonStream + "]";
-		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
 			} catch (SQLException sqle) {
@@ -216,7 +206,6 @@ public class LabelAnalysisRequestHandler {
 				
 				String jsonStream = analyzer.getLabelResolutionInfo(labelId);
 		        String jsonarray = "[" + jsonStream + "]";
-		        System.out.println(jsonarray);
 				res.getWriter().write(jsonarray);
 				
 			} catch (SQLException sqle) {

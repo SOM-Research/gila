@@ -163,7 +163,6 @@ public class LabelAnalyzer {
 			    jsonBuilder.add("projectName", projectName);
 			    
 			    JsonObject jsonProject = jsonBuilder.build();
-				System.out.println(jsonProject.toString());
 				
 		        JsonWriter jw = Json.createWriter(writer);
 		        jw.writeObject(jsonProject);
@@ -202,7 +201,6 @@ public class LabelAnalyzer {
 			    jsonBuilder.add("labelName", result.getString("name"));
 			    
 			    JsonObject jsonLabel = jsonBuilder.build();
-				System.out.println(jsonLabel.toString());
 				
 		        JsonWriter jw = Json.createWriter(writer);
 		        jw.writeObject(jsonLabel);
@@ -236,7 +234,6 @@ public String getProjectId(String projectName, String ownerLogin) throws SQLExce
 		    jsonBuilder.add("projectId", result.getString("id"));
 		    
 		    JsonObject jsonProject = jsonBuilder.build();
-			System.out.println(jsonProject.toString());
 			
 	        JsonWriter jw = Json.createWriter(writer);
 	        jw.writeObject(jsonProject);
@@ -273,7 +270,6 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 			 jsonBuilder.add("type", result.getString("type"));
 			 
 			 JsonObject jsonContributor = jsonBuilder.build();
-			 System.out.println(jsonContributor.toString());
 			 
 			 JsonWriter jw = Json.createWriter(writer);
 		     jw.writeObject(jsonContributor);
@@ -309,7 +305,6 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 				 jsonBuilder.add("value", result.getString("value"));
 				 
 				 JsonObject jsonContributor = jsonBuilder.build();
-				 System.out.println(jsonContributor.toString());
 				 
 				 JsonWriter jw = Json.createWriter(writer);
 			     jw.writeObject(jsonContributor);
@@ -346,7 +341,6 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 				 jsonBuilder.add("type", result.getString("type"));
 				 
 				 JsonObject jsonLabel = jsonBuilder.build();
-				 System.out.println(jsonLabel.toString());
 				 
 				 JsonWriter jw = Json.createWriter(writer);
 			     jw.writeObject(jsonLabel);
@@ -457,7 +451,6 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 				 
 				 
 				 JsonObject jsonResolution = jsonBuilder.build();
-				 System.out.println(jsonResolution.toString());
 				 
 				 JsonWriter jw = Json.createWriter(writer);
 			     jw.writeObject(jsonResolution);
