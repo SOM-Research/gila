@@ -184,10 +184,10 @@ public class LabelAnalysisRequestHandler {
 		} else if  (event.equals("rq2maxvalues")) {
 			
 			LabelAnalyzer analyzer = new LabelAnalyzer();
-			String labelId = req.getParameter("labelId");
+			String projectId = req.getParameter("projectId");
 			try {
 				
-				String jsonStream = analyzer.getRQ2MaxValues(labelId);
+				String jsonStream = analyzer.getRQ2MaxValues(projectId);
 		        String jsonarray = "[" + jsonStream + "]";
 				res.getWriter().write(jsonarray);
 				

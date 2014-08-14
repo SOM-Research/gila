@@ -139,33 +139,13 @@ public class LabelDAO {
 		
 		Statement stmt = null;
 		try {
-//			String query = "select user_id as id,"
-//							+ " user_login as name,"
-//							+ " case role"
-//								+ " when 'collaborator' then 'administrator'"
-//								+ " else 'user'"
-//								+ " end as role,"
-//								+ " ifnull(ci.num_issues,0)  as num_created_issues,"
-//								+ " ifnull(si.num_solved,0)  as num_solved_issues,"
-//								+ " 'user' as type"
-//							+ " from _collaborators_per_project pr"
-//							+ " left outer join"
-//								+ " (select * from _num_created_label_issues_user"
-//								+ " where label_id = "+ labelId +") ci"
-//							+ " ON pr.user_id = ci.created_by"
-//							+ " left outer join"
-//								+ " (select * from _label_num_issues_solved"
-//								+ " where label_id = "+ labelId +") si"
-//							+ " ON pr.user_id = si.solved_by"
-//						+ " where user_id in "
-//							+ "(select distinct(user_id)"
-//							+ " from _label_issue_comments"
-//							+ " where label_id = "+ labelId +")";
+
 			String query = "select label_users.user_id,"
 						  + "label_users.login,"
 						  + "if(cpp.user_id is null, 'user', 'administrator') as role,"
 						  + "ifnull(ncli.num_issues, 0) as num_created_issues,"
 						  + "ifnull(lnis.num_solved, 0) as num_solved_issues,"
+						  + "ifnull(lnuc.num_comments, 0) as num_comments,"
 						  + "'user' as type"
 						  + " from"
 						  + " (select user_id, login, repo_id, label_id"
@@ -180,6 +160,7 @@ public class LabelDAO {
 						  + " left join _collaborators_per_project cpp on cpp.user_id = label_users.user_id and cpp.project_id = label_users.repo_id"
 						  + " left join _label_num_issues_solved lnis on lnis.solved_by = label_users.user_id and lnis.repo_id = label_users.repo_id and lnis.label_id = label_users.label_id"
 						  + " left join _num_created_label_issues_user ncli on ncli.created_by = label_users.user_id and ncli.repo_id = label_users.repo_id and ncli.label_id = label_users.label_id"
+						  + " left join _label_num_user_comments lnuc on lnuc.label_id = label_users.label_id and lnuc.user_id = label_users.user_id"
 					;
 
 			
@@ -242,6 +223,29 @@ public class LabelDAO {
 	}
 	
 	/**
+	 * Selects the maximum number of issues per label a user has created for a given project
+	 * @param projectId The id of the requested project
+	 * @return A ResultSet with an integer element holding the max created issues value
+	 * @throws SQLException
+	 */
+	public ResultSet selectMaxCreatedIssuesProject(String projectId) throws SQLException {
+		
+		Statement stmt = null;
+		try {
+			String query = "select max(num_issues) as max_created"
+					+ " from _num_created_label_issues_user"
+					+ " where label_id <> 0 and repo_id = " + projectId;
+			
+			stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+        
+		} catch (SQLException e) {
+			throw e;			
+		} 
+	}
+	
+	/**
 	 * Selects the maximum number of issues a user has solved for a given label
 	 * @param labelId The id of the label for which we want to get the max value
 	 * @return A ResultSet with an integer representing the max solved issues value
@@ -251,6 +255,7 @@ public class LabelDAO {
 		
 		Statement stmt = null;
 		try {
+			
 			String query = "select max(num_solved) as max_solved"
 						+ " from _label_num_issues_solved"
 						+ " where label_id = " + labelId;
@@ -263,6 +268,31 @@ public class LabelDAO {
 			throw e;
 		} 
 	}
+	
+	/**
+	 * Selects the maximum number of issues per label a user has solved for a given project
+	 * @param projectId the analyzed project 
+	 * @return A ResultSet with an integer containing the max solved issues value
+	 * @throws SQLException
+	 */
+	public ResultSet selectMaxSolvedIssuesProject(String projectId) throws SQLException {
+		
+		Statement stmt = null;
+		try {
+			
+			String query = "select max(num_solved) as max_solved"
+					+ " from _label_num_issues_solved"
+					+ " where label_id <> 0 and repo_id = " + projectId;
+			
+			stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+        
+		} catch (SQLException e) {
+			throw e;
+		} 
+	}
+	
 	
 	/**
 	 * Selects the maximum number of comments a user has made to issues of a given label
@@ -278,8 +308,7 @@ public class LabelDAO {
 						+ " from ("
 							+ " select user_id, count(distinct issue_id) as num_comments"
 							+ " from _label_issue_comments"
-							+ " where label_id = " + labelId
-							+ " group by user_id) as count_label_comments";
+							+ " group by label_id, user_id) as count_label_comments";
 			
 			stmt = con.createStatement();
 	        ResultSet rs = stmt.executeQuery(query);
@@ -288,6 +317,33 @@ public class LabelDAO {
 		} catch (SQLException e) {
 			throw e;
 		} 
+	}
+	
+	/**
+	 * Selects the maximum number of comments that a user has made to a label in a given project
+	 * @param projectId The queried project
+	 * @return A ResulteSet containing a single column which holds the requested max value (integer)
+	 * @throws SQLException
+	 */
+	public ResultSet selectMaxLabelCommentsNumProject(String projectId) throws SQLException {
+		
+		Statement stmt = null;
+		try {
+			String query = "select max(num_comments) as max_comments"
+					+ " from ("
+					+ " select  label_id, user_id, count(distinct issue_id) as num_comments"
+					+ " from _label_issue_comments"
+					+ " where repo_id = " + projectId + " and user_id is not null and label_id <> 0"
+					+ " group by label_id, user_id"
+					+ " ) as count_label_comments";
+
+			stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+        
+		} catch (SQLException e) {
+			throw e;
+		}
 	}
 	
 	/**

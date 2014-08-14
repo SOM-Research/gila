@@ -267,6 +267,7 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 			 jsonBuilder.add("role", result.getString("role"));
 			 jsonBuilder.add("num_created_issues", result.getString("num_created_issues"));
 			 jsonBuilder.add("num_solved_issues", result.getString("num_solved_issues"));
+			 jsonBuilder.add("num_comments", result.getString("num_comments"));
 			 jsonBuilder.add("type", result.getString("type"));
 			 
 			 JsonObject jsonContributor = jsonBuilder.build();
@@ -361,7 +362,7 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 		return writer.toString();
 	}
 	
-	public String getRQ2MaxValues(String labelId) throws SQLException {
+	public String getRQ2MaxValues(String projectId) throws SQLException {
 		
 		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
@@ -370,9 +371,9 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 		ResultSet maxCreated = null, maxSolved = null, maxComments = null;
 		try {
 			
-			maxCreated = labelDAO.getMaxCreatedIssues(labelId);
-			maxSolved = labelDAO.getMaxSolvedIssues(labelId);
-			maxComments = labelDAO.getMaxComments(labelId);
+			maxCreated = labelDAO.selectMaxCreatedIssuesProject(projectId);
+			maxSolved = labelDAO.selectMaxSolvedIssuesProject(projectId);
+			maxComments = labelDAO.selectMaxLabelCommentsNumProject(projectId);
 			
 			while(maxCreated.next()) {
 				 JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
