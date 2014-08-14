@@ -5,12 +5,43 @@
 var w2 = 718;
 var h2 = 600;
 
+var maxcreated;
+var maxsolved;
+var maxcomments;
+
 var rq2 = d3.select(".rq2")
 .append("svg")
 .attr("width", w2)
 .attr("height", h2)
 .append("svg:g")
 .attr("id", "contribgraph");
+
+
+function createRQ2LabelCombobox(datasource) {
+
+    $("#lcombobox").jqxComboBox(
+    {
+        width: 200,
+        height: 25,
+        source: datasource,
+        displayMember: "labelName",
+        valueMember: "labelId",
+    });
+    $("#lcombobox").on('select', function (event) {
+    	
+    });
+}
+
+function initrq2(datasource) {
+	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2maxvalues&projectId="+projectId, function (errormax, jsonmax) {
+		
+		maxcreated = jsonmax[0].max_created;
+		maxsolved = jsonmax[1].max_solved;
+		maxcomments = jsonmax[2].max_comments;
+		
+		createRQ2LabelCombobox(datasource);
+	});
+}
 
 function getrq2() {
 
@@ -24,31 +55,27 @@ function getrq2() {
 			
 		d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2contributors&projectId="+projectId+"&labelId="+labelid, function (errorcont, jsoncont) {
 			
-			d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2links&labelId="+labelid, function (errorlinks, jsonlinks) {
-				
-				d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2maxvalues&labelId="+labelid, function (errormax, jsonmax) {
-			
 					var nodes = mapId2node(jsoncont);
 					nodes[0] = jsonlabel[0];
-					
-					var maxcreated = jsonmax[0].max_created;
-					var maxsolved = jsonmax[1].max_solved;
-					var maxcomments = jsonmax[2].max_comments;
 					
 					//choose the maximum between maxcreated and maxsolved
 					//to use it as max value for rect scale
 					var maxnode = Math.max(maxcreated, maxsolved);
 					
 					//create link array
-					jsonlinks.forEach(function(link) {
-						    link.source = nodes[0];
-						    link.target = nodes[link.userid];
+					var links = new Array();
+					var i = 0;
+					jsoncont.forEach(function(node) {
+							links[i] = {
+								source: nodes[0],
+								target: node,
+								value: node.num_comments
+							};
+							i = i+1;
 					});
 					
-					drawrq2(nodes, jsonlinks, maxnode, maxcomments);
+					drawrq2(nodes, links, maxnode, maxcomments);
 					$("#loadingRQ2").css('display','none');
-				});
-			});
 		});
 	});
 
@@ -80,7 +107,7 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	var role2color = d3.scale.ordinal()
 	.domain(['user', 'administrator'])
 	.range(['#A26CCC', '#F5925D']);
-	//9C4590
+
 	//define a scale for rectangle width 
 	var rectwidth = d3.scale.linear()
 	.domain([0, maxrectsize])
@@ -94,8 +121,16 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	//define a scale for line thickness 
 	var linethickness = d3.scale.linear()
 	.domain([0, maxthickness])
-	.range([1, 10]);
+	.range([1, 15]);
 	
+	
+	//create user node tooltip
+	var rq2tooltip = d3.select("body").append("div")
+    .attr("class", "rq2tooltip")
+    .style("opacity", 1e-6);
+
+	
+	//force directed graph
 	var force = d3.layout.force()
 	.nodes(nodes)
 	.links(links)
@@ -123,11 +158,34 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	.call(force.drag);
 	
 	var rect = usernode.append("svg:rect")
-
 	.attr("width", function(d) { return rectwidth(d.num_created_issues); })
 	.attr("height", function(d) { return rectheight(d.num_solved_issues); })
 	.attr("fill", function(d) { return d3.rgb(role2color(d.role)); })
 	;
+	
+    rect.on("mousemove", function(d, index, element) {
+        rq2tooltip.selectAll("p").remove();
+        rq2tooltip
+            .style("left", (d3.event.pageX+15) + "px")
+            .style("top", (d3.event.pageY-10) + "px");
+
+        rq2tooltip.append("p").attr("class", "tooltiptext").html("<span>user: </span>" + d.name);
+        rq2tooltip.append("p").attr("class", "tooltiptext").html("<span>created issues: </span>" + d.num_created_issues);
+        rq2tooltip.append("p").attr("class", "tooltiptext").html("<span>solved issues: </span>" + d.num_solved_issues);
+        rq2tooltip.append("p").attr("class", "tooltiptext").html("<span>comments: </span>" + d.num_comments);
+    });    
+
+    rect.on("mouseover", function(d, index, element) {
+        rq2tooltip.transition()
+          .duration(500)
+          .style("opacity", 1);
+    });    
+
+    rect.on("mouseout", function(d, index, element) {
+        rq2tooltip.transition()
+          .duration(500)
+          .style("opacity", 1e-6);
+    });
 	
 	var recttext = usernode.append("svg:text")
 	.text(function(d) {return d.name;})
@@ -145,10 +203,19 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	.attr("fill", d3.rgb("#797B80"));
 	;
 	
-	var circletext = labelnode.append("svg:text")
-	.text(function(d) {return d.name;})
-	.attr("class","labelText");
+//	var textbox = labelnode.append("svg:rect");
 	
+	var labeltext = labelnode.append("svg:text")
+	.text(function(d) {return d.name;})
+	.attr("class","labeltext");
+	
+	
+//	textbox.attr("width",labeltext.text().length * 10)
+//	.attr("height",25)
+//	.attr("rx",10)
+//	.attr("ry",10)
+//	.attr("class", "textbox");
+
 	force.on("tick", function() {
 		
 		link.attr("x1", function(d) {return d.source.x; })
@@ -163,10 +230,13 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	    recttext.attr("y", function(d) { return d.y-5; });
 	    
 	    circle.attr("cx", function(d) { return d.x; })
-	    .attr("cy", function(d) { return d.y; });
+	    .attr("cy", function(d) { return d.y-10; });
 	    
-	    circletext.attr("x", function(d) { return d.x-25; });
-	    circletext.attr("y", function(d) { return d.y-35;});
+//	    textbox.attr('x', function (d) { return d.x-50; })
+//	    .attr('y', function (d) { return d.y-20; });
+//	    
+	    labeltext.attr("x", function(d) { return d.x-30; });
+	    labeltext.attr("y", function(d) { return d.y;});
 	    
 	  });
 

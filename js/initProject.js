@@ -63,41 +63,9 @@ function loadPage(projectId) {
 	    };
     		
 	var dataAdapter = new $.jqx.dataAdapter(source);
-	createRQ2LabelCombobox(dataAdapter);
-	createRQ3LabelCombobox(dataAdapter);
+	initrq2(dataAdapter);
+	initrq3(dataAdapter);
 }
-
-
-function createRQ2LabelCombobox(datasource) {
-
-    $("#lcombobox").jqxComboBox(
-    {
-        width: 200,
-        height: 25,
-        source: datasource,
-        displayMember: "labelName",
-        valueMember: "labelId",
-    });
-    $("#lcombobox").on('select', function (event) {
-    	
-    });
-};
-
-function createRQ3LabelCombobox(datasource) {
-
-	$("#rq3lcombobox").jqxComboBox(
-	    {
-	        width: 200,
-	        height: 25,
-	        source: datasource,
-	        displayMember: "labelName",
-	        valueMember: "labelId"
-	    });
-	    $("#rq3lcombobox").on('select', function (event) {
-	    	
-	    });
-
-};
 
 
 function clearContainer(container) {

@@ -275,15 +275,20 @@ footer p {
 /*   pointer-events: none;          */
 /* } */
 
-.rq2 .labelText {
+.rq2 .textbox {
+	fill: #FFFFFF;
+	stroke: #9C4590;
+	stroke-width: 2px;
+}
+
+.rq2 .labeltext {
 	font: bold 14px Helvetica, Sans-Serif;
 	fill: #424242;
-/* 	stroke: white; */
-/* 	stroke-width:0.1px; */
 }
 
 .rq2 .labelnode circle {
-	stroke: #A6A9AD;
+/* 	stroke: #A6A9AD; */
+/* 	stroke: #FFFFFF; */
  	stroke-width:2px; 
 }
 
@@ -307,4 +312,23 @@ footer p {
 .tooltip p {
 	margin-top: 3px;
 	margin-bottom: 0px;
+}
+
+.rq2tooltip {
+  position: absolute;
+  width: 150px;
+  font-size: 12px;
+  background-color: #F0ECDD;
+  border: solid 2px #9C4590;
+  border-radius: 8px;
+  pointer-events: none;
+  padding-bottom: 5px;
+}
+
+.rq2tooltip p {
+	margin: 5px 0px 0px 10px;	
+}
+
+.tooltiptext span {
+	font-weight: bold;
 }
