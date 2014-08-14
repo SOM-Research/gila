@@ -5,6 +5,27 @@ var heightPadding = 20;
 var widthPadding = 20;
 var verticalTick = 10;
 
+
+function createRQ3LabelCombobox(datasource) {
+
+	$("#rq3lcombobox").jqxComboBox(
+	    {
+	        width: 200,
+	        height: 25,
+	        source: datasource,
+	        displayMember: "labelName",
+	        valueMember: "labelId"
+	    });
+	    $("#rq3lcombobox").on('select', function (event) {
+	    	
+	    });
+
+}
+
+function initrq3(datasource) {
+	createRQ3LabelCombobox(datasource);
+}
+
 function getrq3() {
 
 	var labelid = $("#rq3lcombobox").children('input')[0].value;
