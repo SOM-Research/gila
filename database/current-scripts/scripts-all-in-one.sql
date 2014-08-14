@@ -326,6 +326,22 @@ ALTER TABLE _num_created_label_issues_user ADD INDEX (repo_id);
 ALTER TABLE _num_created_label_issues_user ADD INDEX (label_id);
 
 --
+
+-- selects the number of comments a user has made for each label 
+
+create table _label_num_user_comments as
+select 
+    label_id, label_name, user_id, count(distinct issue_id) as num_comments
+from
+    _label_issue_comments
+where
+    user_id is not null
+group by label_id , label_name , user_id
+;
+ALTER TABLE _label_num_user_comments ADD INDEX (label_id);
+ALTER TABLE _label_num_user_comments ADD INDEX (user_id);
+
+--
 create table _issue_reaction_time (
 repo_id int(11),
 issue_id int(11),
@@ -479,7 +495,7 @@ ALTER TABLE _issue_close_time ADD INDEX (issue_id);
 
 --
 create table _pending_issue_age as
-select ir.repo_id, ir.issue_id, ir.created_at, round((timestampdiff(minute,ir.created_at, STR_TO_DATE('2013-10-07 00:37:05', '%Y-%m-%d %H:%i:%s')))/60,2) as issue_age
+select ir.repo_id, ir.issue_id, ir.created_at, round((timestampdiff(minute,ir.created_at, STR_TO_DATE('2014-01-05 00:00:00', '%Y-%m-%d %H:%i:%s')))/60,2) as issue_age
 from _issue_resolution ir
 where ir.closed = 0 and ir.merged = 0;
 
