@@ -1,12 +1,12 @@
 # GiLA
 
-GiLA is a visualization tool which analyzes the labels used in GitHub projects. The tool provides three simple yet powerful visualizations.
+GiLA is a visualization tool aiming to analyze the labels used in GitHub projects.
 
-Labels are a simple and effective way to add additional information (e.g., metadata) to project issues. A lable can give any user an immediate clue about what sort of topic the issue is about, what development task the issue is related to, or what priority the issue has. 
+GitHub provides issue-tracking capabilities, which allows developers to manage issues regarding the development of the software. As a way to categorize or group issues, they can be labeled. Labels are a simple and effective way to add additional information (e.g., metadata) to project issues. A label can give any user an immediate clue about what sort of topic the issue is about, what development task the issue is related to, or what priority the issue has. Each development team uses labels in their own particular way, many times going beyond the set of default labels GitHub provides (i.e., bug, duplicate, enhacenment, invalid, questions and wontfix). 
 
-GitHub provides issue-tracking capabilities, which allows developers to manage issues regarding the development of the software. As a way to categorize or group issues, they can be labeled, thus facilitating their management. Curiously enough, developers use issue labels in a pretty particular way. While GitHub provides a set of default labels (i.e., bug, duplicate, enhacenment, invalid, questions and wontfix) it turns out that they fall short in most cases. 
+Therefore, we believe analyzing how labels are used in a project gives useful information about the sort of *vocabulary* of the project and how it is organized/managed. 
 
-We believe that custom labels actually become a sort of *vocabulary* of the project and  making it explicit can help developers to understand how it is managed.
+GiLA includes three different kinds of label visualizations:
 
 ### Label usage visualization
 
@@ -70,4 +70,4 @@ If you have any recommendation, just contact us.
 * [Valerio Cosentino](http://github.com/valeriocos/ "Valerio Cosentino")
 * [Jordi Cabot](http://github.com/jcabot/ "Jordi Cabot")
 
-Javier and Jordi work in [Atlanmod](http://www.emn.fr/z-info/atlanmod), a research team of Inria.
+Javier, Jordi, Valerio and Belén are currently members of [Atlanmod](http://www.emn.fr/z-info/atlanmod), a research team of Inria.
