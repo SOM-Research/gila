@@ -2,9 +2,9 @@
 
 GiLA is a visualization tool aiming to analyze the labels used in GitHub projects.
 
-GitHub provides issue-tracking capabilities, which allows developers to manage issues regarding the development of the software. As a way to categorize or group issues, they can be labeled. Labels are a simple and effective way to add additional information (e.g., metadata) to project issues. A label can give any user an immediate clue about what sort of topic the issue is about, what development task the issue is related to, or what priority the issue has. Each development team uses labels in their own particular way, many times going beyond the set of default labels GitHub provides (i.e., bug, duplicate, enhacenment, invalid, questions and wontfix). 
+Labels are a simple yet effective way to add additional information (e.g., metadata) to project issues. A label can give any user an immediate clue about what sort of topic the issue is about, what development task the issue is related to, or what priority the issue has. Each development team uses labels in their own particular way, many times going beyond the set of default labels GitHub provides. 
 
-Therefore, we believe analyzing how labels are used in a project gives useful information about the sort of *vocabulary* of the project and how it is organized/managed. 
+Therefore, we believe analyzing how labels are used in a project gives useful information about the *vocabulary* of the project and how it is organized/managed. 
 
 GiLA includes three different kinds of label visualizations:
 
