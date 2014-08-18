@@ -85,6 +85,11 @@ function drawrq1(nodes, links, maxwidth, maxthickness) {
 	var colormapping = d3.scale.ordinal()
 	.domain([0,nodes.length])
 	.range(['#A700E6','#D95B96','#F4DA88','#22C1BE','#F24957','#DBEF91','#CF8EE8','#FF9B58','#B8FFC4','#91AEFF','#E873D3','#CCB298']);
+	
+	//create label node tooltip
+	var labeltooltip = d3.select("body").append("div")
+    .attr("class", "labeltooltip")
+    .style("opacity", 1e-6);
 
 	//graph force directed layout algorithm
 	var force = d3.layout.force()
@@ -118,6 +123,28 @@ function drawrq1(nodes, links, maxwidth, maxthickness) {
 	.attr("r", function(d) {return nodewidth(d.num_issues);})
 	.attr("fill", function (d,i) {return d3.rgb(colormapping(i)); })
 	;
+	
+	circle.on("mousemove", function(d, index, element) {
+		labeltooltip.selectAll("p").remove();
+		labeltooltip
+            .style("left", (d3.event.pageX+15) + "px")
+            .style("top", (d3.event.pageY-10) + "px");
+
+		labeltooltip.append("p").attr("class", "tooltiptext").html("<span>label: </span>" + d.name);
+        labeltooltip.append("p").attr("class", "tooltiptext").html("<span>number of issues: </span>" + d.num_issues);
+    }); 
+	
+    circle.on("mouseover", function(d, index, element) {
+    	labeltooltip.transition()
+          .duration(500)
+          .style("opacity", 1);
+    });    
+
+    circle.on("mouseout", function(d, index, element) {
+    	labeltooltip.transition()
+          .duration(500)
+          .style("opacity", 1e-6);
+    });
 	
 	var circletext = labelnode.append("svg:text")
 	.text(function(d) {return d.name;})
