@@ -216,18 +216,6 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	.attr("fill", d3.rgb("#797B80"));
 	;
 	
-//	var textbox = labelnode.append("svg:rect");
-	
-	var labeltext = labelnode.append("svg:text")
-	.text(function(d) {return d.name;})
-	.attr("class","labeltext");
-	
-	
-//	textbox.attr("width",labeltext.text().length * 10)
-//	.attr("height",25)
-//	.attr("rx",10)
-//	.attr("ry",10)
-//	.attr("class", "textbox");
 
 	force.on("tick", function() {
 		
@@ -244,12 +232,6 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	    
 	    circle.attr("cx", function(d) { return d.x; })
 	    .attr("cy", function(d) { return d.y-10; });
-	    
-//	    textbox.attr('x', function (d) { return d.x-50; })
-//	    .attr('y', function (d) { return d.y-20; });
-//	    
-	    labeltext.attr("x", function(d) { return d.x-30; });
-	    labeltext.attr("y", function(d) { return d.y;});
 	    
 	  });
 
