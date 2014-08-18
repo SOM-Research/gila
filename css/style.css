@@ -255,6 +255,13 @@ footer p {
 	margin-left: 15px;
 }
 
+.noselmsg {
+	width: 200px;
+	margin: 5px;
+	font: 12px Helvetica, Sans-Serif;
+	color: #9C4590;	
+}
+
 .msj {
 	font: bold 14px Helvetica, Sans-Serif;
 	width:800px;

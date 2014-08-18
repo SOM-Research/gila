@@ -49,9 +49,10 @@
         <div class="col-md-4 leftcol">
           <h2>User Involvement</h2>
           <p>Select a label to see how users participate on it. The label is shown as a circled node in the center of the graph, whereas the involved users are represented as rectangle nodes (orange for project collaborators). The width of the rectangle indicates the number of issues the user opened, the height denotes the number of issues he closed. The edges between user nodes and the label node, represent comments made to issues containing that label, the thicker this line is the more the number of issues a user has commented.</p>
-          <div id ="labelselection"> 
+          <div id ="labelselection">
             <div id='lcombobox'></div>
-            <button class="btn btn-xs" value="RQ2" onclick="getrq2();">OK</button><img id="loadingRQ2" style="display:none; margin-left: 10px" src="imgs/ajax-loader.gif"/>
+            <button class="btn btn-xs" value="RQ2" onclick="generaterq2();">OK</button><img id="loadingRQ2" style="display:none; margin-left: 10px" src="imgs/ajax-loader.gif"/>
+            <div id="rq2noselection" class="noselmsg" style="display:none">No label selected</div> 
           </div>
         </div>
         <div class="col-md-8 rightcol">
@@ -66,7 +67,8 @@
             <p>It displays how issues in each tag evolve over time on average. This can help, for instance, to assess the priority given to issues based on how they are tagged (e.g. because more people are interested in issues with that tag or because some other tag is considered too difficult and thus it's avoided).</p>
             <div id ="rq3labelselection"> 
               <div id='rq3lcombobox'></div>
-              <button class="btn btn-xs" value="RQ3" onclick="getrq3();">OK</button><img id="loadingRQ3" style="display:none; margin-left: 10px" src="imgs/ajax-loader.gif"/>
+              <button class="btn btn-xs" value="RQ3" onclick="generaterq3();">OK</button><img id="loadingRQ3" style="display:none; margin-left: 10px" src="imgs/ajax-loader.gif"/>
+              <div id="rq3noselection" class="noselmsg" style="display:none">No label selected</div>
             </div>
           </div>
         </div>

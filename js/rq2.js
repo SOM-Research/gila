@@ -27,8 +27,12 @@ function createRQ2LabelCombobox(datasource) {
         displayMember: "labelName",
         valueMember: "labelId",
     });
+    
     $("#lcombobox").on('select', function (event) {
-    	
+    	var item = event.args.item;
+    	if(item.label != '') {
+    		$("#rq2noselection").css('display', 'none');
+    	}
     });
 }
 
@@ -43,11 +47,20 @@ function initrq2(datasource) {
 	});
 }
 
-function getrq2() {
-
+function generaterq2() {
+	
 	var labelid = $("#lcombobox").children('input')[0].value;
 	clearContainer($("#contribgraph"));
 
+	if (labelid != '') {
+		getrq2(labelid);
+	} else {
+		$("#rq2noselection").css('display', 'block');
+	}
+
+}
+
+function getrq2(labelid) {
 
 	$("#loadingRQ2").css('display','inline');
 

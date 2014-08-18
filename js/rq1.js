@@ -15,14 +15,20 @@ var rq1 = d3.select(".rq1")
 .attr("id", "labelgraph");
 
 
-function getrq1(projectid) {
-	//var projectid = $("#pcombobox").children('input')[0].value;
+function generaterq1(projectid) {
+
 	$("#nolabels").css('display','none');
 	
 	//remove previous graph if exists
 	if ($("#labelgraph").children().size() > 0) {
 		$("#labelgraph").empty();
 	}
+	
+	getrq1(projectid);
+
+}
+
+function getrq1(projectid) {
 
 	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1nodes&projectId="+projectid, function(errornodes,jsonnodes) {
 		if (jsonnodes.length > 0) {
