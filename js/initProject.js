@@ -1,6 +1,5 @@
 var projectId;
-var labelAnalyzerServlet = 'http://localhost:8080/labelAnalysisServer';
-//var labelAnalyzerServlet = 'http://atlanmodexp.info.emn.fr:8800/gila';
+var labelAnalyzerServlet = 'http://atlanmodexp.info.emn.fr:8800/gila';
 
 window.onload = function() {
 	var params = {};

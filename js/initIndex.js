@@ -1,5 +1,4 @@
-var labelAnalyzerServlet = 'http://localhost:8080/labelAnalysisServer';
-//var labelAnalyzerServlet = 'http://atlanmodexp.info.emn.fr:8800/gila';
+var labelAnalyzerServlet = 'http://atlanmodexp.info.emn.fr:8800/gila';
 var selectedProjectName = "";
 
 window.onload = function() {
@@ -32,8 +31,10 @@ window.onload = function() {
 
     $("#pcombobox").on('select', function (event) {
         var selecteditem = event.args.item;
+        console.log(selecteditem.label + 'a');
         if (selecteditem) {
             selectedProjectName = selecteditem.label;
+            console.log(selecteditem.label + 'a');
         }
     });
 };
