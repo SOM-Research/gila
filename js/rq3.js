@@ -279,7 +279,10 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
                 .style("left", (d3.event.pageX+15) + "px")
                 .style("top", (d3.event.pageY-10) + "px");
 
-            tooltip.append("p").text(timeToClose + " hrs")
+			if (timeToClose > 24)
+            	tooltip.append("p").text((timeToClose/24).toFixed(2) + " days");
+            else
+            	tooltip.append("p").text(timeToClose + " hrs");	
             tooltip.append("p").text("Close event");
         });    
 
@@ -335,7 +338,11 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
             .style("left", (d3.event.pageX+15) + "px")
             .style("top", (d3.event.pageY-10) + "px");
 
-        tooltip.append("p").text(firstComment + " hrs")
+			
+		if (firstComment > 24)
+          	tooltip.append("p").text((firstComment/24).toFixed(2) + " days");
+        else
+           	tooltip.append("p").text(firstComment + " hrs");		
         tooltip.append("p").text("First comment");
     });    
 
@@ -366,7 +373,10 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
             .style("left", (d3.event.pageX+15) + "px")
             .style("top", (d3.event.pageY-10) + "px");
 
-        tooltip.append("p").text(firstCommentCollaborator + " hrs")
+		if (firstCommentCollaborator > 24)
+           	tooltip.append("p").text((firstCommentCollaborator/24).toFixed(2) + " days");
+        else
+           	tooltip.append("p").text(firstCommentCollaborator + " hrs");	
         tooltip.append("p").text("A collaborator answers");
     });    
 
@@ -397,7 +407,10 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
             .style("left", (d3.event.pageX+15) + "px")
             .style("top", (d3.event.pageY-10) + "px");
 
-        tooltip.append("p").text(avgAge + " hrs")
+		if (avgAge > 24)
+            tooltip.append("p").text((avgAge/24).toFixed(2) + " days");
+        else
+           	tooltip.append("p").text(avgAge + " hrs");	
         tooltip.append("p").text("Average age");
     });    
 
