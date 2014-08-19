@@ -105,8 +105,15 @@ body {
 .selector h2 {
 	color: #FFFFFF;
 	margin-left: 15px;
-	margin-bottom: 20px;
 	font-size: 1.7em;
+}
+
+.selector .caption {
+	color: #FFFFFF;
+	margin-left: 15px;
+	font: 12px Helvetica, Sans-Serif;
+	font-size: 0.9em;
+	margin-bottom: 20px;
 }
 
 .selector button {

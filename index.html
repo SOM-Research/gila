@@ -53,11 +53,12 @@
         
         <div class="col-md-3">
           <div class="selector">
-          	<h2>Select your project</h2> 
+          	<h2>Select your project</h2>
+          	<p class="caption">Choose one from the list or type the first three letters to search</p> 
           	<div class="projectselection"> 
               <p class="text-center"><div id='pcombobox'></div></p><br><br>
               <p class="text-center">
-            	   <button class="btn btn-block" onclick="location.href='project.html?projectId=' + $('#pcombobox').children('input')[0].value + '&projectName=' + selectedProjectName">Show me!</button>
+            	   <button class="btn btn-block" onclick="location.href='project.html?projectId=' + selectedProjectValue + '&projectName=' + selectedProjectName">Show me!</button>
               </p>
           	</div>
           </div>
