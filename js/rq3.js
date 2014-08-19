@@ -204,7 +204,10 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
                 .style("left", (d3.event.pageX+15) + "px")
                 .style("top", (d3.event.pageY-10) + "px");
 
-            tooltip.append("p").text(timeToMerge + " hrs")
+            if (timeToMerge > 24)
+            	tooltip.append("p").text((timeToMerge/24).toFixed(2) + " days");
+            else
+            	tooltip.append("p").text(timeToMerge + " hrs");
             tooltip.append("p").text("Merge event");
         });    
 
