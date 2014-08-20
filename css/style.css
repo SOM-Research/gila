@@ -170,8 +170,9 @@ footer p {
 	border: 1px solid #EDDDC7;
 	background-color: #EDDDC7;
 	border-radius: 10px;
-	margin-top: 25px;
-	margin-bottom: 25px;
+	margin: 20px 0px;
+/* 	margin-top: 25px; */
+/* 	margin-bottom: 25px; */
 }
 
 .leftcol {
@@ -357,7 +358,6 @@ footer p {
 
 .rq2labeltooltip {
   position: absolute;
-  
   font-size: 12px;
   background-color: #F0ECDD;
   border: solid 2px #9C4590;
