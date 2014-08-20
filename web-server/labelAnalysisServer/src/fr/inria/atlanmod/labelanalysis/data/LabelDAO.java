@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import fr.inria.atlanmod.labelanalysis.db.DBConnection;
-
 public class LabelDAO {
 	
 	private Connection con;

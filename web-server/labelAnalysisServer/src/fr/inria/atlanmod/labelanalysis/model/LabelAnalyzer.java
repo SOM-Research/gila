@@ -4,7 +4,6 @@ import java.io.StringWriter;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.SQLWarning;
 
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -13,15 +12,17 @@ import javax.json.JsonWriter;
 
 import fr.inria.atlanmod.labelanalysis.data.LabelDAO;
 import fr.inria.atlanmod.labelanalysis.data.ProjectDAO;
-import fr.inria.atlanmod.labelanalysis.db.DBConnection;
 
 public class LabelAnalyzer {
 	
-	private DBConnection dbConnection = new DBConnection();
+	private Connection con;
+	
+	public LabelAnalyzer(Connection con) {
+		this.con = con;
+	}
 	
 	public String getProjectLabels(String projectid) throws SQLException {
 		
-		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
         StringWriter writer = new StringWriter();
         ResultSet result = null;
@@ -46,8 +47,11 @@ public class LabelAnalyzer {
 			sqle.printStackTrace();
 		
 		} finally {
+			/*
+			 * We close the statement because according to the JavaDocs,
+			 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+			 */
 			if (result != null) { result.getStatement().close(); }
-			dbConnection.disconnect();
 		}
       
 		return writer.toString();
@@ -55,7 +59,6 @@ public class LabelAnalyzer {
 	
 	public String getLabelRelations(String projectid) throws SQLException {
 		
-		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
         StringWriter writer = new StringWriter();
 		ResultSet result = null;
@@ -80,8 +83,11 @@ public class LabelAnalyzer {
 			sqle.printStackTrace();
 		
 		} finally {
+			/*
+			 * We close the statement because according to the JavaDocs,
+			 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+			 */
 			if (result != null) { result.getStatement().close(); }    
-			dbConnection.disconnect();
 		}
         
         return writer.toString();
@@ -89,7 +95,6 @@ public class LabelAnalyzer {
 	
 	public String getMaxLabelRelationCount(String projectid) throws SQLException {
 
-		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 		
@@ -111,8 +116,11 @@ public class LabelAnalyzer {
 			sqle.printStackTrace();
 		
 		} finally {
+			/*
+			 * We close the statement because according to the JavaDocs,
+			 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+			 */
 			if (result != null) { result.getStatement().close(); }    
-			dbConnection.disconnect();
 		}
 	    
 	    return writer.toString();
@@ -120,7 +128,6 @@ public class LabelAnalyzer {
 	
 	public String getMaxLabelIssueCount(String projectid) throws SQLException {
 	
-		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 		ResultSet result = null;
@@ -140,8 +147,11 @@ public class LabelAnalyzer {
 			sqle.printStackTrace();
 		
 		} finally {
+			/*
+			 * We close the statement because according to the JavaDocs,
+			 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+			 */
 			if (result != null) { result.getStatement().close(); }    
-			dbConnection.disconnect();
 		}
 		
 		return writer.toString();
@@ -149,7 +159,6 @@ public class LabelAnalyzer {
 	
 	public String getAllProjects() throws SQLException {
 		
-		Connection con = dbConnection.getConnection();
 		ProjectDAO projectDAO = new ProjectDAO(con);
 		StringWriter writer = new StringWriter();
 		ResultSet result = null;
@@ -174,8 +183,11 @@ public class LabelAnalyzer {
 			sqle.printStackTrace();
 		
 		} finally {
+			/*
+			 * We close the statement because according to the JavaDocs,
+			 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+			 */
 			if (result != null) { result.getStatement().close();}    
-			dbConnection.disconnect();
 		}
 		//remove last , from json object stream, 
 		//less costly than invoking isLast() in resultSet object
@@ -187,44 +199,8 @@ public class LabelAnalyzer {
 		return jsonstream;
 	}
 	
-	public String getProjectsMatchingSearchPattern(String searchpattern) throws SQLException {
-		
-		Connection con = dbConnection.getConnection();
-		ProjectDAO projectDAO = new ProjectDAO(con);
-		StringWriter writer = new StringWriter();
-		ResultSet result = null;
-		try {
-	        result = projectDAO.getProjectByNameLikeSearchString(searchpattern);
-	        while(result.next()) {
-	        	JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
-			    jsonBuilder.add("projectId", result.getString("id"));
-			    String projectName = result.getString("login") + "/" + result.getString("name");
-			    jsonBuilder.add("projectName", projectName);
-			    
-			    JsonObject jsonProject = jsonBuilder.build();
-				
-		        JsonWriter jw = Json.createWriter(writer);
-		        jw.writeObject(jsonProject);
-		        if(!result.isLast())
-		        	writer.write(",");
-		        jw.close();
-		    }
-
-		} catch (SQLException sqle) {
-			sqle.printStackTrace();
-		
-		} finally {
-			if (result != null) { result.getStatement().close();}    
-			dbConnection.disconnect();
-		}
-		
-		return writer.toString();
-
-	}
-	
 	public String getAllLabels(String projectId) throws SQLException {
 	
-		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 		ResultSet result = null;
@@ -248,8 +224,11 @@ public class LabelAnalyzer {
 		sqle.printStackTrace();
 	
 	} finally {
+		/*
+		 * We close the statement because according to the JavaDocs,
+		 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+		 */
 		if (result != null) { result.getStatement().close(); }    
-		dbConnection.disconnect();
 	}
 		
 	return writer.toString();
@@ -257,7 +236,6 @@ public class LabelAnalyzer {
 	
 public String getProjectId(String projectName, String ownerLogin) throws SQLException {
 	
-	Connection con = dbConnection.getConnection();
 	ProjectDAO projectDAO = new ProjectDAO(con);
 	StringWriter writer = new StringWriter();
 	ResultSet result = null;
@@ -279,8 +257,11 @@ public String getProjectId(String projectName, String ownerLogin) throws SQLExce
 	sqle.printStackTrace();
 
 } finally {
+	/*
+	 * We close the statement because according to the JavaDocs,
+	 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+	 */
 	if (result != null) { result.getStatement().close(); }    
-	dbConnection.disconnect();
 }
 	
 return writer.toString();
@@ -288,7 +269,6 @@ return writer.toString();
 	
 public String getLabelContributors(String projectId, String labelId) throws SQLException {
 	
-	Connection con = dbConnection.getConnection();
 	LabelDAO labelDAO = new LabelDAO(con);
 	StringWriter writer = new StringWriter();
 	ResultSet result = null;
@@ -319,8 +299,11 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 		e.printStackTrace();
 		
 	} finally {
+		/*
+		 * We close the statement because according to the JavaDocs,
+		 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+		 */
 		if (result != null) { result.getStatement().close(); }
-		dbConnection.disconnect();
 	}
 	
 	return writer.toString();
@@ -328,7 +311,6 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 	
 	public String getLabelComments(String labelId) throws SQLException {
 		
-		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 		ResultSet result = null;
@@ -354,8 +336,11 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 			e.printStackTrace();
 			
 		} finally {
+			/*
+			 * We close the statement because according to the JavaDocs,
+			 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+			 */
 			if (result != null) { result.getStatement().close(); }
-			dbConnection.disconnect();
 		}
 		
 		return writer.toString();
@@ -363,7 +348,6 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 	
 	public String getLabelById(String labelId) throws SQLException {
 		
-		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 		ResultSet result = null;
@@ -390,8 +374,11 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 			e.printStackTrace();
 		
 		} finally {
+			/*
+			 * We close the statement because according to the JavaDocs,
+			 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+			 */
 			if (result != null) { result.getStatement().close(); }
-			dbConnection.disconnect();
 		}
 				
 		return writer.toString();
@@ -399,7 +386,6 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 	
 	public String getRQ2MaxValues(String projectId) throws SQLException {
 		
-		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 		
@@ -454,10 +440,13 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 			e.printStackTrace();
 		
 		} finally {
+			/*
+			 * We close the statement because according to the JavaDocs,
+			 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+			 */
 			if (maxCreated != null) { maxCreated.getStatement().close(); }
 			if (maxSolved != null) { maxSolved.getStatement().close(); }
 			if (maxComments != null) { maxComments.getStatement().close(); }
-			dbConnection.disconnect();
 		}
 		
 		return writer.toString();
@@ -465,7 +454,6 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 	
 	public String getLabelResolutionInfo(String labelId) throws SQLException {
 		
-		Connection con = dbConnection.getConnection();
 		LabelDAO labelDAO = new LabelDAO(con);
 		StringWriter writer = new StringWriter();
 		ResultSet result = null;
@@ -500,8 +488,11 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 			e.printStackTrace();
 			
 		} finally {
+			/*
+			 * We close the statement because according to the JavaDocs,
+			 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+			 */
 			if (result != null) { result.getStatement().close(); }
-			dbConnection.disconnect();
 		}
 		
 	return writer.toString();

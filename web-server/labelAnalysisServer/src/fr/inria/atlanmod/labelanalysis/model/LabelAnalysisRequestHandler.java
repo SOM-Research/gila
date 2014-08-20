@@ -4,7 +4,7 @@
 package fr.inria.atlanmod.labelanalysis.model;
 
 import java.io.IOException;
-import java.io.StringWriter;
+import java.sql.Connection;
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ public class LabelAnalysisRequestHandler {
 	 * @param req
 	 * @param res
 	 */
-	public void handleRequest(HttpServletRequest req, HttpServletResponse res) {
+	public void handleRequest(HttpServletRequest req, HttpServletResponse res, Connection con) {
 		
 		String event = req.getParameter("event");
 		res.setContentType("text/x-json;charset=UTF-8");           
@@ -29,7 +29,7 @@ public class LabelAnalysisRequestHandler {
 		if (event.equals("rq1nodes")) {
 			
 			String projectid = req.getParameter("projectId");
-			LabelAnalyzer analyzer = new LabelAnalyzer();
+			LabelAnalyzer analyzer = new LabelAnalyzer(con);
 			try {
 				
 				String resWriter = analyzer.getProjectLabels(projectid);
@@ -44,7 +44,7 @@ public class LabelAnalysisRequestHandler {
 	    	  
 		} else if (event.equals("rq1links")) {
 			String projectid = req.getParameter("projectId");
-			LabelAnalyzer analyzer = new LabelAnalyzer();
+			LabelAnalyzer analyzer = new LabelAnalyzer(con);
 			try {
 				
 				String resWriter = analyzer.getLabelRelations(projectid);
@@ -60,7 +60,7 @@ public class LabelAnalysisRequestHandler {
 		} else if (event.equals("rq1maxvalues")) {
 				
 				String projectid = req.getParameter("projectId");
-				LabelAnalyzer analyzer = new LabelAnalyzer();
+				LabelAnalyzer analyzer = new LabelAnalyzer(con);
 				try {
 					
 					String maxRelationNum = analyzer.getMaxLabelRelationCount(projectid);
@@ -80,14 +80,11 @@ public class LabelAnalysisRequestHandler {
 			
 		} else if (event.equals("getprojects")) {
 			
-			LabelAnalyzer analyzer = new LabelAnalyzer();
+			LabelAnalyzer analyzer = new LabelAnalyzer(con);
 			
 			try {
-				String searchpattern = req.getParameter("searchstring");
-				String jsonStream = (searchpattern != null) ? analyzer
-						.getProjectsMatchingSearchPattern(searchpattern)
-						: analyzer.getAllProjects();
-				String jsonarray = "[" + jsonStream + "]";
+				String jsonStream = analyzer.getAllProjects();
+		        String jsonarray = "[" + jsonStream + "]";
 				res.getWriter().write(jsonarray);
 				
 			} catch (SQLException sqle) {
@@ -102,7 +99,7 @@ public class LabelAnalysisRequestHandler {
 			
 			try {
 				
-				LabelAnalyzer analyzer = new LabelAnalyzer();
+				LabelAnalyzer analyzer = new LabelAnalyzer(con);
 				String jsonStream = analyzer.getAllLabels(projectid);
 	      		String jsonarray = "[" + jsonStream + "]";
 				res.getWriter().write(jsonarray);
@@ -124,7 +121,7 @@ public class LabelAnalysisRequestHandler {
 			String projectName = project[1];
 			try {
 				
-				LabelAnalyzer analyzer = new LabelAnalyzer();
+				LabelAnalyzer analyzer = new LabelAnalyzer(con);
 				String jsonStream = analyzer.getProjectId(projectName, projectOwner);
 		        String jsonarray = "[" + jsonStream + "]";
 				res.getWriter().write(jsonarray);
@@ -137,7 +134,7 @@ public class LabelAnalysisRequestHandler {
 		
 		} else if (event.equals("rq2label")) {
 			
-			LabelAnalyzer analyzer = new LabelAnalyzer();
+			LabelAnalyzer analyzer = new LabelAnalyzer(con);
 			String labelId = req.getParameter("labelId");
 			try {
 				
@@ -153,7 +150,7 @@ public class LabelAnalysisRequestHandler {
 			
 		} else if  (event.equals("rq2contributors")) {
 			
-			LabelAnalyzer analyzer = new LabelAnalyzer();
+			LabelAnalyzer analyzer = new LabelAnalyzer(con);
 			String labelId = req.getParameter("labelId");
 			String projectId = req.getParameter("projectId");
 			try {
@@ -170,7 +167,7 @@ public class LabelAnalysisRequestHandler {
 		
 		} else if  (event.equals("rq2links")) {
 			
-			LabelAnalyzer analyzer = new LabelAnalyzer();
+			LabelAnalyzer analyzer = new LabelAnalyzer(con);
 			String labelId = req.getParameter("labelId");
 			try {
 				
@@ -186,7 +183,7 @@ public class LabelAnalysisRequestHandler {
 			
 		} else if  (event.equals("rq2maxvalues")) {
 			
-			LabelAnalyzer analyzer = new LabelAnalyzer();
+			LabelAnalyzer analyzer = new LabelAnalyzer(con);
 			String projectId = req.getParameter("projectId");
 			try {
 				
@@ -202,7 +199,7 @@ public class LabelAnalysisRequestHandler {
 		
 		} else if (event.equals("rq3data")) {
 			
-			LabelAnalyzer analyzer = new LabelAnalyzer();
+			LabelAnalyzer analyzer = new LabelAnalyzer(con);
 			String labelId = req.getParameter("labelId");
 			
 			try {

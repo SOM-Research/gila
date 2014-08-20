@@ -5,8 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import fr.inria.atlanmod.labelanalysis.db.DBConnection;
-
 public class ProjectDAO {
 
 private Connection con;
@@ -21,25 +19,8 @@ private Connection con;
 		try {
 			stmt = con.createStatement();
 			String query = "select p.id, p.name, u.login"
-						+ " from _orginal_projects_using_labels p inner join users u on p.owner_id = u.id"
-						+ " order by p.name"
-						+ " limit 100";
-			
-		     ResultSet rs = stmt.executeQuery(query);
-		     return rs;
-	     
-		} catch (SQLException e) {
-			throw e;			
-		} 	
-	}
-	
-	public ResultSet getProjectByNameLikeSearchString(String searchstring) throws SQLException {
-		Statement stmt = null;
-		try {
-			stmt = con.createStatement();
-			String query = "select p.id, p.name, u.login"
-						+ " from _orginal_projects_using_labels p inner join users u on p.owner_id = u.id"
-						+ " where p.name like '" + searchstring + "%'"
+						+ " from projects p inner join users u on p.owner_id = u.id"
+						+ " where p.forked_from is null"
 						+ " order by p.name";
 			
 		     ResultSet rs = stmt.executeQuery(query);
