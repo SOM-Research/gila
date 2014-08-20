@@ -166,7 +166,7 @@ footer p {
 .project {
 	font-size: 2.6em;
 	color: #9C4590;
-	padding: 20px;
+	padding: 15px;
 	border: 1px solid #EDDDC7;
 	background-color: #EDDDC7;
 	border-radius: 10px;
@@ -213,6 +213,22 @@ footer p {
 	margin-bottom: 20px;
 }
 
+#homeicon {
+	float:left;
+	width: 10%;
+/* 	margin-left: 20px; */
+	margin-top: 15px;
+}
+
+#homeicon img {
+	float: right;
+}
+
+#projectName {
+	float:left;
+	width: 90%;
+	margin-top: 15px;
+}
 
 .rq1 {
 	width: 718px;
