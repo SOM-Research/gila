@@ -83,9 +83,12 @@ public class LabelAnalysisRequestHandler {
 			LabelAnalyzer analyzer = new LabelAnalyzer(con);
 			
 			try {
-				String jsonStream = analyzer.getAllProjects();
-		        String jsonarray = "[" + jsonStream + "]";
-				res.getWriter().write(jsonarray);
+				String searchpattern = req.getParameter("searchstring");
+				String jsonStream = (searchpattern != null) ? analyzer
+						.getProjectsMatchingSearchPattern(searchpattern)
+						: analyzer.getAllProjects();
+				String jsonarray = "[" + jsonStream + "]";
+ 				res.getWriter().write(jsonarray);
 				
 			} catch (SQLException sqle) {
 				sqle.printStackTrace();

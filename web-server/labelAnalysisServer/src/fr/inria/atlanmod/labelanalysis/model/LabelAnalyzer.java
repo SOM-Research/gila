@@ -199,6 +199,39 @@ public class LabelAnalyzer {
 		return jsonstream;
 	}
 	
+	public String getProjectsMatchingSearchPattern(String searchpattern) throws SQLException {
+		
+		ProjectDAO projectDAO = new ProjectDAO(con);
+		StringWriter writer = new StringWriter();
+		ResultSet result = null;
+		try {
+	        result = projectDAO.getProjectByNameLikeSearchString(searchpattern);
+	        while(result.next()) {
+	        	JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+			    jsonBuilder.add("projectId", result.getString("id"));
+			    String projectName = result.getString("login") + "/" + result.getString("name");
+			    jsonBuilder.add("projectName", projectName);
+			    
+			    JsonObject jsonProject = jsonBuilder.build();
+				
+		        JsonWriter jw = Json.createWriter(writer);
+		        jw.writeObject(jsonProject);
+		        if(!result.isLast())
+		        	writer.write(",");
+		        jw.close();
+		    }
+
+		} catch (SQLException sqle) {
+			sqle.printStackTrace();
+		
+		} finally {
+			if (result != null) { result.getStatement().close();}    
+		}
+		
+		return writer.toString();
+
+	}
+	
 	public String getAllLabels(String projectId) throws SQLException {
 	
 		LabelDAO labelDAO = new LabelDAO(con);

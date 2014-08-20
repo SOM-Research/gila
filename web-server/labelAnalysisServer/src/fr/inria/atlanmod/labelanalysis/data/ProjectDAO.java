@@ -13,14 +13,31 @@ private Connection con;
 		this.con = con;
 	}
 	
-	public ResultSet getAllProjects() throws SQLException {
+public ResultSet getAllProjects() throws SQLException {
 		
 		Statement stmt = null;
 		try {
 			stmt = con.createStatement();
 			String query = "select p.id, p.name, u.login"
-						+ " from projects p inner join users u on p.owner_id = u.id"
-						+ " where p.forked_from is null"
+						+ " from _orginal_projects_using_labels p inner join users u on p.owner_id = u.id"
+						+ " order by p.name"
+						+ " limit 100";
+			
+		     ResultSet rs = stmt.executeQuery(query);
+		     return rs;
+	     
+		} catch (SQLException e) {
+			throw e;			
+		} 	
+	}
+	
+	public ResultSet getProjectByNameLikeSearchString(String searchstring) throws SQLException {
+		Statement stmt = null;
+		try {
+			stmt = con.createStatement();
+			String query = "select p.id, p.name, u.login"
+						+ " from _orginal_projects_using_labels p inner join users u on p.owner_id = u.id"
+						+ " where p.name like '" + searchstring + "%'"
 						+ " order by p.name";
 			
 		     ResultSet rs = stmt.executeQuery(query);
