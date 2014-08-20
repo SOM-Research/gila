@@ -355,8 +355,25 @@ footer p {
   padding-bottom: 5px;
 }
 
+.rq2labeltooltip {
+  position: absolute;
+  
+  font-size: 12px;
+  background-color: #F0ECDD;
+  border: solid 2px #9C4590;
+  border-radius: 8px;
+  pointer-events: none;
+  padding: 0px 10px;
+}
+
 .rq2tooltip p, .labeltooltip p {
 	margin: 5px 0px 0px 10px;	
+}
+
+.rq2labeltooltip p {
+	margin:5px 0px 5px 0px;
+	font-weight: bold;
+	text-align: center;
 }
 
 .tooltiptext span {

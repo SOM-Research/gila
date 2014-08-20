@@ -141,6 +141,11 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	var rq2tooltip = d3.select("body").append("div")
     .attr("class", "rq2tooltip")
     .style("opacity", 1e-6);
+	
+	//create label node tooltip
+	var rq2labeltooltip = d3.select("body").append("div")
+    .attr("class", "rq2labeltooltip")
+    .style("opacity", 1e-6);
 
 	
 	//force directed graph
@@ -216,7 +221,27 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	.attr("fill", d3.rgb("#797B80"));
 	;
 	
+    circle.on("mousemove", function(d, index, element) {
+        rq2labeltooltip.selectAll("p").remove();
+        rq2labeltooltip
+            .style("left", (d3.event.pageX-50) + "px")
+            .style("top", (d3.event.pageY-30) + "px");
 
+        rq2labeltooltip.append("p").attr("class", "tooltiptext").html(d.name);
+    });    
+
+    circle.on("mouseover", function(d, index, element) {
+        rq2labeltooltip.transition()
+          .duration(500)
+          .style("opacity", 1);
+    });    
+
+    circle.on("mouseout", function(d, index, element) {
+        rq2labeltooltip.transition()
+          .duration(500)
+          .style("opacity", 1e-6);
+    });
+	
 	force.on("tick", function() {
 		
 		link.attr("x1", function(d) {return d.source.x; })
