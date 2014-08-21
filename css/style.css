@@ -166,13 +166,11 @@ footer p {
 .project {
 	font-size: 2.6em;
 	color: #9C4590;
-	padding: 15px;
+	padding: 15px 0px 10px 15px;
 	border: 1px solid #EDDDC7;
 	background-color: #EDDDC7;
 	border-radius: 10px;
 	margin: 20px 0px;
-/* 	margin-top: 25px; */
-/* 	margin-bottom: 25px; */
 }
 
 .leftcol {
@@ -217,8 +215,7 @@ footer p {
 #homeicon {
 	float:left;
 	width: 10%;
-/* 	margin-left: 20px; */
-	margin-top: 15px;
+	margin-top: 20px;
 }
 
 #homeicon img {
