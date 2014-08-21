@@ -96,14 +96,31 @@ public class LabelAnalysisRequestHandler {
 				ioe.printStackTrace();
 			} 
 			
-		} else if (event.equals("getlabels")) {
+		} else if (event.equals("getrq2labels")) {
 			
 			String projectid = req.getParameter("projectid"); 
 			
 			try {
 				
 				LabelAnalyzer analyzer = new LabelAnalyzer(con);
-				String jsonStream = analyzer.getAllLabels(projectid);
+				String jsonStream = analyzer.getRQ2Labels(projectid);
+	      		String jsonarray = "[" + jsonStream + "]";
+				res.getWriter().write(jsonarray);
+				
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			} 
+		
+		} else if (event.equals("getrq3labels")) { 
+			
+			String projectid = req.getParameter("projectid"); 
+			
+			try {
+				
+				LabelAnalyzer analyzer = new LabelAnalyzer(con);
+				String jsonStream = analyzer.getRQ3Labels(projectid);
 	      		String jsonarray = "[" + jsonStream + "]";
 				res.getWriter().write(jsonarray);
 				

@@ -47,6 +47,24 @@ public class LabelDAO {
 		} 
 	}
 	
+	public ResultSet getLabelResolutionNonZeroLabels(String projectid) throws SQLException {
+		
+		Statement stmt = null;
+		try {
+			String query = "select label_id, label_name"
+						+ " from _label_resolution_stats"
+						+ " where repo_id = " + projectid
+						+ " and (prctg_merged <> 0 or prctg_closed <> 0 or prctg_pending <> 0);";
+			
+			stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+	        
+		} catch (SQLException e) {
+			throw e;
+		} 
+	}
+	
 	public ResultSet getLabelRelation(String projectid) throws SQLException {
 
 		Statement stmt = null;
@@ -371,6 +389,28 @@ public class LabelDAO {
 		} catch (SQLException e) {
 			throw e;
 		} 
+	}
+	
+	public ResultSet selectProjectCommentedLabels(String projectid) throws SQLException {
+		
+		Statement stmt = null;
+		try {
+			String query = "select pl.repo_id, pl.id as label_id, pl.name as label_name "
+						+ " from " 
+							+ "	(select id, name, repo_id from repo_labels where repo_id = " + projectid + ") as pl"
+						+ " inner join"
+							+ " _label_num_user_comments luc "
+						+ " on pl.id = luc.label_id"
+						+ " where label_id <> 0 and num_comments > 0"
+						+ " group by label_id, label_name";
+
+			stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+	
+		} catch (SQLException e) {
+			throw e;
+		}
 	}
 
 }

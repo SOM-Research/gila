@@ -265,6 +265,76 @@ public class LabelAnalyzer {
 	}
 		
 	return writer.toString();
+	}
+	
+	public String getRQ2Labels(String projectId) throws SQLException {
+		
+		LabelDAO labelDAO = new LabelDAO(con);
+		StringWriter writer = new StringWriter();
+		ResultSet result = null;
+		try {
+	        result = labelDAO.selectProjectCommentedLabels(projectId);
+	        while(result.next()) {
+	        	JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+			    jsonBuilder.add("labelId", result.getString("label_id"));
+			    jsonBuilder.add("labelName", result.getString("label_name"));
+			    
+			    JsonObject jsonLabel = jsonBuilder.build();
+				
+		        JsonWriter jw = Json.createWriter(writer);
+		        jw.writeObject(jsonLabel);
+		        if(!result.isLast())
+		        	writer.write(",");
+		        jw.close();
+		    }
+
+	} catch (SQLException sqle) {
+		sqle.printStackTrace();
+	
+	} finally {
+		/*
+		 * We close the statement because according to the JavaDocs,
+		 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+		 */
+		if (result != null) { result.getStatement().close(); } 
+		}
+		
+		return writer.toString();
+	}
+	
+	public String getRQ3Labels(String projectId) throws SQLException {
+	
+		LabelDAO labelDAO = new LabelDAO(con);
+		StringWriter writer = new StringWriter();
+		ResultSet result = null;
+		try {
+	        result = labelDAO.getLabelResolutionNonZeroLabels(projectId);
+	        while(result.next()) {
+	        	JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+			    jsonBuilder.add("labelId", result.getString("label_id"));
+			    jsonBuilder.add("labelName", result.getString("label_name"));
+			    
+			    JsonObject jsonLabel = jsonBuilder.build();
+				
+		        JsonWriter jw = Json.createWriter(writer);
+		        jw.writeObject(jsonLabel);
+		        if(!result.isLast())
+		        	writer.write(",");
+		        jw.close();
+		    }
+	
+	} catch (SQLException sqle) {
+		sqle.printStackTrace();
+	
+	} finally {
+		/*
+		 * We close the statement because according to the JavaDocs,
+		 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+		 */
+		if (result != null) { result.getStatement().close(); }    
+	}
+	
+return writer.toString();
 }
 	
 public String getProjectId(String projectName, String ownerLogin) throws SQLException {
