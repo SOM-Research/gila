@@ -495,7 +495,7 @@ ALTER TABLE _issue_close_time ADD INDEX (issue_id);
 
 --
 create table _pending_issue_age as
-select ir.repo_id, ir.issue_id, ir.created_at, round((timestampdiff(minute,ir.created_at, STR_TO_DATE('2014-01-05 00:00:00', '%Y-%m-%d %H:%i:%s')))/60,2) as issue_age
+select ir.repo_id, ir.issue_id, ir.created_at, round((timestampdiff(minute,ir.created_at, STR_TO_DATE('2014-07-29 00:00:00', '%Y-%m-%d %H:%i:%s')))/60,2) as issue_age
 from _issue_resolution ir
 where ir.closed = 0 and ir.merged = 0;
 
