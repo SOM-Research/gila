@@ -157,14 +157,14 @@ public class LabelAnalyzer {
 		return writer.toString();
 	}
 	
-	public String getAllProjects() throws SQLException {
+	public String getInitialProjects() throws SQLException {
 		
 		ProjectDAO projectDAO = new ProjectDAO(con);
 		StringWriter writer = new StringWriter();
 		ResultSet result = null;
 		try {
 	        
-	        result = projectDAO.getAllProjects();
+	        result = projectDAO.getMostRelevantProjects();
 	        while(result.next()) {
 	        	JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
 			    jsonBuilder.add("projectId", result.getString("id"));

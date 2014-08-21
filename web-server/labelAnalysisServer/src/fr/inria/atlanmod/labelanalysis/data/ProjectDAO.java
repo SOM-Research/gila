@@ -13,15 +13,32 @@ private Connection con;
 		this.con = con;
 	}
 	
-public ResultSet getAllProjects() throws SQLException {
+	public ResultSet getAllProjects() throws SQLException {
+			
+			Statement stmt = null;
+			try {
+				stmt = con.createStatement();
+				String query = "select p.id, p.name, u.login"
+							+ " from _orginal_projects_using_labels p inner join users u on p.owner_id = u.id"
+							+ " order by p.name"
+							+ " limit 100";
+				
+			     ResultSet rs = stmt.executeQuery(query);
+			     return rs;
+		     
+			} catch (SQLException e) {
+				throw e;			
+			} 	
+		}
+
+	public ResultSet getMostRelevantProjects() throws SQLException {
 		
 		Statement stmt = null;
 		try {
 			stmt = con.createStatement();
-			String query = "select p.id, p.name, u.login"
-						+ " from _orginal_projects_using_labels p inner join users u on p.owner_id = u.id"
-						+ " order by p.name"
-						+ " limit 100";
+			String query = "select p.id, p.name, p	.login"
+						+ " from _most_relevant_projects p"
+						+ " limit 200";
 			
 		     ResultSet rs = stmt.executeQuery(query);
 		     return rs;

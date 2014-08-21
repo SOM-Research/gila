@@ -643,3 +643,61 @@ from
 
 ALTER TABLE _label_resolution_stats ADD INDEX (repo_id);
 ALTER TABLE _label_resolution_stats ADD INDEX (label_id);
+
+create table _count_labeled_isues as	
+select repo_id, count(issue_id) as num_labeled_issues 
+	from _label_issues
+	where label_id <> 0
+	group by repo_id;
+
+ALTER TABLE _count_labeled_isues ADD INDEX (repo_id);
+
+create table _count_comments as
+select repo_id, count(comment_date) as num_comments
+	from _label_issue_comments
+	where label_id <> 0 and comment_date is not null
+	group by repo_id;
+
+ALTER TABLE _count_comments ADD INDEX (repo_id);
+
+create table _count_collaborators as
+select project_id, project_name, count(user_id) num_collaborators 
+	from _collaborators_per_project
+	group by project_id, project_name;
+
+ALTER TABLE _count_collaborators ADD INDEX (project_id);
+
+create table _count_watchers as
+select repo_id, count(user_id) as num_watchers 
+	from watchers
+	group by repo_id;
+
+ALTER TABLE _count_watchers ADD INDEX (repo_id);
+
+create table _most_relevant_projects as
+select 
+    p.id, p.name, 
+	u.login,
+	cli.num_labeled_issues,
+	ccom.num_comments,
+	ccol.num_collaborators,
+	cw.num_watchers,
+	(log10(cli.num_labeled_issues)+0.5*log10(ccom.num_comments)+0.5*log10(ccol.num_collaborators)+0.3*log10(cw.num_watchers)) as relevance_factor
+from
+    _orginal_projects_using_labels p
+        inner join
+    users u ON p.owner_id = u.id
+	-- select the number of labeled_issues
+		left outer join
+		_count_labeled_isues cli on p.id = cli.repo_id
+	-- select the number of comments
+		left outer join
+		_count_comments ccom on p.id = ccom.repo_id
+	-- select the number of collaborators
+		left outer join
+		_count_collaborators ccol on p.id = ccol.project_id
+	-- select the number of watchers
+		left outer join
+		_count_watchers cw on p.id = cw.repo_id
+
+order by relevance_factor desc;

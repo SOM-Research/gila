@@ -86,7 +86,7 @@ public class LabelAnalysisRequestHandler {
 				String searchpattern = req.getParameter("searchstring");
 				String jsonStream = (searchpattern != null) ? analyzer
 						.getProjectsMatchingSearchPattern(searchpattern)
-						: analyzer.getAllProjects();
+						: analyzer.getInitialProjects();
 				String jsonarray = "[" + jsonStream + "]";
  				res.getWriter().write(jsonarray);
 				
