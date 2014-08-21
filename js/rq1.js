@@ -134,16 +134,23 @@ function drawrq1(nodes, links, maxwidth, maxthickness) {
         labeltooltip.append("p").attr("class", "tooltiptext").html("<span>number of issues: </span>" + d.num_issues);
     }); 
 	
-    circle.on("mouseover", function(d, index, element) {
+	circle.on("mouseover", function(d, index, element) {
     	labeltooltip.transition()
           .duration(500)
           .style("opacity", 1);
+		link.style('stroke', function(l) {
+			if (d === l.source || d === l.target)
+			  return 'green';
+			else
+			  return 'gray';
+			});
     });    
 
     circle.on("mouseout", function(d, index, element) {
     	labeltooltip.transition()
           .duration(500)
           .style("opacity", 1e-6);
+		link.style('stroke', 'gray');  
     });
 	
 	var circletext = labelnode.append("svg:text")
