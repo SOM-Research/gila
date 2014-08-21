@@ -159,8 +159,8 @@ function drawrq1(nodes, links, maxwidth, maxthickness) {
 		
 		var r = circle.attr("r");
 		
-		circle.attr("cx", function(d) { return d.x = Math.min(w1 - 200 - r, d.x); })
-        .attr("cy", function(d) { return d.y = Math.min(h1 - r, d.y); });
+		circle.attr("cx", function(d) { return d.x = Math.max(r, Math.min(w1 - r, d.x)); })
+        .attr("cy", function(d) { return d.y = Math.max(r, Math.min(h1 - r, d.y)); });
 		circletext.attr("x", function(d) { return d.x-25; });
 		circletext.attr("y", function(d) { return d.y-25;});
 	});

@@ -46,14 +46,14 @@ function loadPage(projectId) {
 
 	generaterq1(projectId);
 	
-	var source =
+	var rq2source =
 	    {
 	        datatype: "json",
 	        datafields: [
 	            { name: 'labelId' },
 	            { name: 'labelName' }
 	        ],
-	        url: labelAnalyzerServlet + "/LabelAnalysisServlet?event=getlabels&projectid="+projectId,
+	        url: labelAnalyzerServlet + "/LabelAnalysisServlet?event=getrq2labels&projectid="+projectId,
 	        data: {
 	            featureClass: "P",
 	            style: "full",
@@ -62,9 +62,28 @@ function loadPage(projectId) {
 	        }
 	    };
     		
-	var dataAdapter = new $.jqx.dataAdapter(source);
-	initrq2(dataAdapter);
-	initrq3(dataAdapter);
+	var rq2DataAdapter = new $.jqx.dataAdapter(rq2source);
+	
+	var rq3source =
+    {
+        datatype: "json",
+        datafields: [
+            { name: 'labelId' },
+            { name: 'labelName' }
+        ],
+        url: labelAnalyzerServlet + "/LabelAnalysisServlet?event=getrq3labels&projectid="+projectId,
+        data: {
+            featureClass: "P",
+            style: "full",
+            maxRows: 50,
+            username: "jqwidgets"
+        }
+    };
+		
+var rq3DataAdapter = new $.jqx.dataAdapter(rq3source);
+	
+	initrq2(rq2DataAdapter);
+	initrq3(rq3DataAdapter);
 }
 
 
