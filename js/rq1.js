@@ -70,7 +70,7 @@ function typeConversor(d) {
 	};
 
 function drawrq1(nodes, links, maxwidth, maxthickness) {
-	
+
 	//define a scale for line thickness 
 	var linethickness = d3.scale.linear()
 	.domain([0, maxthickness])
@@ -163,9 +163,7 @@ function drawrq1(nodes, links, maxwidth, maxthickness) {
 		.attr("y1", function(d) { return d.source.y; })
 		.attr("x2", function(d) { return d.target.x; })
 		.attr("y2", function(d) { return d.target.y; });
-		
-		var r = circle.attr("r");
-		
+		var r = +circle.attr("r");
 		circle.attr("cx", function(d) { return d.x = Math.max(r + 35, Math.min(w1 - r - 35, d.x)); })
         .attr("cy", function(d) { return d.y = Math.max(r + 35, Math.min(h1 - r - 35, d.y)); });
 		circletext.attr("x", function(d) { return d.x-25; });
