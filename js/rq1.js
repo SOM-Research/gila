@@ -140,7 +140,7 @@ function drawrq1(nodes, links, maxwidth, maxthickness) {
           .style("opacity", 1);
 		link.style('stroke', function(l) {
 			if (d === l.source || d === l.target)
-			  return 'green';
+			  return d3.rgb('#9E00D9');
 			else
 			  return 'gray';
 			});
@@ -166,8 +166,8 @@ function drawrq1(nodes, links, maxwidth, maxthickness) {
 		
 		var r = circle.attr("r");
 		
-		circle.attr("cx", function(d) { return d.x = Math.max(r, Math.min(w1 - r, d.x)); })
-        .attr("cy", function(d) { return d.y = Math.max(r, Math.min(h1 - r, d.y)); });
+		circle.attr("cx", function(d) { return d.x = Math.max(r + 35, Math.min(w1 - r - 35, d.x)); })
+        .attr("cy", function(d) { return d.y = Math.max(r + 35, Math.min(h1 - r - 35, d.y)); });
 		circletext.attr("x", function(d) { return d.x-25; });
 		circletext.attr("y", function(d) { return d.y-25;});
 	});
