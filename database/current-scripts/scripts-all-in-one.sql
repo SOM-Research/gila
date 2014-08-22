@@ -179,7 +179,8 @@ create table _issue_labels_name as
     from
         issue_labels il
             inner join
-        repo_labels rl ON il.label_id = rl.id
+		(select * from repo_labels
+			group by repo_id, name) as rl ON il.label_id = rl.id
 			inner join
 		_orginal_projects_using_labels p ON p.id = rl.repo_id
 ;
@@ -472,7 +473,8 @@ create table _repo_label_num_issues as
     select 
         rl.repo_id, rl.id, rl.name, count(il.issue_id) as num_issues
     from
-        repo_labels rl
+		(select * from repo_labels
+		 group by repo_id, name) as rl
             left outer join
         _issue_labels_name il ON rl.id = il.label_id
 			left outer join
