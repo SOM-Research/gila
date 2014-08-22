@@ -158,9 +158,9 @@ function drawrq1(nodes, links, maxwidth, maxthickness) {
 		link.style('opacity', function(o) {
 			return o.source === d || o.target === d ? 1 : 0;
 		});
-		console.log(linkedByIndex);
 		labelnode.style("opacity", function(o) {
-		  return neighboring(d.id, o.id) ? 1 : 0;
+			if (o.id != d.id)
+				return neighboring(d.id, o.id) ? 1 : 0;
 		});
     });    
 
