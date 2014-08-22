@@ -6,6 +6,7 @@
 
 var w1 = 718;
 var h1 = 600;
+var linkedByIndex = {};
 
 var rq1 = d3.select(".rq1")
 .append("svg")
@@ -26,6 +27,10 @@ function generaterq1(projectid) {
 	
 	getrq1(projectid);
 
+}
+
+function neighboring(id_a, id_b) {
+  return linkedByIndex[id_a + "," + id_b] || linkedByIndex[id_b + "," + id_a];
 }
 
 function getrq1(projectid) {
@@ -112,6 +117,12 @@ function drawrq1(nodes, links, maxwidth, maxthickness) {
 	.attr("stroke-width",function (d) { return linethickness(d.value); })
 	.style("stroke", "gray");
 	
+	links.forEach(function(d) {
+	  linkedByIndex[d.source.id + "," + d.target.id] = 1;
+	  linkedByIndex[d.source.id + "," + d.source.id] = 1;
+	  linkedByIndex[d.target.id + "," + d.target.id] = 1;
+	});
+	
 	//label nodes
 	var labelnode = rq1.selectAll("circle.labelnode")
 	.data(nodes)
@@ -134,7 +145,7 @@ function drawrq1(nodes, links, maxwidth, maxthickness) {
         labeltooltip.append("p").attr("class", "tooltiptext").html("<span>number of issues: </span>" + d.num_issues);
     }); 
 	
-	circle.on("mouseover", function(d, index, element) {
+	circle.on("mouseover", function(d) {
     	labeltooltip.transition()
           .duration(500)
           .style("opacity", 1);
@@ -144,13 +155,22 @@ function drawrq1(nodes, links, maxwidth, maxthickness) {
 			else
 			  return 'gray';
 			});
+		link.style('opacity', function(o) {
+			return o.source === d || o.target === d ? 1 : 0;
+		});
+		console.log(linkedByIndex);
+		labelnode.style("opacity", function(o) {
+		  return neighboring(d.id, o.id) ? 1 : 0;
+		});
     });    
 
-    circle.on("mouseout", function(d, index, element) {
+    circle.on("mouseout", function(d) {
     	labeltooltip.transition()
           .duration(500)
           .style("opacity", 1e-6);
-		link.style('stroke', 'gray');  
+		link.style('stroke', 'gray');
+		link.style('opacity', 1);
+		labelnode.style("opacity", 1);  
     });
 	
 	var circletext = labelnode.append("svg:text")
