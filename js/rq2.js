@@ -126,6 +126,13 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	var labels = innodes.filter(function(d) {return !(typeof d == "undefined") && (d.type == 'label'); });
 	var nodes = labels.concat(users);
 	
+	labels[0].x = w2/2;
+	labels[0].y = h2/2;
+	
+	console.log(labels[0]);
+	console.log(labels[0].x);
+	console.log(labels[0].y);
+	
 	//define a scale for mapping roles to colors
 	var role2color = d3.scale.ordinal()
 	.domain(['user', 'administrator'])

@@ -17,8 +17,6 @@ var rq1 = d3.select(".rq1")
 
 
 function generaterq1(projectid) {
-
-	$("#nolabels").css('display','none');
 	
 	//remove previous graph if exists
 	if ($("#labelgraph").children().size() > 0) {
@@ -40,7 +38,6 @@ function getrq1(projectid) {
 			d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1links&projectId="+projectid, function(errorlinks,jsonlinks) {
 				d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1maxvalues&projectId="+projectid, function(error,jsonmax) {
 		
-					if (error) alert("error: "+error);
 					var maxthickness = jsonmax[0].maxlinkvalue;
 					var maxwidth = jsonmax[1].maxnodevalue;
 					var nodes = mapId2node(jsonnodes);
@@ -53,10 +50,7 @@ function getrq1(projectid) {
 					drawrq1(filterednodes, jsonlinks, maxwidth, maxthickness);
 				});
 			});
-			
-		} else {
-			$("#nolabels").css('display','block');
-		}
+		} 
 	});
 }
 

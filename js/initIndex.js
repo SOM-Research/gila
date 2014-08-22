@@ -8,7 +8,9 @@ window.onload = function() {
             datatype: "json",
             datafields: [
                 { name: 'projectId' },	
-                { name: 'projectName' }
+                { name: 'projectName' },
+                { name: 'name' },
+                { name: 'login' }
             ],
             url: labelAnalyzerServlet + "/LabelAnalysisServlet?event=getprojects",
             data: {
@@ -42,15 +44,19 @@ window.onload = function() {
         displayMember: "projectName",
         valueMember: "projectId",
         remoteAutoComplete: true,
+        remoteAutoCompleteDelay: 500,
         selectedIndex: 0,
         minLength: 3,
         search: function (searchString) {
-        	console.log('search');
             dataAdapter.dataBind();
         }
     });
     
     dataAdapter.dataBind();
+    
+    $("#pcombobox").on('open', function (event) {
+    	$("#pcombobox").jqxComboBox('removeAt', 0 ); 
+    });
     
     $("#pcombobox").on('bindingComplete', function (event) {
 //    	console.log(event);
@@ -60,8 +66,10 @@ window.onload = function() {
     	if (typeof event.args != 'undefined') {
 	        var selecteditem = event.args.item;
 	        if (selecteditem) {
-	            selectedProjectName = selecteditem.label;
 	            selectedProjectValue = selecteditem.value;
+	            var projectName = selecteditem.originalItem.name;
+	            var projectOwner = selecteditem.originalItem.login;
+	            selectedProjectName = projectOwner + "/" + projectName	;
 	        }
     	}
     });
