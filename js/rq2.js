@@ -50,6 +50,7 @@ function initrq2(datasource) {
 function generaterq2() {
 	
 	var labelid = $("#lcombobox").children('input')[0].value;
+	
 	clearContainer($("#contribgraph"));
 
 	if (labelid != '') {
@@ -89,12 +90,15 @@ function getrq2(labelid) {
 					
 					if (links.length > 0) {
 						drawrq2(nodes, links, maxnode, maxcomments);
-						$("#loadingRQ2").css('display','none');
 					}
 					else {
+						$("#contribgraph").load("imgs/nouserforlabel.svg").attr("width", w2).attr("height", h2);
+						/*
 						$container = $(".rq2").empty().append("<img/>").attr('id', 'nouserforlabel');
 						$('img', $container).attr("src","imgs/nouserforlabel.png").attr("width", w2).attr("height", h2).show();
+						*/
 					}
+					$("#loadingRQ2").css('display','none');
 		});
 	});
 
