@@ -93,7 +93,7 @@ function getrq2(labelid) {
 					}
 					else {
 						$container = $(".rq2").empty().append("<img/>").attr('id', 'nouserforlabel');
-						$('img', $container).attr("src","/imgs/nouserforlabel.png").attr("width", w2).attr("height", h2).show();
+						$('img', $container).attr("src","imgs/nouserforlabel.png").attr("width", w2).attr("height", h2).show();
 					}
 		});
 	});
