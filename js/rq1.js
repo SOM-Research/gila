@@ -70,7 +70,7 @@ function typeConversor(d) {
 	};
 
 function drawrq1(nodes, links, maxwidth, maxthickness) {
-
+	
 	//define a scale for line thickness 
 	var linethickness = d3.scale.linear()
 	.domain([0, maxthickness])
