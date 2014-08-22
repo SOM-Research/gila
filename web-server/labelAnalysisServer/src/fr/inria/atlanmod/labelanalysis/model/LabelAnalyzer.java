@@ -163,20 +163,29 @@ public class LabelAnalyzer {
 		StringWriter writer = new StringWriter();
 		ResultSet result = null;
 		try {
-	        
+			 JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+	        jsonBuilder.add("projectName", " name[owner]");
+	        JsonObject jsonProject = jsonBuilder.build();
+	        JsonWriter jw = Json.createWriter(writer);
+	        jw.writeObject(jsonProject);
+	        writer.write(",");
+	        jw.close();
+			
 	        result = projectDAO.getMostRelevantProjects();
 	        while(result.next()) {
-	        	JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+	        	jsonBuilder = Json.createObjectBuilder();
 			    jsonBuilder.add("projectId", result.getString("id"));
-			    String projectName = result.getString("login") + "/" + result.getString("name");
+			    String projectName = result.getString("name") + "[" + result.getString("login") + "]";
 			    jsonBuilder.add("projectName", projectName);
+			    jsonBuilder.add("login", result.getString("login"));
+			    jsonBuilder.add("name", result.getString("name"));
 			    
-			    JsonObject jsonProject = jsonBuilder.build();
+			   jsonProject = jsonBuilder.build();
 				
-		        JsonWriter jw = Json.createWriter(writer);
-		        jw.writeObject(jsonProject);
-	        	writer.write(",");
-		        jw.close();
+		       jw = Json.createWriter(writer);
+		       jw.writeObject(jsonProject);
+		       writer.write(",");
+		       jw.close();
 		    }
 
 		} catch (SQLException sqle) {
@@ -206,11 +215,14 @@ public class LabelAnalyzer {
 		ResultSet result = null;
 		try {
 	        result = projectDAO.getProjectByNameLikeSearchString(searchpattern);
+	        
 	        while(result.next()) {
-	        	JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+	            JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
 			    jsonBuilder.add("projectId", result.getString("id"));
-			    String projectName = result.getString("login") + "/" + result.getString("name");
+			    String projectName = result.getString("name") + "[" + result.getString("login") + "]";
 			    jsonBuilder.add("projectName", projectName);
+			    jsonBuilder.add("login", result.getString("login"));
+			    jsonBuilder.add("name", result.getString("name"));
 			    
 			    JsonObject jsonProject = jsonBuilder.build();
 				
@@ -220,7 +232,6 @@ public class LabelAnalyzer {
 		        	writer.write(",");
 		        jw.close();
 		    }
-
 		} catch (SQLException sqle) {
 			sqle.printStackTrace();
 		

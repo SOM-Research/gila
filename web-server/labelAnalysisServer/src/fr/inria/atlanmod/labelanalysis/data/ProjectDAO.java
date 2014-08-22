@@ -40,7 +40,7 @@ private Connection con;
 						  + " from (select p.id, p.name, p	.login"
 								+ " from _most_relevant_projects p"
 								+ " limit 200) as mrp"
-							+ " order by mrp.login, mrp.name";
+							+ " order by mrp.name, mrp.login";
 			
 		     ResultSet rs = stmt.executeQuery(query);
 		     return rs;
