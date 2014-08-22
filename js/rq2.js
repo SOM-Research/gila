@@ -87,8 +87,14 @@ function getrq2(labelid) {
 							i = i+1;
 					});
 					
-					drawrq2(nodes, links, maxnode, maxcomments);
-					$("#loadingRQ2").css('display','none');
+					if (links.length > 0) {
+						drawrq2(nodes, links, maxnode, maxcomments);
+						$("#loadingRQ2").css('display','none');
+					}
+					else {
+						$container = $(".rq2").empty().append("<img/>").attr('id', 'nouserforlabel');
+						$('img', $container).attr("src","/imgs/nouserforlabel.png").attr("width", w2).attr("height", h2).show();
+					}
 		});
 	});
 
