@@ -19,7 +19,8 @@ public class LabelDAO {
 		try {
 			String query = "select id, name"
 							+ " from repo_labels"
-							+ " where repo_id = " + projectid;
+							+ " where repo_id = " + projectid
+							+ " group by name";
 	
 	        stmt = con.createStatement();
 	        ResultSet rs = stmt.executeQuery(query);
@@ -35,8 +36,9 @@ public class LabelDAO {
 		Statement stmt = null;
 		try {
 			String query = "select id, name, num_issues"
-							+ " from _repo_label_num_issues "
-							+ " where repo_id = " + projectid;
+							+ " from _repo_label_num_issues"
+							+ " where repo_id = " + projectid
+							+ " order by name";
 	
 	        stmt = con.createStatement();
 	        ResultSet rs = stmt.executeQuery(query);
