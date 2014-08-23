@@ -92,11 +92,23 @@ function getrq2(labelid) {
 						drawrq2(nodes, links, maxnode, maxcomments);
 					}
 					else {
-						$("#contribgraph").load("imgs/nouserforlabel.svg").attr("width", w2).attr("height", h2);
-						/*
-						$container = $(".rq2").empty().append("<img/>").attr('id', 'nouserforlabel');
-						$('img', $container).attr("src","imgs/nouserforlabel.png").attr("width", w2).attr("height", h2).show();
-						*/
+					
+						svg = d3.select("#contribgraph");
+						
+						svg.append("svg:image")
+						.attr("xlink:href", "imgs/warningimage.png")
+						.attr("width", "98%")
+						.attr("height", "98%");
+						
+						svg.append("text")
+						.attr("x", 375)
+						.attr("y", 215)
+						.attr("font-family", "sans-serif")
+						.attr("font-size", "28px")
+						.attr("text-anchor", "middle")
+						.attr("fill", "red")
+						.text("Nobody participates on this label!");
+						
 					}
 					$("#loadingRQ2").css('display','none');
 		});

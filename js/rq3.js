@@ -58,7 +58,31 @@ function getrq3(labelid) {
 	    var percMerged = +json[0].prctg_merged;
 	    var percOpen = +json[0].prctg_pending;
 	
-	    draw(".rq3", firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen);
+		var checkResult = firstComment + firstCommentCollaborator + timeToMerge + timeToClose + percClosed + percMerged + percOpen;
+		
+		if (checkResult > 0) 
+			draw(".rq3", firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen);
+		else {
+			
+			svg = d3.select(".rq3")
+			.append("svg")
+			.attr("width", 714)
+			.attr("height", 400);
+			
+			svg.append("svg:image")
+			.attr("xlink:href", "imgs/warningimage.png")
+			.attr("width", 700)
+			.attr("height", 395);
+			
+			svg.append("text")
+			.attr("x", 375)
+			.attr("y", 115)
+			.attr("font-family", "sans-serif")
+			.attr("font-size", "28px")
+			.attr("text-anchor", "middle")
+			.attr("fill", "red")
+			.text("No issue to analyse for this label!");
+		}
 	
 	    $("#loadingRQ3").css('display','none');
 	});
