@@ -16,7 +16,6 @@ var rq2 = d3.select(".rq2")
 .append("svg:g")
 .attr("id", "contribgraph");
 
-
 function createRQ2LabelCombobox(datasource) {
 
     $("#lcombobox").jqxComboBox(
@@ -141,10 +140,6 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	labels[0].x = w2/2;
 	labels[0].y = h2/2;
 	
-	console.log(labels[0]);
-	console.log(labels[0].x);
-	console.log(labels[0].y);
-	
 	//define a scale for mapping roles to colors
 	var role2color = d3.scale.ordinal()
 	.domain(['user', 'administrator'])
@@ -187,9 +182,48 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	.friction(0.8);
 	
 	force.start();
-		
+	
+	var rect = rq2.append("rect")
+	.attr("width", w2)
+	.attr("height", h2)
+	.style("fill", "none")
+	.style("pointer-events", "all");
+
+	var container = rq2.append("g")
+    .attr("id", "container");
+	
+	//add zoom and pan behavior
+	 var zoom = d3.behavior.zoom()
+	 .scaleExtent([1, 10])
+	 .on("zoom", function() {
+    	 container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+     });
+	 
+     rq2.call(zoom);
+     
+     //add drag behavior
+     var circledrag = d3.behavior.drag()
+     .origin(function(d) { return d; })
+     .on("dragstart", function(d) {
+    	 d3.event.sourceEvent.stopPropagation();
+    	 d3.select(this).classed("dragging", true);
+    	 force.start();
+     })
+     .on("drag", circledragged)
+     .on("dragend", dragended);
+     
+     var rectdrag = d3.behavior.drag()
+     .origin(function(d) { return d; })
+     .on("dragstart", function(d) {
+    	 d3.event.sourceEvent.stopPropagation();
+    	 d3.select(this).classed("dragging", true);
+    	 force.start();
+     })
+     .on("drag", rectdragged)
+     .on("dragend", dragended);
+     
 	//links
-	var link = rq2.selectAll(".line")
+	var link = container.selectAll(".line")
 	.data(links)
 	.enter()
 	.append("line")
@@ -198,19 +232,20 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	.style("stroke", "grey");
 	
 	// user nodes
-	var usernode = rq2.selectAll("rect.usernode")
+	var usernodes = container
+	.selectAll("rect.usernode")
 	.data(users)
-	.enter().append("g")
+	.enter()
+	.append("g")
 	.attr("class", "usernode")
-	.call(force.drag);
 	
-	var rect = usernode.append("svg:rect")
+	var rect = usernodes.append("svg:rect")
 	.attr("width", function(d) { return rectwidth(d.num_created_issues); })
 	.attr("height", function(d) { return rectheight(d.num_solved_issues); })
 	.attr("fill", function(d) { return d3.rgb(role2color(d.role)); })
-	;
-	
-    rect.on("mousemove", function(d, index, element) {
+	.call(rectdrag);
+		
+	rect.on("mousemove", function(d, index, element) {
         rq2tooltip.selectAll("p").remove();
         rq2tooltip
             .style("left", (d3.event.pageX+15) + "px")
@@ -234,22 +269,23 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
           .style("opacity", 1e-6);
     });
 	
-	var recttext = usernode.append("svg:text")
+	var recttext = usernodes.append("svg:text")
 	.text(function(d) {return d.name;})
 	.attr("class","nodeText");
 	
 	//label node
-	var labelnode = rq2.selectAll("circle.labelnode")
+	var labelnode = container
+	.selectAll("circle.labelnode")
 	.data(labels)
-	.enter().append("g")
+	.enter()
+	.append("g")
 	.attr("class", "labelnode")
-	.call(force.drag);
-	
+		
 	var circle = labelnode.append("svg:circle")
 	.attr("r", 30)
-	.attr("fill", d3.rgb("#797B80"));
-	;
-	
+	.attr("fill", d3.rgb("#797B80"))
+	.call(circledrag);
+		
     circle.on("mousemove", function(d, index, element) {
         rq2labeltooltip.selectAll("p").remove();
         rq2labeltooltip
@@ -285,8 +321,35 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	    recttext.attr("y", function(d) { return d.y-5; });
 	    
 	    circle.attr("cx", function(d) { return d.x; })
-	    .attr("cy", function(d) { return d.y-10; });
+	    .attr("cy", function(d) { return d.y; });
+	    
+//	    circle.attr("cx", function(d) { d.x = w2/2; return d.x; })
+//	    .attr("cy", function(d) { d.y = h2/2; return d.y; });
 	    
 	  });
-
 }
+
+ function zoomed() {
+    container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+  }
+
+ function dragstarted(d) {
+    d3.event.sourceEvent.stopPropagation();
+    d3.select(this).classed("dragging", true);
+    force.start();
+  }
+
+ function circledragged(d) {
+    
+    d3.select(this).attr("cx", d.x = d3.event.x).attr("cy", d.y = d3.event.y);
+  }
+ 
+ function rectdragged(d) {
+	    
+	d3.select(this).attr("x", d.x = d3.event.x).attr("y", d.y = d3.event.y);
+  }
+
+ function dragended(d) {
+    
+    d3.select(this).classed("dragging", false);
+  }
