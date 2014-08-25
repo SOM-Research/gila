@@ -34,27 +34,29 @@ function neighboring(id_a, id_b) {
 function getrq1(projectid) {
 
 	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1nodes&projectId="+projectid, function(errornodes,jsonnodes) {
-		if (jsonnodes.length > 0) {
-			$("#info_rq1").css("visibility", "visible");
-			d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1links&projectId="+projectid, function(errorlinks,jsonlinks) {
-				d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1maxvalues&projectId="+projectid, function(error,jsonmax) {
-		
-					var maxthickness = jsonmax[0].maxlinkvalue;
-					var maxwidth = jsonmax[1].maxnodevalue;
-					var nodes = mapId2node(jsonnodes);
-					jsonlinks.forEach(function(link) {
-						link.source = nodes[link.label1_id];
-						link.target = nodes[link.label2_id];
-					  });
-					
-					var filterednodes = nodes.filter(function(d) {return !(typeof d == "undefined");});
-					drawrq1(filterednodes, jsonlinks, maxwidth, maxthickness);
+		if (!!jsonnodes) {
+			if (jsonnodes.length > 0) {
+				$("#info_rq1").css("visibility", "visible");
+				d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1links&projectId="+projectid, function(errorlinks,jsonlinks) {
+					d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1maxvalues&projectId="+projectid, function(error,jsonmax) {
+			
+						var maxthickness = jsonmax[0].maxlinkvalue;
+						var maxwidth = jsonmax[1].maxnodevalue;
+						var nodes = mapId2node(jsonnodes);
+						jsonlinks.forEach(function(link) {
+							link.source = nodes[link.label1_id];
+							link.target = nodes[link.label2_id];
+						  });
+						
+						var filterednodes = nodes.filter(function(d) {return !(typeof d == "undefined");});
+						drawrq1(filterednodes, jsonlinks, maxwidth, maxthickness);
+					});
 				});
-			});
-		}
-		else {
-			$("#info_rq1").css("visibility", "hidden");
-		}		
+			}
+			else {
+				$("#info_rq1").css("visibility", "hidden");
+			}
+		}			
 	});
 }
 
