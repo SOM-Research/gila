@@ -36,13 +36,13 @@ function createRQ2LabelCombobox(datasource) {
 }
 
 function initrq2(datasource) {
+	createRQ2LabelCombobox(datasource);
 	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2maxvalues&projectId="+projectId, function (errormax, jsonmax) {
-		
-		maxcreated = jsonmax[0].max_created;
-		maxsolved = jsonmax[1].max_solved;
-		maxcomments = jsonmax[2].max_comments;
-		
-		createRQ2LabelCombobox(datasource);
+		if (!!jsonmax) {
+			maxcreated = jsonmax[0].max_created;
+			maxsolved = jsonmax[1].max_solved;
+			maxcomments = jsonmax[2].max_comments;
+		}
 	});
 }
 
