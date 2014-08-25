@@ -1,6 +1,7 @@
-var labelAnalyzerServlet = 'http://atlanmodexp.info.emn.fr:8800/gila';
+var labelAnalyzerServlet = 'http://localhost:8080/labelAnalysisServer';
 var selectedProjectName = "";
 var selectedProjectValue = "";
+var searchstring="";
 
 window.onload = function() {
     var source =
@@ -24,14 +25,14 @@ window.onload = function() {
     var dataAdapter = new $.jqx.dataAdapter(source, 
     	{
 	        beforeSend: function (jqxhr, settings) {
-	        	var searchstring = $("#pcombobox").jqxComboBox('searchString'); 
+	        	searchstring = $("#pcombobox").jqxComboBox('searchString'); 
 	            if (searchstring != undefined) {
 	                settings.url = settings.url + "&searchstring=" + searchstring;
 	            }
 	        },
 	        
 	        loadComplete: function() {
-	            $("#pcombobox").jqxComboBox('selectedIndex', 0);
+//	            $("#pcombobox").jqxComboBox('autoOpen', 'true');
 	        }
     	}
     );
@@ -45,7 +46,6 @@ window.onload = function() {
         valueMember: "projectId",
         remoteAutoComplete: true,
         remoteAutoCompleteDelay: 500,
-        selectedIndex: 0,
         minLength: 3,
         search: function (searchString) {
             dataAdapter.dataBind();
@@ -54,9 +54,9 @@ window.onload = function() {
     
     dataAdapter.dataBind();
     
-    $("#pcombobox").on('open', function (event) {
-    	$("#pcombobox").jqxComboBox('removeAt', 0 ); 
-    });
+//    $("#pcombobox").on('open', function (event) {
+//    	$("#pcombobox").jqxComboBox('removeAt', 0 ); 
+//    });
     
     $("#pcombobox").on('bindingComplete', function (event) {
 //    	console.log(event);
