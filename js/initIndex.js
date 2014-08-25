@@ -44,8 +44,8 @@ window.onload = function() {
         source: dataAdapter,
         displayMember: "projectName",
         valueMember: "projectId",
-        remoteAutoComplete: true,
-        remoteAutoCompleteDelay: 500,
+        //remoteAutoComplete: true,
+        //remoteAutoCompleteDelay: 500,
         minLength: 3,
         search: function (searchString) {
             dataAdapter.dataBind();
