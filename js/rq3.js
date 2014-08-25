@@ -60,10 +60,12 @@ function getrq3(labelid) {
 	
 		var checkResult = firstComment + firstCommentCollaborator + timeToMerge + timeToClose + percClosed + percMerged + percOpen;
 		
-		if (checkResult > 0) 
+		if (checkResult > 0) {
+			$("#info_rq3").css("visibility", "visible");		
 			draw(".rq3", firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen);
+		}
 		else {
-			
+			$("#info_rq3").css("visibility", "hidden");
 			svg = d3.select(".rq3")
 			.append("svg")
 			.attr("width", 714)

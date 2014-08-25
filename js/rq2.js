@@ -88,10 +88,11 @@ function getrq2(labelid) {
 					});
 					
 					if (links.length > 0) {
+						$("#info_rq2").css("visibility", "visible");
 						drawrq2(nodes, links, maxnode, maxcomments);
 					}
 					else {
-					
+						$("#info_rq2").css("visibility", "hidden");
 						svg = d3.select("#contribgraph");
 						
 						svg.append("svg:image")

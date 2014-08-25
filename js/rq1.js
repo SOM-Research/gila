@@ -35,6 +35,7 @@ function getrq1(projectid) {
 
 	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1nodes&projectId="+projectid, function(errornodes,jsonnodes) {
 		if (jsonnodes.length > 0) {
+			$("#info_rq1").css("visibility", "visible");
 			d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1links&projectId="+projectid, function(errorlinks,jsonlinks) {
 				d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1maxvalues&projectId="+projectid, function(error,jsonmax) {
 		
@@ -50,7 +51,10 @@ function getrq1(projectid) {
 					drawrq1(filterednodes, jsonlinks, maxwidth, maxthickness);
 				});
 			});
-		} 
+		}
+		else {
+			$("#info_rq1").css("visibility", "hidden");
+		}		
 	});
 }
 
