@@ -4,6 +4,7 @@ var h3 = 400;
 var heightPadding = 20;
 var widthPadding = 20;
 var verticalTick = 10;
+var defaultLineLength = 50;
 
 
 function createRQ3LabelCombobox(datasource) {
@@ -94,7 +95,10 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
     $(".tooltip").remove();
 
 	var maxTime = d3.max([timeToClose, timeToMerge, firstComment, firstCommentCollaborator]);
-
+	
+	if (maxTime === 0)
+		maxTime = defaultLineLength;
+	
     // The scale for the x axis
     // We first create an auxiliar axis from 0 to maxTime and then calculate
     // how much it takes "100" pixels in this scale. This distance will be used
