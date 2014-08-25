@@ -1,5 +1,5 @@
 $(function(){
-$container = $('<div/>').append('<p id="content"/>').append('<img/>').hide()
+$container = $('<div/>').append('<p id="content"/>').append('<img id="example"/>').append('<p style="text-align:center"><img id="loader" src="../imgs/ajax-loader.gif"/"></p>').hide()
 .css({'background': '#FFFFFF',
 'position': 'absolute',
 'font-size': '22px',
@@ -12,7 +12,8 @@ $container = $('<div/>').append('<p id="content"/>').append('<img/>').hide()
 'box-shadow': '10px 10px 5px #888888'})
 .appendTo('body'),
 
-$img = $('img', $container),
+$img = $('#example');
+$loader = $('#loader');
     $('a').mousemove(function (e) {
     $container.css({
         top: e.pageY + -200 + 'px',
@@ -36,10 +37,11 @@ $img = $('img', $container),
 	}
 	
     $container.show();
-    $img.load(function () {
-        $img.show();
-    }).attr('src', $(link).prop('href')).css({'margin-left': 'auto', 'margin-right':'auto'});
-    
+	$img.attr('src', $(link).prop('href')).css({'margin-left': 'auto', 'margin-right':'auto'});
+	$img.on('load', function () {
+        $loader.hide();
+    }).show();
+	
 }, function () {
 
     $container.hide();
