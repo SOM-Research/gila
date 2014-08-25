@@ -195,6 +195,11 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
     }
     
     if(upperMaxRange != 0) {
+		
+		if (upperMinRange === upperMaxRange) {
+			upperMinRange = upperMaxRange - 10;
+		}
+	
 	    var upperScale = d3.scale.ordinal()
 	        .domain([1, 2, 3, 4]).rangePoints([upperMinRange, upperMaxRange], 0).range();
 	
@@ -269,6 +274,11 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
     }
 
     if(lowerMaxRange != 0) {
+	
+		if (lowerMinRange === lowerMaxRange) {
+			lowerMinRange = lowerMinRange - 10;
+		}
+		
 	    var lowerScale = d3.scale.ordinal()
 	        .domain([1, 2, 3, 4]).rangePoints([lowerMinRange,lowerMaxRange], 0).range();
 	
@@ -278,6 +288,9 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 	        .attr("d", "M " +scalex(lowerScale[1]) + "," + middleLine + " "+scalex(lowerScale[2]) + "," + lowerLine)
 	        .attr("style", "fill:none;stroke:url(#lowerGradient);stroke-width:5")
 	        .attr("stroke-linecap", "round");
+			
+			console.log(lowerMaxRange);
+			console.log(timeToClose);
 	
 	    // The rotated text
 	    lowerGroup.append("text")
