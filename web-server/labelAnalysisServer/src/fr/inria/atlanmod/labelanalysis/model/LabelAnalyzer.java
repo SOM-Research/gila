@@ -16,6 +16,10 @@ import fr.inria.atlanmod.labelanalysis.data.ProjectDAO;
 public class LabelAnalyzer {
 	
 	private Connection con;
+	private JsonObjectBuilder jsonBuilder;
+	private StringWriter writer;
+	private JsonObject jsonObject;
+	private JsonWriter jw;
 	
 	public LabelAnalyzer(Connection con) {
 		this.con = con;
@@ -24,20 +28,20 @@ public class LabelAnalyzer {
 	public String getProjectLabels(String projectid) throws SQLException {
 		
 		LabelDAO labelDAO = new LabelDAO(con);
-        StringWriter writer = new StringWriter();
+        writer = new StringWriter();
         ResultSet result = null;
 		try {
 	        result = labelDAO.getLabels(projectid);
 	        while(result.next()) {
-		        JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+		        jsonBuilder = Json.createObjectBuilder();
 		        jsonBuilder.add("id", result.getString("id"));
 		        jsonBuilder.add("name", result.getString("name"));
 		        jsonBuilder.add("num_issues", result.getString("num_issues"));
 		        
-		        JsonObject jsonLabel = jsonBuilder.build();
+		        jsonObject = jsonBuilder.build();
 		
-		        JsonWriter jw = Json.createWriter(writer);
-		        jw.writeObject(jsonLabel);
+		        jw = Json.createWriter(writer);
+		        jw.writeObject(jsonObject);
 		        if(!result.isLast())
 		        	writer.write(",");
 		        jw.close();
@@ -60,20 +64,20 @@ public class LabelAnalyzer {
 	public String getLabelRelations(String projectid) throws SQLException {
 		
 		LabelDAO labelDAO = new LabelDAO(con);
-        StringWriter writer = new StringWriter();
-		ResultSet result = null;
+		writer = new StringWriter();
+        ResultSet result = null;
 		try {
 		        result = labelDAO.getLabelRelation(projectid);
 		        while(result.next()) {
-			        JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+			        jsonBuilder = Json.createObjectBuilder();
 			        jsonBuilder.add("label1_id", result.getString("label1_id"));
 			        jsonBuilder.add("label2_id", result.getString("label2_id"));
 			        jsonBuilder.add("value", result.getString("value"));
 			        
-			        JsonObject labelRelation = jsonBuilder.build();
+			        jsonObject = jsonBuilder.build();
 			
-			        JsonWriter jw = Json.createWriter(writer);
-			        jw.writeObject(labelRelation);
+			        jw = Json.createWriter(writer);
+			        jw.writeObject(jsonObject);
 			        if(!result.isLast())
 			        	writer.write(",");
 			        jw.close();
@@ -96,19 +100,18 @@ public class LabelAnalyzer {
 	public String getMaxLabelRelationCount(String projectid) throws SQLException {
 
 		LabelDAO labelDAO = new LabelDAO(con);
-		StringWriter writer = new StringWriter();
-		
+		writer = new StringWriter();
 		ResultSet result = null;
 		try {
 		        result = labelDAO.getMaxLabelRelationCount(projectid);
 		        while(result.next()) {
-		        	JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+		        	jsonBuilder = Json.createObjectBuilder();
 		        	String maxlinkvalue = result.getString("max_relation_count") != null ? result.getString("max_relation_count") : "0"; 
 				    jsonBuilder.add("maxlinkvalue", maxlinkvalue);
-				    JsonObject maxValue = jsonBuilder.build();
+				    jsonObject = jsonBuilder.build();
 					
-			        JsonWriter jw = Json.createWriter(writer);
-			        jw.writeObject(maxValue);
+			        jw = Json.createWriter(writer);
+			        jw.writeObject(jsonObject);
 			        jw.close();
 			    }
 	
@@ -129,17 +132,17 @@ public class LabelAnalyzer {
 	public String getMaxLabelIssueCount(String projectid) throws SQLException {
 	
 		LabelDAO labelDAO = new LabelDAO(con);
-		StringWriter writer = new StringWriter();
+		writer = new StringWriter();
 		ResultSet result = null;
 		try {
 		        result = labelDAO.getMaxLabelIssueCount(projectid);
 		        while(result.next()) {
-		        	JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+		        	jsonBuilder = Json.createObjectBuilder();
 		        	String maxcount = result.getString("max_issue_count") != null ? result.getString("max_issue_count") : "0";  
 				    jsonBuilder.add("maxnodevalue", maxcount);
-				    JsonObject maxValue = jsonBuilder.build();
-			        JsonWriter jw = Json.createWriter(writer);
-			        jw.writeObject(maxValue);
+				    jsonObject = jsonBuilder.build();
+			        jw = Json.createWriter(writer);
+			        jw.writeObject(jsonObject);
 			        jw.close();
 			    }
 	
@@ -160,16 +163,9 @@ public class LabelAnalyzer {
 	public String getInitialProjects() throws SQLException {
 		
 		ProjectDAO projectDAO = new ProjectDAO(con);
-		StringWriter writer = new StringWriter();
+		writer = new StringWriter();
 		ResultSet result = null;
 		try {
-			 JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
-	        jsonBuilder.add("projectName", " name[owner]");
-	        JsonObject jsonProject = jsonBuilder.build();
-	        JsonWriter jw = Json.createWriter(writer);
-	        jw.writeObject(jsonProject);
-	        writer.write(",");
-	        jw.close();
 			
 	        result = projectDAO.getMostRelevantProjects();
 	        while(result.next()) {
@@ -180,12 +176,12 @@ public class LabelAnalyzer {
 			    jsonBuilder.add("login", result.getString("login"));
 			    jsonBuilder.add("name", result.getString("name"));
 			    
-			   jsonProject = jsonBuilder.build();
+			    jsonObject = jsonBuilder.build();
 				
-		       jw = Json.createWriter(writer);
-		       jw.writeObject(jsonProject);
-		       writer.write(",");
-		       jw.close();
+			    jw = Json.createWriter(writer);
+		        jw.writeObject(jsonObject);
+		        writer.write(",");
+		        jw.close();
 		    }
 
 		} catch (SQLException sqle) {
@@ -211,23 +207,23 @@ public class LabelAnalyzer {
 	public String getProjectsMatchingSearchPattern(String searchpattern) throws SQLException {
 		
 		ProjectDAO projectDAO = new ProjectDAO(con);
-		StringWriter writer = new StringWriter();
+		writer = new StringWriter();
 		ResultSet result = null;
 		try {
 	        result = projectDAO.getProjectByNameLikeSearchString(searchpattern);
 	        
 	        while(result.next()) {
-	            JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+	            jsonBuilder = Json.createObjectBuilder();
 			    jsonBuilder.add("projectId", result.getString("id"));
 			    String projectName = result.getString("name") + "[" + result.getString("login") + "]";
 			    jsonBuilder.add("projectName", projectName);
 			    jsonBuilder.add("login", result.getString("login"));
 			    jsonBuilder.add("name", result.getString("name"));
 			    
-			    JsonObject jsonProject = jsonBuilder.build();
+			    jsonObject = jsonBuilder.build();
 				
-		        JsonWriter jw = Json.createWriter(writer);
-		        jw.writeObject(jsonProject);
+		        jw = Json.createWriter(writer);
+		        jw.writeObject(jsonObject);
 		        if(!result.isLast())
 		        	writer.write(",");
 		        jw.close();
@@ -246,19 +242,19 @@ public class LabelAnalyzer {
 	public String getAllLabels(String projectId) throws SQLException {
 	
 		LabelDAO labelDAO = new LabelDAO(con);
-		StringWriter writer = new StringWriter();
+		writer = new StringWriter();
 		ResultSet result = null;
 		try {
 	        result = labelDAO.getAllProjectLabels(projectId);
 	        while(result.next()) {
-	        	JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+	        	jsonBuilder = Json.createObjectBuilder();
 			    jsonBuilder.add("labelId", result.getString("id"));
 			    jsonBuilder.add("labelName", result.getString("name"));
 			    
-			    JsonObject jsonLabel = jsonBuilder.build();
+			    jsonObject = jsonBuilder.build();
 				
-		        JsonWriter jw = Json.createWriter(writer);
-		        jw.writeObject(jsonLabel);
+		        jw = Json.createWriter(writer);
+		        jw.writeObject(jsonObject);
 		        if(!result.isLast())
 		        	writer.write(",");
 		        jw.close();
@@ -281,19 +277,19 @@ public class LabelAnalyzer {
 	public String getRQ2Labels(String projectId) throws SQLException {
 		
 		LabelDAO labelDAO = new LabelDAO(con);
-		StringWriter writer = new StringWriter();
+		writer = new StringWriter();
 		ResultSet result = null;
 		try {
 	        result = labelDAO.selectProjectCommentedLabels(projectId);
 	        while(result.next()) {
-	        	JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+	        	jsonBuilder = Json.createObjectBuilder();
 			    jsonBuilder.add("labelId", result.getString("label_id"));
 			    jsonBuilder.add("labelName", result.getString("label_name"));
 			    
-			    JsonObject jsonLabel = jsonBuilder.build();
+			    jsonObject = jsonBuilder.build();
 				
-		        JsonWriter jw = Json.createWriter(writer);
-		        jw.writeObject(jsonLabel);
+		        jw = Json.createWriter(writer);
+		        jw.writeObject(jsonObject);
 		        if(!result.isLast())
 		        	writer.write(",");
 		        jw.close();
@@ -316,19 +312,19 @@ public class LabelAnalyzer {
 	public String getRQ3Labels(String projectId) throws SQLException {
 	
 		LabelDAO labelDAO = new LabelDAO(con);
-		StringWriter writer = new StringWriter();
+		writer = new StringWriter();
 		ResultSet result = null;
 		try {
 	        result = labelDAO.getLabelResolutionNonZeroLabels(projectId);
 	        while(result.next()) {
-	        	JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+	        	jsonBuilder = Json.createObjectBuilder();
 			    jsonBuilder.add("labelId", result.getString("label_id"));
 			    jsonBuilder.add("labelName", result.getString("label_name"));
 			    
-			    JsonObject jsonLabel = jsonBuilder.build();
+			    jsonObject = jsonBuilder.build();
 				
-		        JsonWriter jw = Json.createWriter(writer);
-		        jw.writeObject(jsonLabel);
+		        jw = Json.createWriter(writer);
+		        jw.writeObject(jsonObject);
 		        if(!result.isLast())
 		        	writer.write(",");
 		        jw.close();
@@ -351,19 +347,19 @@ return writer.toString();
 public String getProjectId(String projectName, String ownerLogin) throws SQLException {
 	
 	ProjectDAO projectDAO = new ProjectDAO(con);
-	StringWriter writer = new StringWriter();
+	writer = new StringWriter();
 	ResultSet result = null;
 	
 	try {
         result = projectDAO.getProjectIdByNameandOwner(projectName, ownerLogin);
         while(result.next()) {
-        	JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+        	jsonBuilder = Json.createObjectBuilder();
 		    jsonBuilder.add("projectId", result.getString("id"));
 		    
-		    JsonObject jsonProject = jsonBuilder.build();
+		    jsonObject = jsonBuilder.build();
 			
-	        JsonWriter jw = Json.createWriter(writer);
-	        jw.writeObject(jsonProject);
+	        jw = Json.createWriter(writer);
+	        jw.writeObject(jsonObject);
 	        jw.close();
 	    }
 
@@ -384,13 +380,13 @@ return writer.toString();
 public String getLabelContributors(String projectId, String labelId) throws SQLException {
 	
 	LabelDAO labelDAO = new LabelDAO(con);
-	StringWriter writer = new StringWriter();
+	writer = new StringWriter();
 	ResultSet result = null;
 	try {
 		
 		 result = labelDAO.getLabelContributors(projectId, labelId);
 		 while(result.next()) {
-			 JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+			 jsonBuilder = Json.createObjectBuilder();
 			 jsonBuilder.add("id", result.getString("user_id"));
 			 jsonBuilder.add("name", result.getString("login"));
 			 jsonBuilder.add("role", result.getString("role"));
@@ -399,10 +395,10 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 			 jsonBuilder.add("num_comments", result.getString("num_comments"));
 			 jsonBuilder.add("type", result.getString("type"));
 			 
-			 JsonObject jsonContributor = jsonBuilder.build();
+			 jsonObject = jsonBuilder.build();
 			 
-			 JsonWriter jw = Json.createWriter(writer);
-		     jw.writeObject(jsonContributor);
+			 jw = Json.createWriter(writer);
+		     jw.writeObject(jsonObject);
 	         if(!result.isLast())
 	        	writer.write(",");
 	         jw.close();
@@ -426,20 +422,20 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 	public String getLabelComments(String labelId) throws SQLException {
 		
 		LabelDAO labelDAO = new LabelDAO(con);
-		StringWriter writer = new StringWriter();
+		writer = new StringWriter();
 		ResultSet result = null;
 		try {
 			
 			result = labelDAO.getLabelUserComments(labelId);
 			 while(result.next()) {
-				 JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+				 jsonBuilder = Json.createObjectBuilder();
 				 jsonBuilder.add("userid", result.getString("user_id"));
 				 jsonBuilder.add("value", result.getString("value"));
 				 
-				 JsonObject jsonContributor = jsonBuilder.build();
+				 jsonObject = jsonBuilder.build();
 				 
-				 JsonWriter jw = Json.createWriter(writer);
-			     jw.writeObject(jsonContributor);
+				 jw = Json.createWriter(writer);
+			     jw.writeObject(jsonObject);
 		         if(!result.isLast())
 		        	writer.write(",");
 		         jw.close();
@@ -463,21 +459,21 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 	public String getLabelById(String labelId) throws SQLException {
 		
 		LabelDAO labelDAO = new LabelDAO(con);
-		StringWriter writer = new StringWriter();
+		writer = new StringWriter();
 		ResultSet result = null;
 		try {
 			
 			result = labelDAO.getLabelById(labelId);
 			 while(result.next()) {
-				 JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+				 jsonBuilder = Json.createObjectBuilder();
 				 jsonBuilder.add("id", result.getString("id"));
 				 jsonBuilder.add("name", result.getString("name"));
 				 jsonBuilder.add("type", result.getString("type"));
 				 
-				 JsonObject jsonLabel = jsonBuilder.build();
+				 jsonObject = jsonBuilder.build();
 				 
-				 JsonWriter jw = Json.createWriter(writer);
-			     jw.writeObject(jsonLabel);
+				 jw = Json.createWriter(writer);
+			     jw.writeObject(jsonObject);
 		         if(!result.isLast())
 		        	writer.write(",");
 		         jw.close();
@@ -501,8 +497,7 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 	public String getRQ2MaxValues(String projectId) throws SQLException {
 		
 		LabelDAO labelDAO = new LabelDAO(con);
-		StringWriter writer = new StringWriter();
-		
+		writer = new StringWriter();
 		ResultSet maxCreated = null, maxSolved = null, maxComments = null;
 		try {
 			
@@ -511,40 +506,37 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 			maxComments = labelDAO.selectMaxLabelCommentsNumProject(projectId);
 			
 			while(maxCreated.next()) {
-				 JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+				 jsonBuilder = Json.createObjectBuilder();
 				 String maxCreatedValue = maxCreated.getString("max_created") != null ? maxCreated.getString("max_created") : "0";
 				 jsonBuilder.add("max_created", maxCreatedValue);
 				 
-				 JsonObject jsonMaxCreated = jsonBuilder.build();
-				 JsonWriter jw = Json.createWriter(writer);
-			     jw.writeObject(jsonMaxCreated);
-			     jw.close();
+				 jsonObject = jsonBuilder.build();
+				 jw = Json.createWriter(writer);
+			     jw.writeObject(jsonObject);
 			}
 			
 			writer.write(",");
 			
 			while(maxSolved.next()) {
-				 JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+				 jsonBuilder = Json.createObjectBuilder();
 				 String maxSolvedValue = maxSolved.getString("max_solved") != null ? maxSolved.getString("max_solved") : "0";
 				 jsonBuilder.add("max_solved", maxSolvedValue);
 				 
-				 JsonObject jsonMaxSolved = jsonBuilder.build();
-				 JsonWriter jw = Json.createWriter(writer);
-			     jw.writeObject(jsonMaxSolved);
-			     jw.close();
+				 jsonObject = jsonBuilder.build();
+				 jw = Json.createWriter(writer);
+			     jw.writeObject(jsonObject);
 			}
 			
 			writer.write(",");
 			
 			while(maxComments.next()) {
-				 JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+				 jsonBuilder = Json.createObjectBuilder();
 				 String maxCommentsValue = maxComments.getString("max_comments") != null ? maxComments.getString("max_comments") : "0";
 				 jsonBuilder.add("max_comments", maxCommentsValue);
 				 
-				 JsonObject jsonMaxComments = jsonBuilder.build();
-				 JsonWriter jw = Json.createWriter(writer);
-			     jw.writeObject(jsonMaxComments);
-				 jw.close();
+				 jsonObject = jsonBuilder.build();
+				 jw = Json.createWriter(writer);
+			     jw.writeObject(jsonObject);
 			}
 			
 
@@ -560,7 +552,9 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 			 */
 			if (maxCreated != null) { maxCreated.getStatement().close(); }
 			if (maxSolved != null) { maxSolved.getStatement().close(); }
-			if (maxComments != null) { maxComments.getStatement().close(); }
+			if (maxComments != null) { maxComments.getStatement().close(); } 
+			if (jw != null) {jw.close();}
+			
 		}
 		
 		return writer.toString();
@@ -569,13 +563,13 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 	public String getLabelResolutionInfo(String labelId) throws SQLException {
 		
 		LabelDAO labelDAO = new LabelDAO(con);
-		StringWriter writer = new StringWriter();
+		writer = new StringWriter();
 		ResultSet result = null;
 		try {
 			result = labelDAO.getLabelResolutionData(labelId);
 			 while(result.next()) {
 				 				 
-				 JsonObjectBuilder jsonBuilder = Json.createObjectBuilder();
+				 jsonBuilder = Json.createObjectBuilder();
 				 jsonBuilder.add("label_id", result.getString("label_id"));
 				 jsonBuilder.add("label_name", result.getString("label_name"));
 				 jsonBuilder.add("avg_hs_first_comment", result.getString("avg_hs_first_comment"));
@@ -588,10 +582,10 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 				 jsonBuilder.add("prctg_pending", result.getString("prctg_pending"));
 				 
 				 
-				 JsonObject jsonResolution = jsonBuilder.build();
+				 jsonObject = jsonBuilder.build();
 				 
-				 JsonWriter jw = Json.createWriter(writer);
-			     jw.writeObject(jsonResolution);
+				 jw = Json.createWriter(writer);
+			     jw.writeObject(jsonObject);
 			     if(!result.isLast())
 			    	writer.write(",");
 			     jw.close();
