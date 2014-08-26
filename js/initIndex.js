@@ -4,6 +4,7 @@ var selectedProjectValue = "";
 var searchstring="";
 
 window.onload = function() {
+	var loader = $("#loader").attr('src', '../imgs/ajax-loader.gif').hide();
     var source =
         {
             datatype: "json",
@@ -27,12 +28,11 @@ window.onload = function() {
 	        beforeSend: function (jqxhr, settings) {
 	        	searchstring = $("#pcombobox").jqxComboBox('searchString'); 
 	            if (searchstring != undefined) {
-	                settings.url = settings.url + "&searchstring=" + searchstring;
+	            		settings.url = settings.url = settings.url + "&searchstring=" + searchstring;
 	            }
 	        },
 	        
 	        loadComplete: function() {
-//	            $("#pcombobox").jqxComboBox('autoOpen', 'true');
 	        }
     	}
     );
@@ -46,20 +46,18 @@ window.onload = function() {
         valueMember: "projectId",
         remoteAutoComplete: true,
         remoteAutoCompleteDelay: 500,
-        minLength: 3,
+        minLength: 1,
+        placeHolder: "name[owner]",
         search: function (searchString) {
+        	$(".jqx-combobox-input, .jqx-combobox-content").css({ "background": "url('../imgs/loading_project.gif') no-repeat right 5px center" });
             dataAdapter.dataBind();
+            
         }
     });
     
     dataAdapter.dataBind();
-    
-//    $("#pcombobox").on('open', function (event) {
-//    	$("#pcombobox").jqxComboBox('removeAt', 0 ); 
-//    });
-    
     $("#pcombobox").on('bindingComplete', function (event) {
-//    	console.log(event);
+    	$(".jqx-combobox-input, .jqx-combobox-content").css({ "background-image": "none" });
     });
     
     $("#pcombobox").on('select', function (event) {
