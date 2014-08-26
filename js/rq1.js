@@ -32,7 +32,8 @@ function neighboring(id_a, id_b) {
 }
 
 function getrq1(projectid) {
-
+	onLoadingGraph(d3.select("#labelgraph"), "loaderRQ1", h1, w1);
+	
 	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq1nodes&projectId="+projectid, function(errornodes,jsonnodes) {
 		if (!!jsonnodes) {
 			if (jsonnodes.length > 0) {
@@ -58,6 +59,9 @@ function getrq1(projectid) {
 			}
 		}			
 	});
+	
+	removeLoadingImage("loaderRQ1");
+	
 }
 
 function mapId2node(data) {

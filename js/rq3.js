@@ -37,6 +37,7 @@ function generaterq3() {
 	clearContainer($("#resolutiontl"));
 	
 	if (labelid != '') {
+		
 		getrq3(labelid);
 	} else {
 		$("#rq3noselection").css('display', 'block');
@@ -45,7 +46,14 @@ function generaterq3() {
 }
 
 function getrq3(labelid) {
+	var container = d3.select(".rq3")
+			.append("svg")
+			.attr("width", 714)
+			.attr("height", 400)
+			.append("svg:g")
+			.attr("id", "labeltimeline"); 
 
+	onLoadingGraph(container, "loaderRQ3", h3, w3);
     $("#loadingRQ3").css('display','inline');
 	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq3data&labelId="+labelid, function (error, json) {
 
@@ -63,32 +71,15 @@ function getrq3(labelid) {
 		
 		if (checkResult > 0) {
 			$("#info_rq3").css("visibility", "visible");		
-			draw(".rq3", firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen);
+			draw(container, firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen);
 		}
 		else {
 			$("#info_rq3").css("visibility", "hidden");
-			svg = d3.select(".rq3")
-			.append("svg")
-			.attr("width", 714)
-			.attr("height", 400);
-			
-			svg.append("svg:image")
-			.attr("xlink:href", "imgs/warningimage.png")
-			.attr("width", 700)
-			.attr("height", 395);
-			
-			svg.append("text")
-			.attr("x", 375)
-			.attr("y", 115)
-			.attr("font-family", "sans-serif")
-			.attr("font-size", "28px")
-			.attr("text-anchor", "middle")
-			.attr("fill", "red")
-			.text("No issue to analyse for this label!");
+			creatingWarningMessage(container, 375, 115, "No issue to analyse for this label!"); 
 		}
-	
 	    $("#loadingRQ3").css('display','none');
 	});
+	removeLoadingImage("loaderRQ3");
 }
 
 function draw(container, firstComment, firstCommentCollaborator, timeToMerge, timeToClose, avgAge, percClosed, percMerged, percOpen) {
@@ -121,19 +112,13 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
     var middleLine = scaley[1];
     var lowerLine = scaley[2];
     
-    var test = d3.select(container)
-    	.append("svg")
-        .attr("width", w3)
-        .attr("height", h3);
-    
-
     // The tick indicator
     var tooltip = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("opacity", 1e-6);
 
     // Creating the gradients 
-    var defs = test.append("svg:defs");
+    var defs = container.append("svg:defs");
 
     var mainGradient = defs.append("svg:linearGradient")
         .attr("id", "mainGradient")
@@ -183,7 +168,7 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
     //
     // Drawing upper path (time to merge)
     //
-    var upperGroup = test.append("g")
+    var upperGroup = container.append("g")
         .attr("id", "upperGroup");
 
     var upperMaxRange = d3.max([firstComment, firstCommentCollaborator, timeToMerge]);
@@ -262,7 +247,7 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
     //
     // Drawing lower path (time to close)
     //
-    var lowerGroup = test.append("g")
+    var lowerGroup = container.append("g")
         .attr("id", "lowerGroup");
 
     var lowerMaxRange = d3.max([d3.max([firstComment, firstCommentCollaborator]), timeToClose]);
@@ -288,10 +273,7 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 	        .attr("d", "M " +scalex(lowerScale[1]) + "," + middleLine + " "+scalex(lowerScale[2]) + "," + lowerLine)
 	        .attr("style", "fill:none;stroke:url(#lowerGradient);stroke-width:5")
 	        .attr("stroke-linecap", "round");
-			
-			console.log(lowerMaxRange);
-			console.log(timeToClose);
-	
+		
 	    // The rotated text
 	    lowerGroup.append("text")
 	        .attr("dy", "-0.6em")
@@ -346,7 +328,7 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
     //
     // Main center line, from 0 to max time value (+ avgAgePosition)
     //
-    var mainGroup = test.append("g")
+    var mainGroup = container.append("g")
         .attr("id", "mainGroup");
 
     mainGroup.append("path")

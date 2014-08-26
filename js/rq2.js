@@ -61,7 +61,7 @@ function generaterq2() {
 }
 
 function getrq2(labelid) {
-
+	onLoadingGraph(d3.select("#contribgraph"), "loaderRQ2", h2, w2);
 	$("#loadingRQ2").css('display','inline');
 
 	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq2label&labelId="+labelid, function (errorlabel, jsonlabel) {
@@ -93,26 +93,12 @@ function getrq2(labelid) {
 					}
 					else {
 						$("#info_rq2").css("visibility", "hidden");
-						svg = d3.select("#contribgraph");
-						
-						svg.append("svg:image")
-						.attr("xlink:href", "imgs/warningimage.png")
-						.attr("width", "98%")
-						.attr("height", "98%");
-						
-						svg.append("text")
-						.attr("x", 375)
-						.attr("y", 215)
-						.attr("font-family", "sans-serif")
-						.attr("font-size", "28px")
-						.attr("text-anchor", "middle")
-						.attr("fill", "red")
-						.text("Nobody participates on this label!");
-						
+						creatingWarningMessage(d3.select("#contribgraph"), 375, 215, "Nobody participates on this label!");			
 					}
 					$("#loadingRQ2").css('display','none');
 		});
 	});
+	removeLoadingImage("loaderRQ2");
 
 }
 
