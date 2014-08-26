@@ -14,38 +14,31 @@ window.onload = function() {
 	    }
 	}
 	
-	//if project id not found redirect the user to the home page
-	if (params.projectId === -1) {
-		window.location.replace("http://atlanmod.github.io/gila/error_page.html");
-	}
-	//else redirect the user to the project page
-	else {
-		if(params.projectId) {
-			projectId = params.projectId;
-			if(params.projectName) {
-				$("#projectName").text(params.projectName + " results");
-			} else {
-				$("#projectName").text('The results for your project');
-			}
-			
-			loadPage(projectId);
-
+	if(params.projectId) {
+		projectId = params.projectId;
+		if(params.projectName) {
+			$("#projectName").text(params.projectName + " results");
 		} else {
-			if(params.projectName) {
-				$("#projectName").text(params.projectName + " results");
-				$.ajax({
-					  url: labelAnalyzerServlet + "/LabelAnalysisServlet?event=getprojectid&project=" + params.projectName,
-					  success:function(data) {
-						projectId = data[0].projectId;
-						loadPage(projectId);
-					}
-				});
-				
+			$("#projectName").text('The results for your project');
+		}
+		
+		loadPage(projectId);
+
+	} else {
+		if(params.projectName) {
+			$("#projectName").text(params.projectName + " results");
+			$.ajax({
+				  url: labelAnalyzerServlet + "/LabelAnalysisServlet?event=getprojectid&project=" + params.projectName,
+				  success:function(data) {
+					projectId = data[0].projectId;
+					loadPage(projectId);
+				}
+			});
+			
 		} else {
 				$("#projectName").text('No project found');
 			}
-		}
-		}
+	}
 }
 	//var projectId = location.search.split('projectId=')[1];
 

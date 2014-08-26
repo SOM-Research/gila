@@ -25,7 +25,12 @@
 	
 	  ga('create', 'UA-54150984-1', 'auto');
 	  ga('send', 'pageview');
-  </script>
+	</script>
+	<script>
+		if (location.search.substring(1).split('&')[1].split('=')[1] === '') {
+			window.location.replace("http://atlanmod.github.io/gila/error_page.html");
+		};
+	</script>
   </head>
   <body>
     <div class="container">
