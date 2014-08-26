@@ -73,9 +73,39 @@ function loadPage(projectId) {
 function clearContainer(container) {
 	//remove previous graph if exists
 	if (container.children().size() > 0) {
-		console.log(container);
 		container.empty();
 	}
 
+}
+
+function onLoadingGraph(svgIdContainer, loaderId, svgHeight, svgWidth) {
+	svgIdContainer
+	.append("svg:image")
+	.attr("id", loaderId)
+	.attr("xlink:href", "imgs/ajax-loader.gif")
+	.attr("width", "5%")
+	.attr("height", "5%")
+	.attr("x", function(){ return svgWidth/2;})
+	.attr("y", function(){ return svgHeight/2;});
+}
+
+function removeLoadingImage(loaderId) {
+	d3.select('#' + loaderId).remove();
+}
+
+function creatingWarningMessage(svgIdContainer, posX, posY, text) {
+	svgIdContainer.append("svg:image")
+	.attr("xlink:href", "imgs/warningimage.png")
+	.attr("width", "98%")
+	.attr("height", "98%");
+						
+	svgIdContainer.append("text")
+	.attr("x", posX)
+	.attr("y", posY)
+	.attr("font-family", "sans-serif")
+	.attr("font-size", "28px")
+	.attr("text-anchor", "middle")
+	.attr("fill", "red")
+	.text(text);
 }
 
