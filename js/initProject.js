@@ -16,7 +16,7 @@ window.onload = function() {
 	
 	//if project id not found redirect the user to the home page
 	if (params.projectId === -1) {
-		window.location.replace("/error_page.html");
+		window.location.replace("http://atlanmod.github.io/gila/error_page.html");
 	}
 	//else redirect the user to the project page
 	else {
