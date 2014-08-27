@@ -105,7 +105,8 @@ body {
 .selector h2 {
 	color: #FFFFFF;
 	margin-left: 15px;
-	font-size: 1.7em;
+	font-size: 1.5em;
+	float: left;
 }
 
 .selector .caption {
@@ -117,7 +118,7 @@ body {
 }
 
 .selector button {
-	margin-top: 10px;
+	margin-top: 15px;
 	background-color: #FFFFFF; 
 	color: #9C4590;
 	font-size: 1.2em;
@@ -126,6 +127,34 @@ body {
 .projectselection {
 	margin-left: 15px;
 	margin-right: 15px;
+}
+
+#projecthelp {
+	float:left;
+	padding: 5px;
+	margin: 15px 0px 0px 5px;	
+	margin-left: 4px;
+	text-align: right;
+}
+
+.helptooltip {
+        position: absolute;
+        width: 200px;
+        height: auto;
+        padding: 15px 10px 5px 15px;
+        background-color: #F0ECDD;
+        border: solid 1px #9C4590;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        -webkit-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        -moz-box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.4);
+        pointer-events: none;
+ }
+
+.helptooltip p {
+	font-size: 12px;
 }
 
 .abstract h2 {
@@ -256,7 +285,7 @@ footer p {
 	background-color: #FFFFFF;
 }
 
-#pcombobox, #lcombobox, #rq3lcombobox {
+#lcombobox, #rq3lcombobox {
 	float: left;	
 }
 
