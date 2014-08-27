@@ -4,7 +4,7 @@ var selectedProjectValue = "";
 var searchstring="";
 
 window.onload = function() {
-	var loader = $("#loader").attr('src', 'imgs/ajax-loader.gif').hide();
+	var loader = $("#loader").attr('src', '../imgs/ajax-loader.gif').hide();
     var source =
         {
             datatype: "json",
@@ -49,7 +49,7 @@ window.onload = function() {
         minLength: 1,
         placeHolder: "name[owner]",
         search: function (searchString) {
-        	$(".jqx-combobox-input, .jqx-combobox-content").css({ "background": "url('../imgs/loading_project.gif') no-repeat right 5px center" });
+        	$(".jqx-combobox-input, .jqx-combobox-content").css({ "background": "url('gila/imgs/loading_project.gif') no-repeat right 5px center" });
             dataAdapter.dataBind();
             
         }
