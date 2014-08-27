@@ -4,7 +4,7 @@ var selectedProjectValue = "";
 var searchstring="";
 
 window.onload = function() {
-	var loader = $("#loader").attr('src', '../imgs/ajax-loader.gif').hide();
+	var loader = $("#loader").attr('src', 'imgs/ajax-loader.gif').hide();
     var source =
         {
             datatype: "json",
