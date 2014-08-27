@@ -10,7 +10,7 @@ window.onload = function() {
 	    for (var i = 0; i < parts.length; i++) {
 	        var nv = parts[i].split('=');
 	        if (!nv[0]) continue;
-	        params[nv[0]] = nv[1] || true;
+	        params[nv[0]] = nv[1] || -1;
 	    }
 	}
 	
@@ -31,19 +31,19 @@ window.onload = function() {
 				  url: labelAnalyzerServlet + "/LabelAnalysisServlet?event=getprojectid&project=" + params.projectName,
 				  success:function(data) {
 					projectId = data[0].projectId;
-				    loadPage(projectId);
+					loadPage(projectId);
 				}
 			});
 			
-	} else {
-			$("#projectName").text('No project found');
-		}
+		} else {
+				$("#projectName").text('No project found');
+			}
 	}
 }
 	//var projectId = location.search.split('projectId=')[1];
 
 function loadPage(projectId) {
-
+	
 	generaterq1(projectId);
 	
 	var source =
