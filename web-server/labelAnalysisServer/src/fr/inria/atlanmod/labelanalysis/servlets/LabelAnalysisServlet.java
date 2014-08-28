@@ -26,8 +26,12 @@ public class LabelAnalysisServlet extends HttpServlet {
 	private DataSource dataSource;
 	
 	public void init() throws ServletException {
+		initDataSource();
+	}
+	
+	public void initDataSource() {
 		try {
-			
+				
 			InitialContext initContext = new InitialContext();
 			Context envContext = (Context) initContext.lookup("java:comp/env");
 			dataSource = (DataSource) envContext.lookup("jdbc/dbCon");
@@ -68,6 +72,12 @@ public class LabelAnalysisServlet extends HttpServlet {
 			
 		//get connection
 		Connection connection = this.getConnection();
+		
+		if (connection == null) {
+			initDataSource();
+			connection = this.getConnection();
+		}
+		
 		//actual logic
 		LabelAnalysisRequestHandler handler = new LabelAnalysisRequestHandler();
 		handler.handleRequest(request, response, connection);
