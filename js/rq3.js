@@ -188,36 +188,34 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 	    var upperScale = d3.scale.ordinal()
 	        .domain([1, 2, 3, 4]).rangePoints([upperMinRange, upperMaxRange], 0).range();
 	
-	    // The diagonal line connecting paths
-	    upperGroup.append("path")
-	        .attr("id", "upperText")
-	        .attr("d", "M " +scalex(upperScale[1]) + "," + middleLine + " "+scalex(upperScale[2]) + "," + upperLine)
-	        .attr("style", "fill:none;stroke:url(#upperGradient);stroke-width:5")
-	        .attr("stroke-linecap", "round");
-	
-	    // The rotated text
+		//upper diagonal path
+		drawGrowingPath(upperGroup, "upperDiagonalLine", scalex(upperScale[1]), middleLine, scalex(upperScale[2]), upperLine, 700, 800, "fill:none;stroke:url(#upperGradient);stroke-width:5")
+	        
+		//upper path
+		drawGrowingPath(upperGroup, "upperLine", scalex(upperScale[2]), upperLine, scalex(timeToMerge), upperLine, 700, 1500, "stroke:#457313;stroke-width:5")
+			
+		// The rotated text
 	    upperGroup.append("text")
+			.attr("id", "upperText")
             .attr("dy", "-0.7em")
             .attr("dx", "2em")
+			.style("opacity", 0)
 	      .append("textPath")
-	        .attr("xlink:href","#upperText")
-	        .text("merged (" + percMerged + "%)");
-	
-	    // The section of upper path
-	    upperGroup.append("line")
-	        .attr("style", "stroke:#457313;stroke-width:5")
-	        .attr("x1", scalex(upperScale[2]))
-	        .attr("y1", upperLine)
-	        .attr("x2", scalex(timeToMerge))
-	        .attr("y2", upperLine);
-	
+	        .attr("xlink:href","#upperDiagonalLine")
+	        .text("merged (" + percMerged + "%)");	
+			
 	    var upperTick = upperGroup.append("line")
+			.attr("id", "upperTick")
 	        .attr("style", "stroke:#457313;stroke-width:10")
 	        .attr("x1", scalex(timeToMerge))
 	        .attr("y1", upperLine + verticalTick)
 	        .attr("x2", scalex(timeToMerge))
-	        .attr("y2", upperLine - verticalTick);
+	        .attr("y2", upperLine - verticalTick)
+			.style("opacity", 0);
         
+		makeItAppear(d3.select("#upperText"), 100, 1500);
+		makeItAppear(d3.select("#upperTick"), 200, 2500);
+		
         upperTick.on("mousemove", function(d, index, element) {    
             tooltip.selectAll("p").remove();
             tooltip
@@ -233,7 +231,7 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 
         upperTick.on("mouseover", function(d, index, element) {     
             tooltip.transition()
-              .duration(500)
+              .duration(200)
               .style("opacity", 1);
         });    
 
@@ -267,37 +265,36 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 	    var lowerScale = d3.scale.ordinal()
 	        .domain([1, 2, 3, 4]).rangePoints([lowerMinRange,lowerMaxRange], 0).range();
 	
-	    // The diagonal line connecting paths
-	    lowerGroup.append("path")
-	        .attr("id", "lowerText")
-	        .attr("d", "M " +scalex(lowerScale[1]) + "," + middleLine + " "+scalex(lowerScale[2]) + "," + lowerLine)
-	        .attr("style", "fill:none;stroke:url(#lowerGradient);stroke-width:5")
-	        .attr("stroke-linecap", "round");
+	
+		//lower diagonal path
+		drawGrowingPath(lowerGroup, "lowerDiagonalLine", scalex(lowerScale[1]), middleLine, scalex(lowerScale[2]), lowerLine, 700, 800, "fill:none;stroke:url(#lowerGradient);stroke-width:5")
+	
+		//lower path
+		drawGrowingPath(lowerGroup, "lowerLine", scalex(lowerScale[2]), lowerLine, scalex(timeToClose), lowerLine, 700, 1500, "stroke:#FC821A;stroke-width:5")
 		
 	    // The rotated text
 	    lowerGroup.append("text")
+			.attr("id", "lowerText")
+			.style("opacity", 0)
 	        .attr("dy", "-0.6em")
 	        .attr("dx", "3em")
 	      .append("textPath")
-	        .attr("xlink:href","#lowerText")
+	        .attr("xlink:href","#lowerDiagonalLine")
 	        .text("closing (" + percClosed + "%)");
-	
-	    // The section of lower path
-	    lowerGroup.append("line")
-	        .attr("style", "stroke:#FC821A;stroke-width:5")
-	        .attr("x1", scalex(lowerScale[2]))
-	        .attr("y1", lowerLine)
-	        .attr("x2", scalex(timeToClose))
-	        .attr("y2", lowerLine);
 	
 	    // The tick indicator
 	    var lowerTick = lowerGroup.append("line")
+			.attr("id", "lowerTick")
 	        .attr("style", "stroke:#FC821A;stroke-width:10")
 	        .attr("x1", scalex(timeToClose))
 	        .attr("y1", lowerLine + verticalTick)
 	        .attr("x2", scalex(timeToClose))
-	        .attr("y2", lowerLine - verticalTick);
+	        .attr("y2", lowerLine - verticalTick)
+			.style("opacity", 0);
 
+		makeItAppear(d3.select("#lowerText"), 100, 1500);
+		makeItAppear(d3.select("#lowerTick"), 200, 2500);	
+			
         lowerTick.on("mousemove", function(d, index, element) {    
             tooltip.selectAll("p").remove();
             tooltip
@@ -313,7 +310,7 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 
         lowerTick.on("mouseover", function(d, index, element) {     
             tooltip.transition()
-              .duration(500)
+              .duration(200)
               .style("opacity", 1);
         });    
 
@@ -330,32 +327,65 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
     //
     var mainGroup = container.append("g")
         .attr("id", "mainGroup");
-
-    mainGroup.append("path")
-        .attr("d", "M " + scalex(0) + "," + middleLine + " "+ scalex(maxTime) + "," + middleLine)
-        .attr("style", "fill:none;stroke:#000000;stroke-width:7")
-        .attr("stroke-linecap", "round");
-
-    mainGroup.append("path")
+		
+	//central path
+	drawGrowingPath(mainGroup, "centralPath", scalex(0), middleLine, scalex(maxTime), middleLine, 1000, 0, "fill:none;stroke:#000000;stroke-width:7")
+	
+	mainGroup.append("path")
+		.attr("id", "dottedPath")
         .attr("d", "M " + scalex(maxTime) + "," + middleLine + " "+ scalex(maxTime+avgAgePosition) + "," + middleLine)
         .attr("style", "fill:none;stroke:url(#mainGradient);stroke-dasharray:7,15;stroke-dashoffset:10;stroke-width:7")
-        .attr("stroke-linecap", "round");
-
-    mainGroup.append("text")
+        .attr("stroke-linecap", "round")
+		.style("opacity", 0);
+	
+	//text central line
+	mainGroup.append("text")
+		.attr("id", "centralText")
         .attr("x", scalex(maxTime+avgAgePosition))
         .attr("y", middleLine)
         .attr("dy", "-0.8em")
         .attr("dx", "-7.7em")
-        .text("Still open (" + percOpen + "%)");
-
-    // Indicators for the first time values
+        .text("Still open (" + percOpen + "%)")
+		.style("opacity", 0);
+	
+	// Indicators for the first time values
     // The tick indicator
     var firstCommentTick = mainGroup.append("line")
-        .attr("style", "stroke:rgb(0,0,0);stroke-width:10")
+		.attr("id", "firstCommentTick")
+        .attr("style", "stroke:rgb(185,211,238);stroke-width:10")
         .attr("x1", scalex(firstComment))
         .attr("y1", middleLine + verticalTick)
         .attr("x2", scalex(firstComment))
-        .attr("y2", middleLine - verticalTick);
+        .attr("y2", middleLine - verticalTick)
+		.style("opacity", 0);
+			
+	// Indicators for the first time a collaboration comments
+    // The tick indicator
+    firstCommentCollaboratorTick = mainGroup.append("line")
+		.attr("id", "firstCommentCollaboratorTick")
+        .attr("style", "stroke:rgb(0,0,0);stroke-width:10")
+        .attr("x1", scalex(firstCommentCollaborator))
+        .attr("y1", middleLine + verticalTick)
+        .attr("x2", scalex(firstCommentCollaborator))
+        .attr("y2", middleLine - verticalTick)
+		.style("opacity", 0);
+	
+	// Indicators for the age
+    // The tick indicator
+    var ageTick = mainGroup.append("line")
+		.attr("id", "ageTick")
+        .attr("style", "stroke:#F62626;stroke-width:10")
+        .attr("x1", scalex(maxTime+avgAgePosition))
+        .attr("y1", middleLine + verticalTick)
+        .attr("x2", scalex(maxTime+avgAgePosition))
+        .attr("y2", middleLine - verticalTick)
+		.style("opacity", 0);
+	
+	makeItAppear(d3.select("#dottedPath"), 200, 1100);
+	makeItAppear(d3.select("#centralText"), 100, 1500);
+	makeItAppear(d3.select("#firstCommentTick"), 200, 1500);
+	makeItAppear(d3.select("#firstCommentCollaboratorTick"), 200, 1500);
+	makeItAppear(d3.select("#ageTick"), 200, 2000);	
 
     firstCommentTick.on("mousemove", function(d, index, element) {    
         tooltip.selectAll("p").remove();
@@ -373,7 +403,7 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 
     firstCommentTick.on("mouseover", function(d, index, element) {     
         tooltip.transition()
-          .duration(500)
+          .duration(200)
           .style("opacity", 1);
     });    
 
@@ -382,15 +412,6 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
           .duration(500)
           .style("opacity", 1e-6);
     });
-
-    // Indicators for the first time a collaboration comments
-    // The tick indicator
-    firstCommentCollaboratorTick = mainGroup.append("line")
-        .attr("style", "stroke:rgb(0,0,0);stroke-width:10")
-        .attr("x1", scalex(firstCommentCollaborator))
-        .attr("y1", middleLine + verticalTick)
-        .attr("x2", scalex(firstCommentCollaborator))
-        .attr("y2", middleLine - verticalTick);
 
     firstCommentCollaboratorTick.on("mousemove", function(d, index, element) {    
         tooltip.selectAll("p").remove();
@@ -407,7 +428,7 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 
     firstCommentCollaboratorTick.on("mouseover", function(d, index, element) {     
         tooltip.transition()
-          .duration(500)
+          .duration(200)
           .style("opacity", 1);
     });    
 
@@ -416,15 +437,6 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
           .duration(500)
           .style("opacity", 1e-6);
     });
-
-    // Indicators for the age
-    // The tick indicator
-    var ageTick = mainGroup.append("line")
-        .attr("style", "stroke:#F62626;stroke-width:10")
-        .attr("x1", scalex(maxTime+avgAgePosition))
-        .attr("y1", middleLine + verticalTick)
-        .attr("x2", scalex(maxTime+avgAgePosition))
-        .attr("y2", middleLine - verticalTick);
 
     ageTick.on("mousemove", function(d, index, element) {    
         tooltip.selectAll("p").remove();
@@ -441,7 +453,7 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
 
     ageTick.on("mouseover", function(d, index, element) {     
         tooltip.transition()
-          .duration(500)
+          .duration(200)
           .style("opacity", 1);
     });    
 
@@ -450,8 +462,35 @@ function draw(container, firstComment, firstCommentCollaborator, timeToMerge, ti
           .duration(500)
           .style("opacity", 1e-6);
     });
-
+	
 };
+
+function drawGrowingPath(container, id, x1, y1, x2, y2, duration, delay, lineStyle) {
+	var path = container.append("path")
+	.attr("id", id)
+	.attr("d", "M " + x1 + "," + y1 + " "+ x2 + "," + y2)
+	.attr("style", lineStyle)
+    .attr("stroke-linecap", "round");
+ 
+	var pathTotalLength = path.node().getTotalLength();
+	
+	path
+      .attr("stroke-dasharray", pathTotalLength + " " + pathTotalLength)
+      .attr("stroke-dashoffset", pathTotalLength)
+      .transition()
+        .duration(duration)
+		.delay(delay)
+        .ease("linear")
+        .attr("stroke-dashoffset", 0);
+}
+
+function makeItAppear(element, duration, delay) {
+	element
+	.transition()
+	.delay(delay)
+	.duration(duration)
+	.style("opacity", 1);
+}
 
 function typeConversor(d) {
   d.first_comment = +d.first_comment;
