@@ -3,7 +3,7 @@ $container = $('<div/>')
 .append('<b>Example:</b>')
 .append('<p id="content"/>')
 .append('<img id="example"/>')
-.append('<p style="text-align:center"><img id="loader" src="../imgs/ajax-loader.gif"/"></p>').hide()
+.append('<p style="text-align:center"><img id="loader" src="imgs/ajax-loader.gif"/"></p>').hide()
 .css({'background': '#FFFFFF',
 'position': 'absolute',
 'font-size': '22px',

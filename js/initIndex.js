@@ -4,7 +4,7 @@ var selectedProjectValue = "";
 var searchstring="";
 
 window.onload = function() {
-	var loader = $("#loader").attr('src', '../imgs/ajax-loader.gif').hide();
+	var loader = $("#loader").attr('src', 'imgs/ajax-loader.gif').hide();
     var source =
         {
             datatype: "json",
@@ -49,7 +49,7 @@ window.onload = function() {
         minLength: 1,
         placeHolder: "name[owner]",
         search: function (searchString) {
-        	$(".jqx-combobox-input, .jqx-combobox-content").css({ "background": "url('../imgs/loading_project.gif') no-repeat right 5px center" });
+        	$(".jqx-combobox-input, .jqx-combobox-content").css({ "background": "url('imgs/loading_project.gif') no-repeat right 5px center" });
             dataAdapter.dataBind();
             
         }
@@ -71,5 +71,32 @@ window.onload = function() {
 	        }
     	}
     });
+    
+  //add help tooltip
+    var helptooltip = d3.select("body").append("div")
+    .attr("class", "helptooltip")
+    .style("opacity", 1e-6);
+    
+    helptooltip.append("p").attr("class", "tooltiptext").text("Open the combobox to choose a project from the list " +
+    "or type the name of a project you want to search. " +
+    "Projects are listed using the convention: project name[project owner].");
+    
+    var helpdiv = d3.select("#projecthelp");
+    
+    helpdiv.on("mouseover", function(d, index, element) {
+    	helptooltip
+        .style("left", (d3.event.pageX+10) + "px")
+        .style("top", (d3.event.pageY-5) + "px");
+        helptooltip.transition()
+          .duration(500)
+          .style("opacity", 1);
+    });    
+
+    helpdiv.on("mouseout", function(d, index, element) {
+    	helptooltip.transition()
+          .duration(500)
+          .style("opacity", 1e-6);
+    });
+
  
 };
