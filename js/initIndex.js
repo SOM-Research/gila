@@ -78,7 +78,7 @@ window.onload = function() {
     .style("opacity", 1e-6);
     
     helptooltip.append("p").attr("class", "tooltiptext").text("Open the combobox to choose a project from the list " +
-    "or type the first letters to search for your project. " +
+    "or type the name of a project you want to search. " +
     "Projects are listed using the convention: project name[project owner].");
     
     var helpdiv = d3.select("#projecthelp");
