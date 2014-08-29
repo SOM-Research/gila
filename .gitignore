@@ -1,2 +1,2 @@
 /.project
-web-server/**/context.xml
+web-server/labelAnalysisServer/web/META-INF/context.xml
