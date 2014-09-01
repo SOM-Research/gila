@@ -111,8 +111,8 @@ window.onload = function() {
     divV1 = d3.select("#rqbox1");
     divV1.on("mouseover", function(d, index, element) {
         tooltipV1
-            .style("left", (d3.event.pageX+10) + "px")
-            .style("top", (d3.event.pageY-5) + "px");
+            .style("left", (d3.event.pageX-275) + "px")
+            .style("top", (d3.event.pageY-520) + "px");
         tooltipV1.transition().duration(500).style("opacity", 1);
     });    
 
@@ -135,8 +135,8 @@ window.onload = function() {
     divV2 = d3.select("#rqbox2");
     divV2.on("mouseover", function(d, index, element) {
         tooltipV2
-            .style("left", (d3.event.pageX+10) + "px")
-            .style("top", (d3.event.pageY-5) + "px");
+            .style("left", (d3.event.pageX-275) + "px")
+            .style("top", (d3.event.pageY-470) + "px");
         tooltipV2.transition().duration(500).style("opacity", 1);
     });    
 
@@ -159,8 +159,8 @@ window.onload = function() {
     divV3 = d3.select("#rqbox3");
     divV3.on("mouseover", function(d, index, element) {
         tooltipV3
-            .style("left", (d3.event.pageX+10) + "px")
-            .style("top", (d3.event.pageY-5) + "px");
+            .style("left", (d3.event.pageX-275) + "px")
+            .style("top", (d3.event.pageY-530) + "px");
         tooltipV3.transition().duration(500).style("opacity", 1);
     });    
 

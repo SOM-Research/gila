@@ -81,8 +81,6 @@ body {
 
 .container .rqbox {
 	background-color: #EDDDC7;
-/* 	background-color: #D9D2C5; */
-/* 	margin-top: 30px; */
 	border-radius: 5px;
 	padding: 20px;
 }
@@ -105,6 +103,20 @@ body {
 .container .rqbox h3 img {
 	vertical-align: middle;
 	width: 14px;
+}
+
+.container .ribbon {
+	position: relative;
+	left: 25%;
+	width: 50%;
+	color: #ffffff;
+	background: -webkit-linear-gradient(top,#9C4590, #75346c);
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	text-align: center;
+	font-size: 0.85em;
 }
 
 .selector h2 {
