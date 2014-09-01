@@ -80,11 +80,11 @@ public class LabelAnalysisServlet extends HttpServlet {
 			//get connection
 			Connection connection = this.getConnection();
 						
-			if (connection == null) {
-				LOGGER.info("The assigned connection is closed. Reinitializing data source...");
-				initDataSource();
-				connection = this.getConnection();
-			}
+//			if (connection.isValid(2)) {
+//				LOGGER.info("The assigned connection is closed. Reinitializing data source...");
+//				initDataSource();
+//				connection = this.getConnection();
+//			}
 			
 			LOGGER.info("Number of active connections: " + dataSource.getNumActive());
 			
@@ -92,9 +92,10 @@ public class LabelAnalysisServlet extends HttpServlet {
 			LabelAnalysisRequestHandler handler = new LabelAnalysisRequestHandler();
 			handler.handleRequest(request, response, connection);
 			
-			//close connection
-			if (connection != null)
-				connection.close();
+			LOGGER.info("Request execution finished. Closing connection, valid: " + connection.isValid(2));
+			connection.close();
+			LOGGER.info("Connection closed " + connection.isClosed());
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
