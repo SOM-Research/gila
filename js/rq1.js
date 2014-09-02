@@ -111,9 +111,27 @@ function drawrq1(nodes, links, maxwidth, maxthickness) {
 	.linkDistance(200);
 	
 	force.start();
+
+	//add zoom and pan behavior
+	var panrect = rq1.append("rect")
+	.attr("width", w1)
+	.attr("height", h1)
+	.style("fill", "none")
+	.style("pointer-events", "all");
+	
+	var container = rq1.append("g")
+    .attr("id", "container");
+	
+	 var zoom = d3.behavior.zoom()
+	 .scaleExtent([1, 10])
+	 .on("zoom", function() {
+    	 container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+     });
+	 
+     rq1.call(zoom);
 	
 	//links
-	var link = rq1.selectAll(".line")
+	var link = container.selectAll(".line")
 	.data(links)
 	.enter()
 	.append("line")
@@ -128,7 +146,7 @@ function drawrq1(nodes, links, maxwidth, maxthickness) {
 	});
 	
 	//label nodes
-	var labelnode = rq1.selectAll("circle.labelnode")
+	var labelnode = container.selectAll("circle.labelnode")
 	.data(nodes)
 	.enter().append("g")
 	.attr("class", "labelnode")
