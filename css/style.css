@@ -73,6 +73,7 @@ body {
 }
 
 .container .selector {
+	width: 100%;
 	padding: 10px;
 	border: 1px solid #9C4590;
 	background-color: #9C4590;
@@ -119,13 +120,6 @@ body {
 	font-size: 0.85em;
 }
 
-.selector h2 {
-	color: #FFFFFF;
-	margin-left: 15px;
-	font-size: 1.5em;
-	float: left;
-}
-
 .selector .caption {
 	color: #FFFFFF;
 	margin-left: 15px;
@@ -142,15 +136,28 @@ body {
 }
 
 .projectselection {
+	clear:both;
 	margin: 0px 15px 20px 15px;
 }
 
-#projecthelp {
-	float:left;
-	padding: 5px;
-	margin: 15px 0px 0px 5px;	
-	margin-left: 4px;
-	text-align: right;
+.projectheadline {
+	width:230px;
+	margin: 0px auto;
+}
+.projectheadline h2 {
+	text-align:center;
+	color: #FFFFFF;
+	margin-left: 15px;
+	font-size: 1.5em;
+	float: left;
+}
+
+.projectheadline img {
+	margin: 25px 0px 0px 10px;
+}
+
+#pcombobox {
+	margin: 0px auto;
 }
 
 .helptooltip {
