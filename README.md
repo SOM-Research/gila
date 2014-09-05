@@ -22,7 +22,7 @@ GiLA includes three different kinds of label visualizations:
 
 **Target:** Discover the most active users and contributors per label: who opens them? who closes them?
 
-**Visualization:**   A graph-like visualization that highlights the contribution of users for a given label. Users are represented as boxes while labels are represented as circles. The box size is proportional to the number of times such user has contributed to the label. In particular, the box height and width are proportional to the number of created and closed issues, respectively. Additionally, box colors range from gray to red indicating the number of comments made by the users (the more red it is the more comments the user has made). Edges connect users with labels, the thicker they are the more number of issues the users have contributed.
+**Visualization:**   A graph-like visualization that highlights the contribution of users for a given label. Users are represented as boxes while labels are represented as circles. The box size is proportional to the number of times such user has contributed to the label. In particular, the box width and height are proportional to the number of created and closed issues, respectively. Additionally, box colors allows you to distinguish between admins (i.e., orange boxes) and users (i.e., purple boxes). Edges connect users with labels, the thicker they are the more number of comments the users have contributed in such a label.
 
 ### Label timeline visualization
 
@@ -30,7 +30,7 @@ GiLA includes three different kinds of label visualizations:
 
 **Target:** Understand the typical evolution of issues under each label: when are they discussed?, solved?, etc.
 
-**Visualization:**  A tree-like visualization that shows the average time for some important events in the evolution of the issues for a given label. The tree has a main path which includes two events: (1) the average time for the first comment from an external user and (2) the average  time for the first comment from a collaborator of the project. This path then forks into thre subpaths to represent (1) the percentage of issues closed (and the average time to be closed), (2) the percentage of issues merged (and the average time to be merged) and (3) the percentage of issues still open (and their average age).
+**Visualization:**  A tree-like visualization that shows the average time for some important events in the evolution of the issues for a given label. The tree has a main path which includes two events: (1) the average time for the first comment and (2) the average time for the first comment from a collaborator of the project. This path then forks into three subpaths to represent (1) the percentage of issues closed (and the average time to be closed), (2) the percentage of issues merged (and the average time to be merged) and (3) the percentage of issues still open (and their average age).
 
 ## Dataset
 
