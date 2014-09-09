@@ -39,7 +39,7 @@ window.onload = function() {
     
     $("#pcombobox").jqxComboBox(
     {
-        width: 200,
+        width: "100%",
         height: 25,
         source: dataAdapter,
         displayMember: "projectName",
