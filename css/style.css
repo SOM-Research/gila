@@ -53,6 +53,14 @@ body {
 	background-color : #B76DAE;
 }
 
+#error {
+	text-align: center;
+	background: #9C4590;
+	color: #FFFFFF;
+	font: 10px Helvetica, Sans-Serif;
+	border-radius: 8px;
+}
+
 .row {
 	margin: 10px 0px;
 }
