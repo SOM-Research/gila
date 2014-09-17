@@ -1,5 +1,6 @@
 
 var projectId;
+
 var labelAnalyzerServlet = 'http://atlanmodexp.info.emn.fr:8800/gila';
 
 window.onload = function() {
@@ -50,9 +51,10 @@ function getProjectSummary(projectId) {
 			  numLabels = data[0].num_labels;
 			  percLabeled = data[0].perc_labeled;
 			  avgLabels = data[0].avg_num_labels;
+			  label = (numLabels == 1)? 'label' : 'labels'; 
 			  
 			  $("#projectsummary").html('The project defines <span>' + numLabels  
-			   +' labels </span> and <span>' + percLabeled + '% </span> of the total number of issues are <span> tagged</span>,'
+			   +' '+ label +'</span> and <span>' + percLabeled + '% </span> of the total number of issues are <span> labeled</span>,'
 			   +' having an average of <span>'+ avgLabels +' labels </span> per issue');
 		}
 	});
