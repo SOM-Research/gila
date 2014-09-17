@@ -24,7 +24,7 @@ public class LabelDAO {
 	
 	        stmt = con.createStatement();
 	        ResultSet rs = stmt.executeQuery(query);
-	        return rs;
+        	return rs;
 	        
 		} catch (SQLException e) {
 			throw e;			
@@ -415,4 +415,44 @@ public class LabelDAO {
 		}
 	}
 
+	/**
+	 * Selects the avg_number of labels per issue, percentage of labeled issues and num of defined labels
+	 * for a given project
+	 * @param projectId The id of the project to query
+	 * @return a ResultSet with one row and three columns, namely: num_labels, perc_labeled, avg_num_labels
+	 * @throws SQLException
+	 */
+	public ResultSet getProjectLabelinfo(String projectId) throws SQLException {
+		
+		Statement stmt = null;
+		try {
+			String query = "select"
+						//selects the number of distinct labels defined in a project
+						+ "(select count(id) from repo_labels where repo_id = " + projectId + ") as num_labels,"
+						//counts the number of (distinct) labeled issues and the total number of issues in a project
+						//then obtains the percentage of labeled issues as #labeled / #total * 100
+						+ "(select"
+						+ " round(((select count(distinct li1.issue_id)"
+								+ " from _label_issues li1"
+								+ " where li1.repo_id = " + projectId + " and li1.label_id <> 0) / count(distinct li2.issue_id)) * 100,2)"
+						+ " from _label_issues li2"
+						+ " where li2.repo_id = " + projectId + ") as perc_labeled,"
+						//calculates the number of labels assigned to each labeled issue, then applies
+						//the average to this count column
+						+ "(select round(avg(num_labels),2) from"
+							+ " (select repo_id, issue_id, count(label_id) as num_labels "
+							+ " from _label_issues"
+							+ " where label_id <> 0 and repo_id = " + projectId
+							+ " group by issue_id) as count_labels_issue"
+						+ " ) as avg_num_labels";
+			
+			stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+	
+		} catch (SQLException e) {
+			throw e;
+		}
+
+	}
 }
