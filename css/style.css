@@ -256,6 +256,20 @@ footer p {
 	margin: 20px 0px;
 }
 
+#projectsummary {
+	font-size: 1.35em;
+	color: #9C4590;
+	padding: 20px;
+	text-align:center;
+	background-color:#F0ECDD;
+	border-radius: 10px;
+	margin: 10px 0px;
+}
+
+#projectsummary span {
+	font-weight: bold;
+}
+
 .leftcol {
 	color: black;
 	padding: 20px;

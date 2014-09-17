@@ -1,3 +1,4 @@
+
 var projectId;
 var labelAnalyzerServlet = 'http://atlanmodexp.info.emn.fr:8800/gila';
 
@@ -42,8 +43,24 @@ window.onload = function() {
 }
 	//var projectId = location.search.split('projectId=')[1];
 
+function getProjectSummary(projectId) {
+	$.ajax({
+		  url: labelAnalyzerServlet + "/LabelAnalysisServlet?event=projectsummary&projectId=" + projectId,
+		  success:function(data) {
+			  numLabels = data[0].num_labels;
+			  percLabeled = data[0].perc_labeled;
+			  avgLabels = data[0].avg_num_labels;
+			  
+			  $("#projectsummary").html('The project defines <span>' + numLabels  
+			   +' labels </span> and <span>' + percLabeled + '% </span> of the total number of issues are <span> tagged</span>,'
+			   +' having an average of <span>'+ avgLabels +' labels </span> per issue');
+		}
+	});
+}
+
 function loadPage(projectId) {
 	
+	getProjectSummary(projectId);
 	generaterq1(projectId);
 	
 	var source =
@@ -108,4 +125,3 @@ function creatingWarningMessage(svgIdContainer, posX, posY, text) {
 	.attr("fill", "red")
 	.text(text);
 }
-
