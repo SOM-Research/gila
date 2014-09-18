@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Label Analyzer.</title>
+    <title>GitHub Label Analyzer</title>
     <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/jQWidgets/jqx.base.css" />
@@ -33,6 +33,12 @@
 	</script>
   </head>
   <body>
+    <div id="affixBox">
+      <div class="surveyBox">
+        <p class="text-center">We would like to hear your opinion</p>
+        <p class="text-center"><b><a href="#">Take our survey!</a></b></p>
+      </div>
+    </div>
     <div class="container">
       <div class="row">
         <div class="col-md-12 project">
@@ -51,15 +57,19 @@
           <p>Each label is represented as a node in the graph. The bigger the node is the more frequent is the label (i.e. the more issues with that label in the project). Edges connect labels that share issues. The thicker the edge the more issues tagged with both labels there are.</p>
           <div class="legend">
           	<div class="legenditem">
-          		<img src="imgs/circle-16.png" height="16" width="16"/>	
+          		<img src="imgs/circle.png" height="16" width="16"/>	
           		<p>Label</p>
           	</div>
+            <div class="legenditem">
+              <img src="imgs/circleSize.png" height="16" width="16"/> 
+              <p>Label Ocurrence</p>
+            </div>
           	<div class="legenditem">
-          		<img src="imgs/line-16.png" height="16" width="16"/>	
+          		<img src="imgs/line.png" height="16" width="16"/>	
           		<p>Labels assigned together</p>
           	</div>
           	<div class="legenditem">
-          		<img src="imgs/line-width-16.png" height="16" width="16"/>	
+          		<img src="imgs/lineThick.png" height="16" width="16"/>	
           		<p>Number of occurrences of a pair of labels</p>
           	</div>
           </div>
@@ -74,6 +84,32 @@
         <div class="col-md-4 leftcol">
           <h2>User Involvement</h2>
           <p>Select a label to see how users participate on it. The label is shown as a circled node in the center of the graph, whereas the involved users are represented as rectangle nodes (orange for project collaborators). The width of the rectangle indicates the number of issues the user opened, the height denotes the number of issues he closed. The edges between user nodes and the label node, represent comments made to issues containing that label, the thicker this line is the more the number of issues a user has commented.</p>
+          <div class="legend">
+            <div class="legenditem">
+              <img src="imgs/width.png" height="16" width="16"/> 
+              <p>Issues Opened</p>
+            </div>
+            <div class="legenditem">
+              <img src="imgs/height.png" height="16" width="16"/> 
+              <p>Issues Closed</p>
+            </div>
+            <div class="legenditem">
+              <img src="imgs/violet.png" height="16" width="16"/> 
+              <p>User</p>
+            </div>
+            <div class="legenditem">
+              <img src="imgs/orange.png" height="16" width="16"/> 
+              <p>Collaborator</p>
+            </div>
+            <div class="legenditem">
+              <img src="imgs/line.png" height="16" width="16"/> 
+              <p>Comment</p>
+            </div>
+            <div class="legenditem">
+              <img src="imgs/lineThick.png" height="16" width="16"/>  
+              <p>Number of comments</p>
+            </div>
+          </div>
           <div id ="labelselection">
             <div id='lcombobox'></div>
             <button class="btn btn-xs" value="RQ2" onclick="generaterq2();">OK</button><img id="loadingRQ2" style="display:none; margin-left: 10px" src="imgs/ajax-loader.gif"/>

@@ -499,3 +499,36 @@ footer p {
 .tooltiptext span {
 	font-weight: bold;
 }
+#affixBox.affix-top {
+    position: static;
+  	margin-top:0px;
+  	width:228px;
+}
+  
+#affixBox.affix {
+    position: fixed;
+    top:180px;
+    right: 190px;
+    width:170px;
+}
+
+.surveyBox {
+	background-color: #9C4590;
+	color: #FFFFFF;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 10px;
+}
+
+.surveyBox p {
+	margin-bottom: 10px;
+	margin-top: 10px;
+	font-size: 1em;
+}
+
+.surveyBox a, .surveyBox a:hover, .surveyBox a:visited {
+	text-decoration: none;
+	color: #FFFFFF;
+}
