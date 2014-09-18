@@ -55,10 +55,14 @@ body {
 
 #error {
 	text-align: center;
-	background: #9C4590;
+	background: #D44A31;
 	color: #FFFFFF;
-	font: 10px Helvetica, Sans-Serif;
+	font: 24px Helvetica, Sans-Serif;
 	border-radius: 8px;
+}
+#error a:hover, #error a:link, #error a:visited {
+	text-decoration: underline;
+	color: #ffffff;
 }
 
 .row {

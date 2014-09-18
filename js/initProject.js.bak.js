@@ -1,22 +1,16 @@
-
 var projectId;
-
 var labelAnalyzerServlet = 'http://atlanmodexp.info.emn.fr:8800/gila';
 
 window.onload = function() {
-	if(window.location.protocol !== 'http:') {
-        $("#error").html('<p>You are accessing from an HTTPS connection and our service is located in an HTTP server.</p><p>Please access to our HTTP server <a href="http://atlanmod.github.io/gila">here</p>');
-        $("#error").css("visibility" ,"visible");
-        $("#selectorBox").css("visibility", "hidden");
-    }
-
 	var params = {};
-	
+
 	$('#affixBox').affix({
 		offset : {
 			top : "102px"
 		}
 	});
+
+	console.log($('.project').height());
 
 	if (location.search) {
 	    var parts = location.search.substring(1).split('&');
@@ -56,25 +50,8 @@ window.onload = function() {
 }
 	//var projectId = location.search.split('projectId=')[1];
 
-function getProjectSummary(projectId) {
-	$.ajax({
-		  url: labelAnalyzerServlet + "/LabelAnalysisServlet?event=projectsummary&projectId=" + projectId,
-		  success:function(data) {
-			  numLabels = data[0].num_labels;
-			  percLabeled = data[0].perc_labeled;
-			  avgLabels = data[0].avg_num_labels;
-			  label = (numLabels == 1)? 'label' : 'labels'; 
-			  
-			  $("#projectsummary").html('The project defines <span>' + numLabels  
-			   +' '+ label +'</span> and <span>' + percLabeled + '% </span> of the total number of issues are <span> labeled</span>,'
-			   +' having an average of <span>'+ avgLabels +' labels </span> per issue');
-		}
-	});
-}
-
 function loadPage(projectId) {
 	
-	getProjectSummary(projectId);
 	generaterq1(projectId);
 	
 	var source =
@@ -139,3 +116,4 @@ function creatingWarningMessage(svgIdContainer, posX, posY, text) {
 	.attr("fill", "red")
 	.text(text);
 }
+
