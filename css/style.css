@@ -160,7 +160,7 @@ body {
 	float: left;
 }
 
-.projectheadline img {
+.projectheadline img {project
 	margin: 25px 0px 0px 10px;
 }
 
@@ -298,6 +298,32 @@ footer p {
 	background-color : #B76DAE;
 	border-color: #B76DAE;
 }
+
+.legend {
+	min-height: 80px;
+	width: 100%;
+	margin-top: 30px;
+	background: #FFFFFF;
+	border: 1px solid #9C4590;
+	border-radius: 10px;
+	padding: 10px;
+}
+
+.legenditem {
+	height: 16px;
+	width: 100%;
+	padding: 10px;	
+	display:inline-block;
+}
+
+.legenditem img {
+	float: left;
+	margin-right: 10px;
+}
+
+.legenditem p {
+}
+
 
 .rightcol {
 	padding: 20px;
