@@ -510,6 +510,7 @@ footer p {
     top:180px;
     right: 190px;
     width:170px;
+    z-index: 5;
 }
 
 .surveyBox {
