@@ -537,3 +537,25 @@ footer p {
 	text-decoration: none;
 	color: #FFFFFF;
 }
+
+.landingSurveyBox {
+	margin-top: 10px;
+	background-color: #9C4590;
+	color: #FFFFFF;
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	border-radius: 10px;
+}
+
+.landingSurveyBox p {
+	margin-bottom: 5px;
+	margin-top: 5px;
+	font-size: 1.2em;
+}
+
+.landingSurveyBox a, .landingSurveyBox a:hover, .landingSurveyBox a:visited {
+	text-decoration: underline;
+	color: #FFFFFF;
+}
