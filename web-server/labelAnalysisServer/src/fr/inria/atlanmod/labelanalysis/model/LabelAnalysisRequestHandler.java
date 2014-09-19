@@ -250,7 +250,23 @@ public class LabelAnalysisRequestHandler {
 			} catch (IOException ioe) {
 				ioe.printStackTrace();
 			} 
-		}
+		
+		} else if (event.equals("projectsummary")) {
+			LabelAnalyzer analyzer = new LabelAnalyzer(con);
+			String projectId = req.getParameter("projectId");
+			
+			try {
+				
+				String jsonStream = analyzer.getProjectSummaryInformation(projectId);
+		        String jsonarray = "[" + jsonStream + "]";
+				res.getWriter().write(jsonarray);
+				
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+		} 
 	}
 	
 }

@@ -405,7 +405,6 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 		 }
 		
 	} catch (SQLException e) {
-		// TODO Auto-generated catch block
 		e.printStackTrace();
 		
 	} finally {
@@ -442,7 +441,6 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 			 }
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
 		} finally {
@@ -480,7 +478,6 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 			 }
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		
 		} finally {
@@ -542,7 +539,6 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 
 						
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		
 		} finally {
@@ -592,9 +588,40 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 			}
 			 
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			
+		} finally {
+			/*
+			 * We close the statement because according to the JavaDocs,
+			 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+			 */
+			if (result != null) { result.getStatement().close(); }
+		}
+		
+	return writer.toString();
+ }
+	
+ public String getProjectSummaryInformation(String projectId) throws SQLException {
+	
+	 LabelDAO labelDAO = new LabelDAO(con);
+		writer = new StringWriter();
+		ResultSet result = null;
+		try {
+			result = labelDAO.getProjectLabelinfo(projectId);
+			 while(result.next()) {
+				 jsonBuilder = Json.createObjectBuilder();
+				 jsonBuilder.add("num_labels", result.getString("num_labels"));
+				 jsonBuilder.add("perc_labeled", result.getString("perc_labeled"));
+				 jsonBuilder.add("avg_num_labels", result.getString("avg_num_labels"));
+				
+				 jsonObject = jsonBuilder.build();
+				
+				 jw = Json.createWriter(writer);
+			     jw.writeObject(jsonObject);
+			     jw.close();
+			 }
+		} catch (SQLException e) {
+			e.printStackTrace();
 		} finally {
 			/*
 			 * We close the statement because according to the JavaDocs,
