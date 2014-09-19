@@ -602,6 +602,8 @@ left outer join
 ;
 
 --
+/* _label_merge_close_time AND _label_resolution_stats HAVE BEEN REPLACED BY A PYTHON SCRIPT THAT GENERATES THE TABLE _label_statistics  */
+/*
 create table _label_merge_close_time as
 	select 
 		li.repo_id,
@@ -645,6 +647,7 @@ from
 
 ALTER TABLE _label_resolution_stats ADD INDEX (repo_id);
 ALTER TABLE _label_resolution_stats ADD INDEX (label_id);
+*/
 
 create table _count_labeled_isues as	
 select repo_id, count(issue_id) as num_labeled_issues 
