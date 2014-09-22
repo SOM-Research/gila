@@ -5,12 +5,6 @@ var labelAnalyzerServlet = 'http://atlanmodexp.info.emn.fr:8800/gila';
 
 window.onload = function() {
 	var params = {};
-	
-	$('#affixBox').affix({
-		offset : {
-			top : "102px"
-		}
-	});
 
 	if (location.search) {
 	    var parts = location.search.substring(1).split('&');

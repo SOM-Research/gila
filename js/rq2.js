@@ -170,7 +170,7 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	
 	force.start();
 	
-	var rect = rq2.append("rect")
+	var panrect = rq2.append("rect")
 	.attr("width", w2)
 	.attr("height", h2)
 	.style("fill", "none")
@@ -315,10 +315,6 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 	    
 	  });
 }
-
- function zoomed() {
-    container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-  }
 
  function dragstarted(d) {
     d3.event.sourceEvent.stopPropagation();
