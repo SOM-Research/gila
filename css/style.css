@@ -388,6 +388,21 @@ footer p {
 	float: left;	
 }
 
+.outlierdiv {
+	width: 200px;
+	padding: 10px 0px;
+}
+
+#outlierscheck {
+	width: 15px;
+	height: 15px;
+	float: left;
+	margin-right: 5px;
+}
+
+.outlierdiv p {
+	margin-top: 2px;
+}
 
 #labelselection {
 	width:1000px;

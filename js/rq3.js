@@ -55,7 +55,11 @@ function getrq3(labelid) {
 
 	onLoadingGraph(container, "loaderRQ3", h3, w3);
     $("#loadingRQ3").css('display','inline');
-	d3.json(labelAnalyzerServlet + "/LabelAnalysisServlet?event=rq3data&labelId="+labelid, function (error, json) {
+    var event = $('#outlierscheck').prop('checked') ? 'rq3data!outliers' : 'rq3data';
+    var url = labelAnalyzerServlet + "/LabelAnalysisServlet?event="+event+"&labelId="+labelid;
+    
+    
+	d3.json(url, function (error, json) {
 
 	    // Main variables to draw the lines
 	    var firstComment = +json[0].avg_hs_first_comment;
