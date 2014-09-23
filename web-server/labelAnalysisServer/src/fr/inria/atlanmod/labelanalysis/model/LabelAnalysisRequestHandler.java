@@ -251,6 +251,23 @@ public class LabelAnalysisRequestHandler {
 				ioe.printStackTrace();
 			} 
 		
+		} else if (event.equals("rq3data!outliers")) { 
+			
+			LabelAnalyzer analyzer = new LabelAnalyzer(con);
+			String labelId = req.getParameter("labelId");
+			
+			try {
+				
+				String jsonStream = analyzer.getLabelResolutionInfoRemovingOutliers(labelId);
+		        String jsonarray = "[" + jsonStream + "]";
+				res.getWriter().write(jsonarray);
+				
+			} catch (SQLException sqle) {
+				sqle.printStackTrace();
+			} catch (IOException ioe) {
+				ioe.printStackTrace();
+			}
+		
 		} else if (event.equals("projectsummary")) {
 			LabelAnalyzer analyzer = new LabelAnalyzer(con);
 			String projectId = req.getParameter("projectId");

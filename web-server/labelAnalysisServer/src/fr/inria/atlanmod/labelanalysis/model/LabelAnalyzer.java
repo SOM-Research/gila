@@ -601,6 +601,49 @@ public String getLabelContributors(String projectId, String labelId) throws SQLE
 	return writer.toString();
  }
 	
+ public String getLabelResolutionInfoRemovingOutliers(String labelId) throws SQLException {
+	 
+	 LabelDAO labelDAO = new LabelDAO(con);
+		writer = new StringWriter();
+		ResultSet result = null;
+		try {
+			result = labelDAO.getLabelResolutionDataRemovingOutliers(labelId);
+			 while(result.next()) {
+				 jsonBuilder = Json.createObjectBuilder();
+				 jsonBuilder.add("label_id", result.getString("label_id"));
+				 jsonBuilder.add("label_name", result.getString("label_name"));
+				 jsonBuilder.add("avg_hs_first_comment", result.getString("hs_first_comment"));
+				 jsonBuilder.add("avg_hs_first_collab_response", result.getString("hs_collab_response"));
+				 jsonBuilder.add("avg_hs_to_merge", result.getString("hs_to_merge"));
+				 jsonBuilder.add("avg_hs_to_close", result.getString("hs_to_close"));
+				 jsonBuilder.add("avg_pending_issue_age", result.getString("pending_issue_age"));
+				 jsonBuilder.add("prctg_merged", result.getString("prctg_merged"));
+				 jsonBuilder.add("prctg_closed", result.getString("prctg_closed"));
+				 jsonBuilder.add("prctg_pending", result.getString("prctg_pending"));
+				 
+				 jsonObject = jsonBuilder.build();
+				 
+				 jw = Json.createWriter(writer);
+			     jw.writeObject(jsonObject);
+			     if(!result.isLast())
+			    	writer.write(",");
+			     jw.close();
+			}
+			 
+		} catch (SQLException e) {
+			e.printStackTrace();
+			
+		} finally {
+			/*
+			 * We close the statement because according to the JavaDocs,
+			 * When a Statement object is closed, its current ResultSet object, if one exists, is also closed.
+			 */
+			if (result != null) { result.getStatement().close(); }
+		}
+		
+	return writer.toString();
+ }
+	
  public String getProjectSummaryInformation(String projectId) throws SQLException {
 	
 	 LabelDAO labelDAO = new LabelDAO(con);

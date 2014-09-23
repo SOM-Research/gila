@@ -393,6 +393,73 @@ public class LabelDAO {
 		} 
 	}
 	
+	/**
+	 * Queries the database to obtain information about label resolution
+	 * The values are calculated considering the median instead
+	 * of the mean (average) value, which is a better indicator when the distribution
+	 * contains extreme outlier values
+	 * @param labelId labelId The id of the label for which the data is requested
+	 * @return A ResultSet containing the following information:
+	 * 	hs_first_comment,
+	 *  hs_collab_response,
+	 *  hs_to_merge,
+	 *  hs_to_close,
+	 *  pending_issue_age,
+	 *  prctg_merged,
+	 *  prctg_closed,
+	 *  prctg_pending
+	 * @throws SQLException
+	 */
+	public ResultSet getLabelResolutionDataRemovingOutliers(String labelId) throws SQLException {
+		
+		Statement stmt = null;
+		try {
+			String query = "select  label_id, label_name,"
+					+ " case"
+					+ " when (hs_first_comment_perc50th = 0 or hs_first_comment_perc50th is null)"
+					+ " then ifnull(hs_first_comment_perc75th, 0)"
+					+ " else hs_first_comment_perc50th"
+					+ " end as hs_first_comment,"
+					
+					+ " case"
+					+ " when (hs_collab_response_perc50th = 0 or hs_collab_response_perc50th is null)"
+					+ " then ifnull(hs_collab_response_perc75th, 0)"
+					+ " else hs_collab_response_perc50th"
+					+ " end as hs_collab_response,"
+					
+					+ " case"
+					+ " when (issue_merge_time_hs_to_solve_perc50th = 0 or issue_merge_time_hs_to_solve_perc50th is null)"
+					+ " then ifnull(issue_merge_time_hs_to_solve_perc75th, 0)"
+					+ " else issue_merge_time_hs_to_solve_perc50th"
+					+ " end as hs_to_merge,"
+					
+					+ " case"
+					+ " when (issue_close_time_hs_to_solve_perc50th = 0 or issue_close_time_hs_to_solve_perc50th is null)"
+					+ " then ifnull(issue_close_time_hs_to_solve_perc75th, 0)"
+					+ " else issue_close_time_hs_to_solve_perc50th"
+					+ " end as hs_to_close,"
+					
+					+ " case"
+					+ " when (pending_issue_age_perc50th = 0 or pending_issue_age_perc50th is null)"
+					+ " then ifnull(pending_issue_age_perc75th, 0)"
+					+ " else pending_issue_age_perc50th"
+					+ " end as pending_issue_age,"
+				
+					+ " round(num_merged / (num_merged + num_closed + num_pending) * 100, 2) as prctg_merged,"
+					+ " round(num_closed / (num_merged + num_closed + num_pending) * 100, 2) as prctg_closed,"
+					+ " round(num_pending / (num_merged + num_closed + num_pending) * 100, 2) as prctg_pending"
+					+ " from _label_statistics"
+					+ " where label_id = "+ labelId;
+			
+			stmt = con.createStatement();
+	        ResultSet rs = stmt.executeQuery(query);
+	        return rs;
+	        
+		} catch (SQLException e) {
+			throw e;
+		} 
+	}
+	
 	public ResultSet selectProjectCommentedLabels(String projectid) throws SQLException {
 		
 		Statement stmt = null;
