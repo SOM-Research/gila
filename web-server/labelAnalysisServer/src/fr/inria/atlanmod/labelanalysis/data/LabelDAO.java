@@ -495,7 +495,7 @@ public class LabelDAO {
 		try {
 			String query = "select"
 						//selects the number of distinct labels defined in a project
-						+ "(select count(id) from repo_labels where repo_id = " + projectId + ") as num_labels,"
+						+ "(select count(distinct name) from repo_labels where repo_id = " + projectId + ") as num_labels,"
 						//counts the number of (distinct) labeled issues and the total number of issues in a project
 						//then obtains the percentage of labeled issues as #labeled / #total * 100
 						+ "(select"
