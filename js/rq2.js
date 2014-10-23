@@ -314,6 +314,8 @@ function drawrq2(innodes, links, maxrectsize, maxthickness) {
 //	    .attr("cy", function(d) { d.y = h2/2; return d.y; });
 	    
 	  });
+	
+	addZoomMoveIcon("#contribgraph");
 }
 
  function dragstarted(d) {

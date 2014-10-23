@@ -339,6 +339,10 @@ footer p {
 	margin-bottom: 20px;
 }
 
+.zoomicon {
+	padding:20px;
+}
+
 #homeicon {
 	float:left;
 	width: 10%;
@@ -361,6 +365,10 @@ footer p {
 	border: 2px solid gray;
 	border-radius: 5px;
 	background-color: #FFFFFF;
+}
+
+#rq1svg{
+	z-index:1;
 }
 
 .rq2 {
