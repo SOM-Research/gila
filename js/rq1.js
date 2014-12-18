@@ -211,4 +211,6 @@ function drawrq1(nodes, links, maxwidth, maxthickness) {
 		circletext.attr("x", function(d) { return d.x-25; });
 		circletext.attr("y", function(d) { return d.y-25;});
 	});
+	
+	addZoomMoveIcon("#labelgraph");
 }

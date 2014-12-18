@@ -1,22 +1,9 @@
 
 var projectId;
-
 var labelAnalyzerServlet = 'http://atlanmodexp.info.emn.fr:8800/gila';
 
 window.onload = function() {
-	if(window.location.protocol !== 'http:') {
-        $("#error").html('<p>You are accessing from an HTTPS connection and our service is located in an HTTP server.</p><p>Please access to our HTTP server <a href="http://atlanmod.github.io/gila">here</p>');
-        $("#error").css("visibility" ,"visible");
-        $("#selectorBox").css("visibility", "hidden");
-    }
-
 	var params = {};
-	
-	$('#affixBox').affix({
-		offset : {
-			top : "102px"
-		}
-	});
 
 	if (location.search) {
 	    var parts = location.search.substring(1).split('&');
@@ -138,4 +125,17 @@ function creatingWarningMessage(svgIdContainer, posX, posY, text) {
 	.attr("text-anchor", "middle")
 	.attr("fill", "red")
 	.text(text);
+}
+
+function addZoomMoveIcon(visId) {
+	
+	d3.select(visId)
+	.append("svg:image")
+	.attr("xlink:href", "imgs/move_zoom.svg")
+	.attr("width","72")
+	.attr("height","72")
+	.attr("x","10")
+	.attr("y","10")
+	.append("svg:title")
+	.text("Scroll to zoom, drag to move");
 }
