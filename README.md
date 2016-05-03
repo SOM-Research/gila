@@ -38,11 +38,11 @@ GiLA uses [GHTorrent](http://ghtorrent.org) a scalable, queriable, offline mirro
 
 ## Using the tool
 
-The tool is available at [http://atlanmod.github.io/gila](http://atlanmod.github.io/gila).
+The tool is available at [http://som-research.github.io/gila](http://som-research.github.io/gila).
 
 You can also access **directly to the results webpage** by calling the URL:
 
-`http://atlanmod.github.io/gila/project.html?projectName=USER/REPO`
+`http://som-research.github.io/gila/project.html?projectName=USER/REPO`
 
 where
 
@@ -51,7 +51,7 @@ where
 
 or if you know the **identifier of your project**, you can even call:
 
-`http://atlanmod.github.io/gila/project.html?projectId=ID`
+`http://som-research.github.io/gila/project.html?projectId=ID`
 
 where
 
@@ -69,5 +69,3 @@ If you have any recommendation, just contact us.
 * [Javier Canovas](http://github.com/jlcanovas/ "Javier Canovas")
 * [Valerio Cosentino](http://github.com/valeriocos/ "Valerio Cosentino")
 * [Jordi Cabot](http://github.com/jcabot/ "Jordi Cabot")
-
-Javier, Jordi, Valerio and Belén are currently members of [Atlanmod](http://www.emn.fr/z-info/atlanmod), a research team of Inria.

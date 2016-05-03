@@ -66,9 +66,9 @@ window.onload = function() {
     
     dataAdapter.dataBind();
     $("#pcombobox").on('bindingComplete', function (event) {
-//    	if (typeof event.data == 'undefined') {
-//    		$("#error").html("<h3>GiLA is currently unavailable, we will be back soon!</h3>");
-//    	}
+    	if (typeof event.data == 'undefined') {
+    		$("#error").html("<h3>GiLA is currently unavailable, we will be back soon!</h3>");
+    	}
     	
     	$(".jqx-combobox-input, .jqx-combobox-content").css({ "background-image": "none" });
     });
