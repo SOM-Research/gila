@@ -1,0 +1,165 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Label Analyzer</title>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/jQWidgets/jqx.base.css" />
+    
+  	<script src="js/vendor/jquery.js"></script>
+  	<script src="js/bootstrap/bootstrap.min.js"></script>
+  	<script src="js/d3.v3.min.js" charset="utf-8"></script>
+  	<script src="js/jQWidgets/jqxcore.js"></script>
+  	<script src="js/jQWidgets/jqxdata.js"></script>
+  	<script src="js/jQWidgets/jqxbuttons.js"></script>
+  	<script src="js/jQWidgets/jqxscrollbar.js"></script>
+  	<script src="js/jQWidgets/jqxlistbox.js"></script>
+  	<script src="js/jQWidgets/jqxcombobox.js"></script>
+  	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	
+	  ga('create', 'UA-54150984-1', 'auto');
+	  ga('send', 'pageview');
+	</script>
+	<script>
+		if (location.search.substring(1).split('&')[1].split('=')[1] === '') {
+			window.location.replace("http://atlanmod.github.io/gila/error_page.html");
+		};
+	</script>
+  </head>
+  <body>
+    <!--<div id="affixBox">
+      <div class="surveyBox">
+        <p class="text-center">We would like to hear your opinion</p>
+        <p class="text-center"><b><a href="https://docs.google.com/forms/d/1CQPQhPAkiqQSlAk2wUkQ6zZveDUHgHee6gSR7okImKk/viewform?usp=send_form" target="_blank">Take our survey!</a></b></p>
+      </div>
+    </div>-->
+    <div class="container">
+      <div id="error" class="row middle" style="visibility:hidden">
+      </div>
+      
+      <div class="row">
+        <div class="col-md-12 project">
+          <div id="homeicon"><a href="http://atlanmod.github.io/gila/"><img src="imgs/icon90x82.png" width="90" height="82"/></a></div>
+          <div class="text-center" id="projectName"></div>
+        </div>
+      <div>
+
+
+      <div class="row">
+      	<div id="projectsummary" class="col-md-12">
+      	</div>
+      </div>
+
+      <div class="row">
+        <div class="surveyBox" class="col-md-12">
+        <p class="text-center">We need you!<b> <a href="https://docs.google.com/forms/d/1CQPQhPAkiqQSlAk2wUkQ6zZveDUHgHee6gSR7okImKk/viewform?usp=send_form" target="_blank">Take our survey!</a></b></p>
+        </div>
+      </div>
+
+     <div class="row">
+        <div class="col-md-4 leftcol">
+          <h2>Label Usage</h2>
+          <p>Each label is represented as a node in the graph. The bigger the node is the more frequent is the label (i.e. the more issues with that label in the project). Edges connect labels that share issues. The thicker the edge the more issues tagged with both labels there are.</p>
+          <div class="legend">
+          	<div class="legenditem">
+          		<img src="imgs/circle.png" height="16" width="16"/>	
+          		<p>Label</p>
+          	</div>
+            <div class="legenditem">
+              <img src="imgs/circleSize.png" height="16" width="16"/> 
+              <p>Number of labeled issues</p>
+            </div>
+          	<div class="legenditem">
+          		<img src="imgs/line.png" height="16" width="16"/>	
+          		<p>Labels assigned together</p>
+          	</div>
+          	<div class="legenditem">
+          		<img src="imgs/lineThick.png" height="16" width="16"/>	
+          		<p>Number of occurrences of a pair of labels</p>
+          	</div>
+          </div>
+        </div>
+        <div class="col-md-8 rightcol">
+          <div class="rq1"></div>
+		  <small id="info_rq1" style="visibility:hidden">(Pass your mouse over the labels to see their usage information and relations with other labels)</small>
+        </div>
+      </div>
+    
+      <div class="row">
+        <div class="col-md-4 leftcol">
+          <h2>User Involvement</h2>
+          <p>Select a label to see how users participate on it. The label is shown as a circled node in the center of the graph, whereas the involved users are represented as rectangle nodes (orange for project collaborators). The width of the rectangle indicates the number of issues the user opened, the height denotes the number of issues he closed. The edges between user nodes and the label node, represent comments made to issues containing that label, the thicker this line is the more the number of issues a user has commented.</p>
+          <div class="legend">
+            <div class="legenditem">
+              <img src="imgs/width.png" height="16" width="16"/> 
+              <p>Issues Opened</p>
+            </div>
+            <div class="legenditem">
+              <img src="imgs/height.png" height="16" width="16"/> 
+              <p>Issues Closed</p>
+            </div>
+            <div class="legenditem">
+              <img src="imgs/violet.png" height="16" width="16"/> 
+              <p>User</p>
+            </div>
+            <div class="legenditem">
+              <img src="imgs/orange.png" height="16" width="16"/> 
+              <p>Collaborator</p>
+            </div>
+            <div class="legenditem">
+              <img src="imgs/line.png" height="16" width="16"/> 
+              <p>Comment</p>
+            </div>
+            <div class="legenditem">
+              <img src="imgs/lineThick.png" height="16" width="16"/>  
+              <p>Number of comments</p>
+            </div>
+          </div>
+          <div id ="labelselection">
+            <div id='lcombobox'></div>
+            <button class="btn btn-xs" value="RQ2" onclick="generaterq2();">OK</button><img id="loadingRQ2" style="display:none; margin-left: 10px" src="imgs/ajax-loader.gif"/>
+            <div id="rq2noselection" class="noselmsg" style="display:none">No label selected</div> 
+          </div>
+        </div>
+        <div class="col-md-8 rightcol">
+          <div class="rq2"></div>
+		  <small id="info_rq2" style="visibility:hidden">(Pass your mouse over the users to see their involvement information)</small>
+		</div>
+      </div>
+	
+      <div class="row">
+        <div class="col-md-4 leftcol">
+          <h2>Label timeline</h2>
+          <div class="textdiv">
+            <p>It displays how issues in each tag evolve over time on average. This can help, for instance, to assess the priority given to issues based on how they are tagged (e.g. because more people are interested in issues with that tag or because some other tag is considered too difficult and thus it's avoided).</p> 
+            <p>The timeline contains three branches, the merged branch that shows the percentage of issues for the label that have an associated merge action, the closing branch which shows the percentage of issues that were rejected (closed without merging) and the still open branch which displays the percentage of issues within a label that still haven't been solved.</p>
+            <div id ="rq3labelselection"> 
+              <div id='rq3lcombobox'></div>
+              <button class="btn btn-xs" value="RQ3" onclick="generaterq3();">OK</button><img id="loadingRQ3" style="display:none; margin-left: 10px" src="imgs/ajax-loader.gif"/>
+              <div id="rq3noselection" class="noselmsg" style="display:none">No label selected</div>
+              <div class="outlierdiv">
+              	<input id="outlierscheck" type="checkbox" value="value">
+              	<p>remove outliers</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-8 rightcol">
+          <div id="resolutiontl" class="rq3"></div>
+          <small id="info_rq3" style="visibility:hidden">(Pass your mouse over the ticks to see the time)</small>
+        </div>
+      </div>
+    </div>
+
+  <script src="js/rq1.js"></script>
+  <script src="js/rq2.js"></script>
+  <script src="js/rq3.js"></script>
+  <script src="js/initProject.js"></script>
+  </body>
+</html>
