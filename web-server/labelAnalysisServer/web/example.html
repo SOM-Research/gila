@@ -1,0 +1,50 @@
+<html>
+    <head>
+        <title>Gila: How it works</title>
+	    <link rel="stylesheet" href="jquery-sticky-notes/css/ui-lightness/jquery-ui-1.7.2.custom.css" type="text/css">
+        <script type="text/javascript" src="jquery-sticky-notes/script/jquery-1.3.2.min.js"></script>
+        <script type="text/javascript" src="jquery-sticky-notes/script/jquery-ui-1.7.2.custom.min.js"></script>
+		<script type="text/javascript" src="jquery-sticky-notes/script/jquery.stickynotes.js"></script>
+		<link rel="stylesheet" href="jquery-sticky-notes/css/jquery.stickynotes.css" type="text/css">
+		
+    </head>
+    <body>
+		<div id="notes" style="width:1653px;height:2016;">
+        </div>
+		<script type="text/javascript" charset="utf-8">
+							
+		
+			jQuery(document).ready(function() {
+				var options = {
+					notes:[{"id":1,
+					      "text":"Test Internet Explorer",
+						  "pos_x": 50,
+						  "pos_y": 50,	
+						  "width": 200,							
+						  "height": 200													
+					    },
+						{"id":2,
+					      "text":"XXXX",
+						  "pos_x": 120,
+						  "pos_y": 170,	
+						  "width": 200,							
+						  "height": 200
+						},
+						{"id":4,
+					      "text":"YYYYY",
+						  "pos_x": 700,
+						  "pos_y": 800,	
+						  "width": 200,							
+						  "height": 200
+						},
+						]
+						
+					,resizable: true
+					,controls: true 				
+					
+				};
+				jQuery("#notes").stickyNotes(options);
+			});
+		</script>
+    </body>
+</html>

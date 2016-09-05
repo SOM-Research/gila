@@ -1,0 +1,141 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GitHub Label Analyzer</title>
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="stylesheet" href="css/jQWidgets/jqx.base.css" />
+
+    <link href='http://fonts.googleapis.com/css?family=Exo:600,900' rel='stylesheet' type='text/css'>
+    
+  	<script src="js/vendor/jquery.js"></script>
+  	<script src="js/bootstrap/bootstrap.min.js"></script>
+  	<script src="js/d3.v3.min.js" charset="utf-8"></script>
+  	<script src="js/jQWidgets/jqxcore.js"></script>
+  	<script src="js/jQWidgets/jqxdata.js"></script>
+  	<script src="js/jQWidgets/jqxbuttons.js"></script>
+  	<script src="js/jQWidgets/jqxscrollbar.js"></script>
+  	<script src="js/jQWidgets/jqxlistbox.js"></script>
+  	<script src="js/jQWidgets/jqxcombobox.js"></script>
+  	<script src="js/initIndex.js"></script>
+  </head>
+  <body>
+    <div class="container">
+    
+      <div class="jumbotron">
+        <div class="row top">
+          <div class="col-md-12">
+            <img src="imgs/icon.png"/>
+            <h1><a href="http://atlanmod.github.io/gila">GiLA</a></h1> 
+            <h2>GitHub Label Analyzer</h2>
+            <p>
+              <button class="btn" onclick="location.href='http://github.com/atlanmod/gila'">
+                <img style="float: left; margin-right: 0px; margin-top: 0px; margin-right: 10px; padding-top: 0px; padding-left: 0px; width: 18px;" src="imgs/gh-icon.png"/>
+                Visit on GitHub
+              </button>
+              <button class="btn" onclick="location.href='contact.html'">About us</button>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+      <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="row">
+              <div class="panel-body">
+                <div class="col-md-3">
+                  <img style="width:128px;" class="img-thumbnail" src="imgs/brolandi.jpg" alt="Belen Rolandi">
+                </div>
+
+                <div class="col-md-9">
+                  <h4>Belen Rolandi</h4>
+                  <p>
+                    <a href="https://github.com/belenrolandi"><img src="imgs/glyphicons_social_21_github.png"></a>
+                    <a href="https://www.linkedin.com/profile/view?id=20280484"><img src="imgs/glyphicons_social_17_linked_in.png"></a>
+                  </p>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="panel panel-default">
+          <div class="row">
+            <div class="panel-body">
+              <div class="col-md-3">
+                <img style="width:128px;" class="img-thumbnail" src="imgs/jlcanovas.jpg" alt="Javier Canovas">
+              </div>
+
+              <div class="col-md-9">
+                <h4>Javier Canovas</h4>
+                <p>
+                  <a href="https://twitter.com/jlcanovas"><img src="imgs/glyphicons_social_31_twitter.png"></a>
+                  <a href="https://github.com/jlcanovas"><img src="imgs/glyphicons_social_21_github.png"></a>
+                  <a href="http://es.linkedin.com/in/javiercanovasizquierdo/"><img src="imgs/glyphicons_social_17_linked_in.png"></a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+
+      <div class="row">
+      <div class="col-md-6">
+          <div class="panel panel-default">
+            <div class="row">
+              <div class="panel-body">
+                <div class="col-md-3">
+                  <img style="width:128px;" class="img-thumbnail" src="imgs/vcosentino.JPG" alt="Valerio Cosentino">
+                </div>
+
+                <div class="col-md-9">
+                  <h4>Valerio Cosentino</h4>
+                  <p>
+                    <a href="https://github.com/valeriocos"><img src="imgs/glyphicons_social_21_github.png"></a>
+                    <a href="http://www.linkedin.com/pub/valerio-cosentino/21/801/299"><img src="imgs/glyphicons_social_17_linked_in.png"></a>
+                  </p>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      <div class="col-md-6">
+        <div class="panel panel-default">
+            <div class="row">
+            <div class="panel-body">
+              <div class="col-md-3">
+                <img style="width:128px;" class="img-thumbnail" src="imgs/jcabot.jpg" alt="Jordi Cabot">
+              </div>
+
+              <div class="col-md-9">
+                <h4>Jordi Cabot</h4>
+                <p>
+                  <a href="https://twitter.com/softmodeling"><img src="imgs/glyphicons_social_31_twitter.png"></a>
+                  <a href="http://es.linkedin.com/in/jcabot"><img src="imgs/glyphicons_social_17_linked_in.png"></a>
+                  <a href="https://www.facebook.com/modelinglanguages"><img src="imgs/glyphicons_social_30_facebook.png"></a>    
+                </p>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <div class="row">
+          <div class="col-md-12">  
+            <p class="text-center"><small>GiLA is a visualization tool that allows you to analyze the labels in your GitHub project.</small> </p>
+            <p class="text-center"><small>GiLA uses <a href="http://ghtorrent.org">GHTorrent</a> (2014-04-02 snapshot) as data source to mine GitHub projects. </small> </p>
+            <p class="text-center"><small>Code and Documentation licensed under <a href="http://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</small></p>
+            <p class="text-center"><small><a href="http://www.emn.fr/z-info/atlanmod/index.php/Main_Page">AtlanMod</a></small></p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
