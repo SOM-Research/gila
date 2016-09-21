@@ -8,7 +8,7 @@ var searchstring="";
 
 window.onload = function() {
     if(window.location.protocol !== 'http:') {
-        $("#error").html('<p>You are accessing from an HTTPS connection and our service is located in an HTTP server.</p><p>Please access to our HTTP server <a href="http://atlanmod.github.io/gila">here</p>');
+        $("#error").html('<p>You are accessing from an HTTPS connection and our service is located in an HTTP server.</p><p>Please access to our HTTP server <a href="http://som-research.uoc.edu/tools/gila">here</p>');
         $("#error").css("visibility" ,"visible");
         $("#selectorBox").css("visibility", "hidden");
     }

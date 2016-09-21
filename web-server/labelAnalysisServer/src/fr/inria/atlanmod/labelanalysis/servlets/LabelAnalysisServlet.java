@@ -72,7 +72,7 @@ public class LabelAnalysisServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setHeader("Access-Control-Allow-Origin", "http://atlanmod.github.io");
+		response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 		response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
 		response.setHeader("Access-Control-Allow-Headers", "Origin,	X-Requested-With, Content-Type, Accept");
 		response.addHeader("Access-Control-Allow-Credentials", "true");
@@ -114,7 +114,7 @@ public class LabelAnalysisServlet extends HttpServlet {
 	
 	@Override
 	public void doOptions(HttpServletRequest arg0, HttpServletResponse response)	throws ServletException, IOException {
-		response.setHeader("Access-Control-Allow-Origin", "http://atlanmod.github.io");
+		response.setHeader("Access-Control-Allow-Origin", "http://localhost:8080");
 		response.setHeader("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
 		response.setHeader("Access-Control-Allow-Headers", "Origin,	X-Requested-With, Content-Type, Accept");
 		response.addHeader("Access-Control-Allow-Credentials", "true");
