@@ -38,11 +38,11 @@ GiLA uses [GHTorrent](http://ghtorrent.org) a scalable, queriable, offline mirro
 
 ## Using the tool
 
-The tool is available at [http://som-research.github.io/gila](http://som-research.github.io/gila).
+The tool is available at [http://som-research.uoc.edu/tools/gila](http://som-research.uoc.edu/tools/gila).
 
 You can also access **directly to the results webpage** by calling the URL:
 
-`http://som-research.github.io/gila/project.html?projectName=USER/REPO`
+`http://som-research.uoc.edu/tools/gila/project.html?projectName=USER/REPO`
 
 where
 
@@ -51,7 +51,7 @@ where
 
 or if you know the **identifier of your project**, you can even call:
 
-`http://som-research.github.io/gila/project.html?projectId=ID`
+`http://som-research.uoc.edu/tools/gila/project.html?projectId=ID`
 
 where
 
