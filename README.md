@@ -38,30 +38,7 @@ GiLA uses [GHTorrent](http://ghtorrent.org) a scalable, queriable, offline mirro
 
 ## Using the tool
 
-The tool is available at [http://som-research.uoc.edu/tools/gila](http://som-research.uoc.edu/tools/gila).
-
-You can also access **directly to the results webpage** by calling the URL:
-
-`http://som-research.uoc.edu/tools/gila/project.html?projectName=USER/REPO`
-
-where
-
-* *USER* is the GitHub login of the user owing the repository
-* *REPO* is the name of the repository
-
-or if you know the **identifier of your project**, you can even call:
-
-`http://som-research.uoc.edu/tools/gila/project.html?projectId=ID`
-
-where
-
-* *ID* is the GitHub identifier of your project
-
-## What is comming next?
-
-We are exploring other ways to mine the information behind the labels of your project. We would like to study other appealing visualizations to help developers to manage projects.
-
-If you have any recommendation, just contact us.
+The tool development has been dsicontinued and is no longer available online. We recommend you to download the code and deploy the tool in your our premises. 
 
 ## Who is behind this project?
 
