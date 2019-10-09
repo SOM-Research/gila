@@ -38,7 +38,7 @@ GiLA uses [GHTorrent](http://ghtorrent.org) a scalable, queriable, offline mirro
 
 ## Using the tool
 
-The tool development has been dsicontinued and is no longer available online. We recommend you to download the code and deploy the tool in your our premises. 
+The tool development has been discontinued and is no longer available online. We recommend you to download the code and deploy the tool at your our premises. 
 
 ## Who is behind this project?
 
